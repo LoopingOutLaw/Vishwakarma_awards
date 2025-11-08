@@ -24,6 +24,10 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'action_node = arm_vla_pkg.nodes.action_node:main',
+            'vision_node = arm_vla_pkg.nodes.vision_node:main',
+            'speech_node = arm_vla_pkg.nodes.speech_node:main',
+            'brain_node = arm_vla_pkg.nodes.brain_node:main',
         ],
     },
 )
