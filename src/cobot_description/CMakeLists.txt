@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(akabot_description)
+project(cobot_description)
 
 find_package(ament_cmake REQUIRED)
 find_package(urdf REQUIRED)

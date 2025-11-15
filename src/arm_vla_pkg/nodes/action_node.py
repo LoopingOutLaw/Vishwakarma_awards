@@ -5,6 +5,8 @@ from std_msgs.msg import String
 from ikpy.chain import Chain
 from ikpy.link import URDFLink
 import serial
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from builtin_interfaces.msg import Duration
 import time
 
 # --- (1) CONFIGURE YOUR ARM & SERIAL PORT HERE ---
