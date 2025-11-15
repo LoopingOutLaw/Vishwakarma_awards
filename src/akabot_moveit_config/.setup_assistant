@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: akabot_description
+    relative_path: urdf/akabot.urdf.xacro
+  srdf:
+    relative_path: config/akabot.srdf
+  package_settings:
+    author_name: Chinedu Amadi
+    author_email: noobinventor@tutamail.com
+    generated_timestamp: 1713019587
