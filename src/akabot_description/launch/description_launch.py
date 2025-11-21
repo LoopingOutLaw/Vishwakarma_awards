@@ -16,9 +16,9 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     
     # Set the path to different files and folders
-    pkg_path= FindPackageShare(package='cobot_description').find('cobot_description')
+    pkg_path= FindPackageShare(package='akabot_description').find('akabot_description')
     rviz_config_path = os.path.join(pkg_path, 'rviz/description.rviz')
-    urdf_model_path = os.path.join(pkg_path, 'urdf/cobot.urdf.xacro')
+    urdf_model_path = os.path.join(pkg_path, 'urdf/akabot.urdf.xacro')
 
     # Launch configuration variables specific to simulation
     gui = LaunchConfiguration('use_gui')

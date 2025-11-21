@@ -10,7 +10,8 @@ from launch.substitutions import PathJoinSubstitution
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
-
+from launch.substitutions import Command
+from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     
@@ -18,14 +19,13 @@ def generate_launch_description():
     pkg_gazebo = FindPackageShare(package='akabot_gazebo').find('akabot_gazebo')
     world_path = os.path.join(pkg_gazebo, 'worlds', 'pick_and_place_balls.world')
     
+    # --- FIX: Use ros_ign_gazebo instead of ros_gz_sim ---
+    pkg_ros_ign_gazebo = FindPackageShare(package='ros_ign_gazebo').find('ros_ign_gazebo')
+    
     # Include Gazebo launch with new world
     gazebo_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-                FindPackageShare('ros_gz_sim'),
-                'launch',
-                'gz_sim.launch.py'
-            ])
+            os.path.join(pkg_ros_ign_gazebo, 'launch', 'ign_gazebo.launch.py')
         ]),
         launch_arguments={
             'gz_args': ['-r -v4 ', world_path],
@@ -36,9 +36,6 @@ def generate_launch_description():
     # Robot state publisher
     pkg_description = FindPackageShare(package='akabot_description').find('akabot_description')
     urdf_model_path = os.path.join(pkg_description, 'urdf/akabot_gz.urdf.xacro')
-    
-    from launch.substitutions import Command
-    from launch_ros.parameter_descriptions import ParameterValue
     
     robot_description_config = Command(['xacro ', urdf_model_path])
     robot_description_str = ParameterValue(robot_description_config, value_type=str)
@@ -52,7 +49,10 @@ def generate_launch_description():
         }]
     )
     
-    # Spawn robot
+    # --- FIX: Use ros_gz_sim (or ros_ign_gazebo) create, but ensure compatibility ---
+    # Usually ros_gz_sim 'create' works with Ignition if configured correctly, 
+    # but let's match the working gz_launch.py pattern or use ros_ign_gazebo if available.
+    # We will use ros_gz_sim as it seems present on your system and was used in gz_launch.py
     spawn_robot = Node(
         package='ros_gz_sim',
         executable='create',
@@ -66,13 +66,28 @@ def generate_launch_description():
         ],
         output='screen'
     )
-    
+
     # Bridge for end effector camera
+    # Using ros_gz_image is standard for newer setups, but ensure topic mapping exists
     ee_camera_bridge = Node(
         package='ros_gz_image',
         executable='image_bridge',
         arguments=['/ee_camera/image_raw'],
         output='screen'
+    )
+
+    # Gazebo Bridge (Required for clock and controllers)
+    # You were missing the bridge for /clock and /scan which gz_launch.py has.
+    bridge_params = os.path.join(pkg_gazebo, "config/akabot_bridge.yaml")
+    start_gazebo_ros_bridge_cmd = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        arguments=[
+            "--ros-args",
+            "-p",
+            f"config_file:={bridge_params}",
+        ],
+        output="screen",
     )
     
     # Spawn controllers with delays
@@ -160,6 +175,7 @@ def generate_launch_description():
         gazebo_launch,
         robot_state_publisher,
         spawn_robot,
+        start_gazebo_ros_bridge_cmd, 
         ee_camera_bridge,
         joint_state_broadcaster,
         arm_controller,
@@ -167,4 +183,3 @@ def generate_launch_description():
         moveit_launch,
         vision_controller,
     ])
-

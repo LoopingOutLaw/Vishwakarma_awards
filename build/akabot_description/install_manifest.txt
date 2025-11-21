@@ -10,6 +10,7 @@
 /home/harshit/arm_vla_ws/install/akabot_description/share/akabot_description/meshes/upper_arm.stl
 /home/harshit/arm_vla_ws/install/akabot_description/share/akabot_description/meshes/top_plate.stl
 /home/harshit/arm_vla_ws/install/akabot_description/share/akabot_description/meshes/d415.dae
+/home/harshit/arm_vla_ws/install/akabot_description/share/akabot_description/urdf/akabot_tf_camera.xacro
 /home/harshit/arm_vla_ws/install/akabot_description/share/akabot_description/urdf/akabot_gz.urdf.xacro
 /home/harshit/arm_vla_ws/install/akabot_description/share/akabot_description/urdf/build/COLCON_IGNORE
 /home/harshit/arm_vla_ws/install/akabot_description/share/akabot_description/urdf/build/.built_by
@@ -34,7 +35,7 @@
 /home/harshit/arm_vla_ws/install/akabot_description/share/akabot_description/urdf/log/build_2025-11-15_14-50-14/logger_all.log
 /home/harshit/arm_vla_ws/install/akabot_description/share/akabot_description/urdf/log/latest
 /home/harshit/arm_vla_ws/install/akabot_description/share/akabot_description/urdf/real_cobot.urdf.xacro
-/home/harshit/arm_vla_ws/install/akabot_description/share/akabot_description/urdf/depth_camera.xacro
+/home/harshit/arm_vla_ws/install/akabot_description/share/akabot_description/urdf/end_effector_camera.xacro
 /home/harshit/arm_vla_ws/install/akabot_description/share/akabot_description/urdf/inertial_macros.xacro
 /home/harshit/arm_vla_ws/install/akabot_description/share/akabot_description/rviz/description.rviz
 /home/harshit/arm_vla_ws/install/akabot_description/share/ament_index/resource_index/package_run_dependencies/akabot_description

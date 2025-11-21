@@ -1,0 +1,97 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="pole_height" value="0.8" />
+  <xacro:property name="pole_radius" value="0.015" />
+  <xacro:property name="pole_x" value="0.3" /> <xacro:property name="pole_y" value="0.4" /> 
+  <link name="camera_pole_link">
+    <visual>
+      <origin xyz="0 0 ${pole_height/2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${pole_radius}" length="${pole_height}"/>
+      </geometry>
+      <material name="pole_grey">
+        <color rgba="0.2 0.2 0.2 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${pole_height/2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${pole_radius}" length="${pole_height}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <joint name="pole_to_base_joint" type="fixed">
+    <parent link="base_plate"/> 
+    <child link="camera_pole_link"/>
+    <origin xyz="${pole_x} ${pole_y} 0.0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="tf_camera_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.05 0.02"/>
+      </geometry>
+      <material name="camera_black">
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.05 0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.05"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <joint name="tf_camera_joint" type="fixed">
+        <parent link="camera_pole_link"/>
+        <child link="tf_camera_link"/>
+        <origin xyz="0 -0.1 ${pole_height}" rpy="3.24 7.54 -1.57"/>
+  </joint>
+
+  <link name="tf_camera_optical_link"/>
+  
+  <joint name="tf_camera_optical_joint" type="fixed">
+    <parent link="tf_camera_link"/>
+    <child link="tf_camera_optical_link"/>
+    <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+  </joint>
+
+  <gazebo reference="tf_camera_link">
+    <sensor name="tf_camera" type="camera">
+      <pose>0 0 0 0 0 0</pose>
+      <always_on>1</always_on>
+      <update_rate>30</update_rate>
+      <visualize>true</visualize>
+      <topic>tf_camera/image_raw</topic> <camera>
+        <horizontal_fov>1.2217</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>5.0</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+    </sensor>
+  </gazebo>
+
+</robot>

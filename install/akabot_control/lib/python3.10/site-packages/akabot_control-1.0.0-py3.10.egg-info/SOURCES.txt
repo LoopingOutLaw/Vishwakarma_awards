@@ -11,10 +11,17 @@ setup.py
 akabot_control/__init__.py
 akabot_control/akabot_controller.py
 akabot_control/interactive_control.py
+akabot_control/scanning_vision_pick_place.py
+akabot_control/test_ee_camera.py
+akabot_control/vision_pick_place.py
 config/controller_params.yaml
 launch/control.launch.py
 launch/demo.launch.py
+launch/dual_camera.launch.py
 launch/gazebo_control.launch.py
+launch/scanning_vision_pick_place.launch.py
+launch/test_camera.launch.py
+launch/vision_pick_place.launch.py
 resource/akabot_control
 scripts/test_poses.py
 test/test_copyright.py

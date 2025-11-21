@@ -1,0 +1,25 @@
+[0.934s] Invoking command in '/home/harshit/arm_vla_ws/src/akabot_control': CMAKE_PREFIX_PATH=/home/harshit/arm_vla_ws/install/akabot_moveit_config:/home/harshit/arm_vla_ws/install/akabot_description:/home/harshit/arm_vla_ws/install/akabot_gazebo:/home/harshit/arm_vla_ws/install/akabot_bringup:/home/harshit/colcon_ws/install/ur_simulation_gz:/home/harshit/colcon_ws/install/ur_description:/home/harshit/colcon_ws/install/ur5_control:/home/harshit/colcon_ws/install/linkattacher_msgs:/home/harshit/colcon_ws/install/eyantra_warehouse:/home/harshit/colcon_ws/install/ebot_description PYTHONPATH=/home/harshit/arm_vla_ws/build/akabot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/akabot_control build --build-base /home/harshit/arm_vla_ws/build/akabot_control/build install --record /home/harshit/arm_vla_ws/build/akabot_control/install.log --single-version-externally-managed install_data
+[1.225s] running egg_info
+[1.225s] writing ../../build/akabot_control/akabot_control.egg-info/PKG-INFO
+[1.226s] writing dependency_links to ../../build/akabot_control/akabot_control.egg-info/dependency_links.txt
+[1.226s] writing entry points to ../../build/akabot_control/akabot_control.egg-info/entry_points.txt
+[1.226s] writing requirements to ../../build/akabot_control/akabot_control.egg-info/requires.txt
+[1.227s] writing top-level names to ../../build/akabot_control/akabot_control.egg-info/top_level.txt
+[1.228s] reading manifest file '../../build/akabot_control/akabot_control.egg-info/SOURCES.txt'
+[1.229s] writing manifest file '../../build/akabot_control/akabot_control.egg-info/SOURCES.txt'
+[1.229s] running build
+[1.229s] running build_py
+[1.230s] running install
+[1.230s] running install_lib
+[1.232s] running install_data
+[1.232s] running install_egg_info
+[1.234s] removing '/home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control-1.0.0-py3.10.egg-info' (and everything under it)
+[1.234s] Copying ../../build/akabot_control/akabot_control.egg-info to /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control-1.0.0-py3.10.egg-info
+[1.236s] running install_scripts
+[1.261s] Installing akabot_controller script to /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control
+[1.262s] Installing interactive_control script to /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control
+[1.262s] Installing scanning_vision_pick_place script to /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control
+[1.262s] Installing test_ee_camera script to /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control
+[1.262s] Installing vision_pick_place script to /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control
+[1.262s] writing list of installed files to '/home/harshit/arm_vla_ws/build/akabot_control/install.log'
+[1.306s] Invoked command in '/home/harshit/arm_vla_ws/src/akabot_control' returned '0': CMAKE_PREFIX_PATH=/home/harshit/arm_vla_ws/install/akabot_moveit_config:/home/harshit/arm_vla_ws/install/akabot_description:/home/harshit/arm_vla_ws/install/akabot_gazebo:/home/harshit/arm_vla_ws/install/akabot_bringup:/home/harshit/colcon_ws/install/ur_simulation_gz:/home/harshit/colcon_ws/install/ur_description:/home/harshit/colcon_ws/install/ur5_control:/home/harshit/colcon_ws/install/linkattacher_msgs:/home/harshit/colcon_ws/install/eyantra_warehouse:/home/harshit/colcon_ws/install/ebot_description PYTHONPATH=/home/harshit/arm_vla_ws/build/akabot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/akabot_control build --build-base /home/harshit/arm_vla_ws/build/akabot_control/build install --record /home/harshit/arm_vla_ws/build/akabot_control/install.log --single-version-externally-managed install_data

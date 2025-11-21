@@ -1,17 +1,16 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="cobot">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="akabot">
 
-    <!-- Import cobot urdf and ros2_control xacro files -->
     <xacro:include filename="$(find akabot_description)/urdf/akabot.urdf.xacro"/>
     <xacro:include filename="$(find akabot_description)/urdf/akabot.ros2_control.xacro"/>
+    
+    <!-- <xacro:include filename="$(find akabot_description)/urdf/depth_camera.xacro"/> -->
 
-    <!-- ros2_control macro -->
     <xacro:akabot_ros2_control name="IgnitionSystem" plugin_name="ign_ros2_control/IgnitionSystem"/>
 
     <gazebo>
-      <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-        <parameters>$(find akabot_bringup)/config/ros2_controllers.yaml</parameters>
-      </plugin>
-    </gazebo>
+      <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+        <parameters>$(find akabot_bringup)/config/ros2_controllers.yaml</parameters>
+      </plugin>
+    </gazebo>
 </robot>
-
