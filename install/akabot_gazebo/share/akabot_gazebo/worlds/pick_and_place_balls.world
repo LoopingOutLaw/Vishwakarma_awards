@@ -175,7 +175,7 @@
     </model>
 
     <!-- Thermocol Ball 3 -->
-    <model name="ball_3">
+    <!-- <model name="ball_3">
       <pose>0.13 0.09 1.06 0 0 0</pose>
       <link name="ball_link">
         <inertial>
@@ -217,10 +217,10 @@
           </surface>
         </collision>
       </link>
-    </model>
+    </model> -->
 
     <!-- Thermocol Ball 4 -->
-    <model name="ball_4">
+    <!-- <model name="ball_4">
       <pose>0.15 0.08 1.06 0 0 0</pose>
       <link name="ball_link">
         <inertial>
@@ -262,10 +262,10 @@
           </surface>
         </collision>
       </link>
-    </model>
+    </model> -->
 
     <!-- Thermocol Ball 5 -->
-    <model name="ball_5">
+    <!-- <model name="ball_5">
       <pose>0.14 0.12 1.06 0 0 0</pose>
       <link name="ball_link">
         <inertial>
@@ -307,7 +307,7 @@
           </surface>
         </collision>
       </link>
-    </model>
+    </model> -->
 
     <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>

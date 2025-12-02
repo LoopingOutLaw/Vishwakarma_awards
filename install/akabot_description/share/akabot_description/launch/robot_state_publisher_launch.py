@@ -15,8 +15,8 @@ def generate_launch_description():
     use_ros2_control = LaunchConfiguration('use_ros2_control')
 
     # Process files
-    pkg_path= FindPackageShare(package='cobot_description').find('cobot_description')
-    urdf_model_path = os.path.join(pkg_path, 'urdf/cobot.urdf.xacro')
+    pkg_path= FindPackageShare(package='akabot_description').find('akabot_description')
+    urdf_model_path = os.path.join(pkg_path, 'urdf/akabot.urdf.xacro')
     robot_description_config = Command(['xacro ', urdf_model_path, ' use_ros2_control:=', use_ros2_control, ' sim_mode:=', use_sim_time])
     
     # Declare the launch arguments  

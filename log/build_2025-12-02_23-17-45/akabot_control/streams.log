@@ -1,0 +1,74 @@
+[0.564s] Invoking command in '/home/harshit/arm_vla_ws/src/akabot_control': CMAKE_PREFIX_PATH=/home/harshit/arm_vla_ws/install/akabot_moveit_config:/home/harshit/arm_vla_ws/install/akabot_description:/home/harshit/arm_vla_ws/install/akabot_gazebo:/home/harshit/arm_vla_ws/install/akabot_bringup PYTHONPATH=/home/harshit/arm_vla_ws/build/akabot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/akabot_control build --build-base /home/harshit/arm_vla_ws/build/akabot_control/build install --record /home/harshit/arm_vla_ws/build/akabot_control/install.log --single-version-externally-managed install_data
+[0.753s] running egg_info
+[0.753s] creating ../../build/akabot_control/akabot_control.egg-info
+[0.754s] writing ../../build/akabot_control/akabot_control.egg-info/PKG-INFO
+[0.754s] writing dependency_links to ../../build/akabot_control/akabot_control.egg-info/dependency_links.txt
+[0.754s] writing entry points to ../../build/akabot_control/akabot_control.egg-info/entry_points.txt
+[0.754s] writing requirements to ../../build/akabot_control/akabot_control.egg-info/requires.txt
+[0.754s] writing top-level names to ../../build/akabot_control/akabot_control.egg-info/top_level.txt
+[0.754s] writing manifest file '../../build/akabot_control/akabot_control.egg-info/SOURCES.txt'
+[0.756s] reading manifest file '../../build/akabot_control/akabot_control.egg-info/SOURCES.txt'
+[0.756s] writing manifest file '../../build/akabot_control/akabot_control.egg-info/SOURCES.txt'
+[0.757s] running build
+[0.757s] running build_py
+[0.757s] creating /home/harshit/arm_vla_ws/build/akabot_control/build
+[0.757s] creating /home/harshit/arm_vla_ws/build/akabot_control/build/lib
+[0.757s] creating /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control
+[0.757s] copying akabot_control/__init__.py -> /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control
+[0.757s] copying akabot_control/simple_ball_detector.py -> /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control
+[0.757s] copying akabot_control/publish_tf.py -> /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control
+[0.757s] copying akabot_control/akabot_controller.py -> /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control
+[0.758s] copying akabot_control/test_ee_camera.py -> /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control
+[0.758s] copying akabot_control/interactive_control.py -> /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control
+[0.758s] copying akabot_control/vision_pick_place.py -> /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control
+[0.758s] copying akabot_control/scanning_vision_pick_place.py -> /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control
+[0.758s] running install
+[0.759s] running install_lib
+[0.759s] creating /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[0.759s] copying /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control/__init__.py -> /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[0.759s] copying /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control/simple_ball_detector.py -> /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[0.759s] copying /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control/publish_tf.py -> /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[0.759s] copying /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control/akabot_controller.py -> /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[0.760s] copying /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control/test_ee_camera.py -> /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[0.760s] copying /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control/interactive_control.py -> /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[0.760s] copying /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control/vision_pick_place.py -> /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[0.760s] copying /home/harshit/arm_vla_ws/build/akabot_control/build/lib/akabot_control/scanning_vision_pick_place.py -> /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[0.760s] byte-compiling /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/__init__.py to __init__.cpython-310.pyc
+[0.760s] byte-compiling /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/simple_ball_detector.py to simple_ball_detector.cpython-310.pyc
+[0.761s] byte-compiling /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/publish_tf.py to publish_tf.cpython-310.pyc
+[0.762s] byte-compiling /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/akabot_controller.py to akabot_controller.cpython-310.pyc
+[0.764s] byte-compiling /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/test_ee_camera.py to test_ee_camera.cpython-310.pyc
+[0.764s] byte-compiling /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/interactive_control.py to interactive_control.cpython-310.pyc
+[0.765s] byte-compiling /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/vision_pick_place.py to vision_pick_place.cpython-310.pyc
+[0.766s] byte-compiling /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/scanning_vision_pick_place.py to scanning_vision_pick_place.cpython-310.pyc
+[0.768s] running install_data
+[0.768s] creating /home/harshit/arm_vla_ws/install/akabot_control/share/ament_index
+[0.768s] creating /home/harshit/arm_vla_ws/install/akabot_control/share/ament_index/resource_index
+[0.768s] creating /home/harshit/arm_vla_ws/install/akabot_control/share/ament_index/resource_index/packages
+[0.768s] copying resource/akabot_control -> /home/harshit/arm_vla_ws/install/akabot_control/share/ament_index/resource_index/packages
+[0.768s] copying package.xml -> /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control
+[0.768s] creating /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch
+[0.769s] copying launch/vision_pick_place.launch.py -> /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch
+[0.769s] copying launch/control.launch.py -> /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch
+[0.769s] copying launch/dual_camera.launch.py -> /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch
+[0.769s] copying launch/scanning_vision_pick_place.launch.py -> /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch
+[0.769s] copying launch/gazebo_control.launch.py -> /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch
+[0.769s] copying launch/test_camera.launch.py -> /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch
+[0.769s] copying launch/system.launch.py -> /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch
+[0.769s] copying launch/demo.launch.py -> /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch
+[0.769s] creating /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/config
+[0.769s] copying config/controller_params.yaml -> /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/config
+[0.769s] creating /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/scripts
+[0.769s] copying scripts/test_poses.py -> /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/scripts
+[0.769s] running install_egg_info
+[0.771s] Copying ../../build/akabot_control/akabot_control.egg-info to /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control-1.0.0-py3.10.egg-info
+[0.771s] running install_scripts
+[0.787s] Installing akabot_controller script to /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control
+[0.787s] Installing interactive_control script to /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control
+[0.787s] Installing publish_tf script to /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control
+[0.787s] Installing scanning_vision_pick_place script to /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control
+[0.787s] Installing simple_ball_detector script to /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control
+[0.787s] Installing test_ee_camera script to /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control
+[0.787s] Installing vision_pick_place script to /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control
+[0.787s] writing list of installed files to '/home/harshit/arm_vla_ws/build/akabot_control/install.log'
+[0.812s] Invoked command in '/home/harshit/arm_vla_ws/src/akabot_control' returned '0': CMAKE_PREFIX_PATH=/home/harshit/arm_vla_ws/install/akabot_moveit_config:/home/harshit/arm_vla_ws/install/akabot_description:/home/harshit/arm_vla_ws/install/akabot_gazebo:/home/harshit/arm_vla_ws/install/akabot_bringup PYTHONPATH=/home/harshit/arm_vla_ws/build/akabot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/akabot_control build --build-base /home/harshit/arm_vla_ws/build/akabot_control/build install --record /home/harshit/arm_vla_ws/build/akabot_control/install.log --single-version-externally-managed install_data

@@ -1,0 +1,54 @@
+[0.007s] Invoking command in '/home/harshit/arm_vla_ws/build/akabot_moveit_config': CMAKE_PREFIX_PATH=/home/harshit/arm_vla_ws/install/akabot_description:/home/harshit/arm_vla_ws/install/akabot_moveit_config:/home/harshit/arm_vla_ws/install/akabot_gazebo:/home/harshit/arm_vla_ws/install/akabot_bringup:/home/harshit/arm_vla_ws/install/arm_vla_pkg:/home/harshit/arm_vla_ws/install/akabot_control:/opt/ros/humble /usr/bin/cmake /home/harshit/arm_vla_ws/src/akabot_moveit_config -DCMAKE_INSTALL_PREFIX=/home/harshit/arm_vla_ws/install/akabot_moveit_config
+[0.053s] -- The C compiler identification is GNU 11.4.0
+[0.101s] -- The CXX compiler identification is GNU 11.4.0
+[0.107s] -- Detecting C compiler ABI info
+[0.169s] -- Detecting C compiler ABI info - done
+[0.175s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.175s] -- Detecting C compile features
+[0.175s] -- Detecting C compile features - done
+[0.178s] -- Detecting CXX compiler ABI info
+[0.250s] -- Detecting CXX compiler ABI info - done
+[0.256s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.256s] -- Detecting CXX compile features
+[0.256s] -- Detecting CXX compile features - done
+[0.259s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.378s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.506s] -- Configuring done
+[0.508s] -- Generating done
+[0.510s] -- Build files have been written to: /home/harshit/arm_vla_ws/build/akabot_moveit_config
+[0.514s] Invoked command in '/home/harshit/arm_vla_ws/build/akabot_moveit_config' returned '0': CMAKE_PREFIX_PATH=/home/harshit/arm_vla_ws/install/akabot_description:/home/harshit/arm_vla_ws/install/akabot_moveit_config:/home/harshit/arm_vla_ws/install/akabot_gazebo:/home/harshit/arm_vla_ws/install/akabot_bringup:/home/harshit/arm_vla_ws/install/arm_vla_pkg:/home/harshit/arm_vla_ws/install/akabot_control:/opt/ros/humble /usr/bin/cmake /home/harshit/arm_vla_ws/src/akabot_moveit_config -DCMAKE_INSTALL_PREFIX=/home/harshit/arm_vla_ws/install/akabot_moveit_config
+[0.516s] Invoking command in '/home/harshit/arm_vla_ws/build/akabot_moveit_config': CMAKE_PREFIX_PATH=/home/harshit/arm_vla_ws/install/akabot_description:/home/harshit/arm_vla_ws/install/akabot_moveit_config:/home/harshit/arm_vla_ws/install/akabot_gazebo:/home/harshit/arm_vla_ws/install/akabot_bringup:/home/harshit/arm_vla_ws/install/arm_vla_pkg:/home/harshit/arm_vla_ws/install/akabot_control:/opt/ros/humble /usr/bin/cmake --build /home/harshit/arm_vla_ws/build/akabot_moveit_config -- -j8 -l8
+[0.552s] Invoked command in '/home/harshit/arm_vla_ws/build/akabot_moveit_config' returned '0': CMAKE_PREFIX_PATH=/home/harshit/arm_vla_ws/install/akabot_description:/home/harshit/arm_vla_ws/install/akabot_moveit_config:/home/harshit/arm_vla_ws/install/akabot_gazebo:/home/harshit/arm_vla_ws/install/akabot_bringup:/home/harshit/arm_vla_ws/install/arm_vla_pkg:/home/harshit/arm_vla_ws/install/akabot_control:/opt/ros/humble /usr/bin/cmake --build /home/harshit/arm_vla_ws/build/akabot_moveit_config -- -j8 -l8
+[0.554s] Invoking command in '/home/harshit/arm_vla_ws/build/akabot_moveit_config': CMAKE_PREFIX_PATH=/home/harshit/arm_vla_ws/install/akabot_description:/home/harshit/arm_vla_ws/install/akabot_moveit_config:/home/harshit/arm_vla_ws/install/akabot_gazebo:/home/harshit/arm_vla_ws/install/akabot_bringup:/home/harshit/arm_vla_ws/install/arm_vla_pkg:/home/harshit/arm_vla_ws/install/akabot_control:/opt/ros/humble /usr/bin/cmake --install /home/harshit/arm_vla_ws/build/akabot_moveit_config
+[0.561s] -- Install configuration: ""
+[0.561s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/ament_index/resource_index/package_run_dependencies/akabot_moveit_config
+[0.561s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/ament_index/resource_index/parent_prefix_path/akabot_moveit_config
+[0.561s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/environment/ament_prefix_path.sh
+[0.562s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/environment/ament_prefix_path.dsv
+[0.562s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/environment/path.sh
+[0.562s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/environment/path.dsv
+[0.562s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/local_setup.bash
+[0.562s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/local_setup.sh
+[0.562s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/local_setup.zsh
+[0.563s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/local_setup.dsv
+[0.563s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/package.dsv
+[0.563s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/ament_index/resource_index/packages/akabot_moveit_config
+[0.563s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/cmake/akabot_moveit_configConfig.cmake
+[0.563s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/cmake/akabot_moveit_configConfig-version.cmake
+[0.563s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/package.xml
+[0.564s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/config
+[0.564s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/config/joint_limits.yaml
+[0.564s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/config/kinematics.yaml
+[0.564s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/config/moveit_controllers.yaml
+[0.564s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/config/ompl_planning.yaml
+[0.564s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/launch
+[0.564s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/launch/demo.launch.py
+[0.564s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/launch/moveit_rviz.launch.py
+[0.565s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/rviz
+[0.565s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/rviz/moveit.rviz
+[0.565s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/srdf
+[0.565s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/srdf/akabot.srdf
+[0.565s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/urdf
+[0.565s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/urdf/fake_akabot.urdf.xacro
+[0.565s] -- Installing: /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/.setup_assistant
+[0.567s] Invoked command in '/home/harshit/arm_vla_ws/build/akabot_moveit_config' returned '0': CMAKE_PREFIX_PATH=/home/harshit/arm_vla_ws/install/akabot_description:/home/harshit/arm_vla_ws/install/akabot_moveit_config:/home/harshit/arm_vla_ws/install/akabot_gazebo:/home/harshit/arm_vla_ws/install/akabot_bringup:/home/harshit/arm_vla_ws/install/arm_vla_pkg:/home/harshit/arm_vla_ws/install/akabot_control:/opt/ros/humble /usr/bin/cmake --install /home/harshit/arm_vla_ws/build/akabot_moveit_config

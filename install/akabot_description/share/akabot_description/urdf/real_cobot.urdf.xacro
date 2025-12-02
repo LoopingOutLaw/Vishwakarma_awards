@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="cobot">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="akabot">
 
-    <!-- Import cobot urdf and ros2_control xacro files -->
-    <xacro:include filename="$(find cobot_description)/urdf/cobot.urdf.xacro"/>
-    <xacro:include filename="$(find cobot_description)/urdf/cobot.ros2_control.xacro"/>
+    <!-- Import akabot urdf and ros2_control xacro files -->
+    <xacro:include filename="$(find akabot_description)/urdf/akabot.urdf.xacro"/>
+    <xacro:include filename="$(find akabot_description)/urdf/akabot.ros2_control.xacro"/>
 
     <!-- ros2_control macro -->
     <!-- Fill up plugin name -->
-    <xacro:cobot_ros2_control name="RealSystem" plugin_name=""/>
+    <xacro:akabot_ros2_control name="RealSystem" plugin_name=""/>
 
 </robot>

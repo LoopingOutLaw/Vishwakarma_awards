@@ -39,6 +39,8 @@ setup(
             'vision_pick_place = akabot_control.vision_pick_place:main',
             'scanning_vision_pick_place = akabot_control.scanning_vision_pick_place:main',
             'test_ee_camera = akabot_control.test_ee_camera:main',
+            'simple_ball_detector = akabot_control.simple_ball_detector:main',
+            'publish_tf = akabot_control.publish_tf:main',
         ],
     },
 )

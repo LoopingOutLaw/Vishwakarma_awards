@@ -175,7 +175,7 @@ def generate_launch_description():
         gazebo_launch,
         robot_state_publisher,
         spawn_robot,
-        start_gazebo_ros_bridge_cmd, # Added the missing bridge
+        start_gazebo_ros_bridge_cmd, 
         ee_camera_bridge,
         joint_state_broadcaster,
         arm_controller,
