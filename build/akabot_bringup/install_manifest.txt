@@ -1,0 +1,16 @@
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/config/ros2_controllers.yaml
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/ament_index/resource_index/package_run_dependencies/akabot_bringup
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/ament_index/resource_index/parent_prefix_path/akabot_bringup
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/environment/ament_prefix_path.sh
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/environment/ament_prefix_path.dsv
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/environment/path.sh
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/environment/path.dsv
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/local_setup.bash
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/local_setup.sh
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/local_setup.zsh
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/local_setup.dsv
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/package.dsv
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/ament_index/resource_index/packages/akabot_bringup
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/cmake/akabot_bringupConfig.cmake
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/cmake/akabot_bringupConfig-version.cmake
+/home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/package.xml

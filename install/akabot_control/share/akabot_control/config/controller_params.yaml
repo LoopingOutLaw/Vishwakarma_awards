@@ -1,0 +1,17 @@
+akabot_controller:
+  ros__parameters:
+    planning_group: "akabot_arm"
+    end_effector_link: "claw_base"
+    base_frame: "base_link"
+    planning_time: 5.0
+    max_velocity_scaling: 0.3
+    max_acceleration_scaling: 0.3
+    
+    # Workspace limits (meters)
+    workspace:
+      min_x: -0.3
+      min_y: -0.3
+      min_z: 0.0
+      max_x: 0.3
+      max_y: 0.3
+      max_z: 0.5

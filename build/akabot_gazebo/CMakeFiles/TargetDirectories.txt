@@ -1,0 +1,9 @@
+/home/aditya/Vishwakarma_awards/build/akabot_gazebo/CMakeFiles/uninstall.dir
+/home/aditya/Vishwakarma_awards/build/akabot_gazebo/CMakeFiles/akabot_gazebo_uninstall.dir
+/home/aditya/Vishwakarma_awards/build/akabot_gazebo/CMakeFiles/test.dir
+/home/aditya/Vishwakarma_awards/build/akabot_gazebo/CMakeFiles/edit_cache.dir
+/home/aditya/Vishwakarma_awards/build/akabot_gazebo/CMakeFiles/rebuild_cache.dir
+/home/aditya/Vishwakarma_awards/build/akabot_gazebo/CMakeFiles/list_install_components.dir
+/home/aditya/Vishwakarma_awards/build/akabot_gazebo/CMakeFiles/install.dir
+/home/aditya/Vishwakarma_awards/build/akabot_gazebo/CMakeFiles/install/local.dir
+/home/aditya/Vishwakarma_awards/build/akabot_gazebo/CMakeFiles/install/strip.dir

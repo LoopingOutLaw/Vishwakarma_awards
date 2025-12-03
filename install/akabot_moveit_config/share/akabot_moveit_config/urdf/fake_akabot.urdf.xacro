@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="akabot">
+
+    <!-- Import akabot urdf and ros2_control xacro files -->
+    <xacro:include filename="$(find akabot_description)/urdf/akabot.urdf.xacro"/>
+    <xacro:include filename="$(find akabot_description)/urdf/akabot.ros2_control.xacro"/>
+
+    <!-- ros2_control macro -->
+    <xacro:akabot_ros2_control name="FakeSystem" plugin_name="mock_components/GenericSystem"/>
+
+</robot>

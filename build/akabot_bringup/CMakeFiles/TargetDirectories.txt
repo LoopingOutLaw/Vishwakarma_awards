@@ -1,0 +1,9 @@
+/home/aditya/Vishwakarma_awards/build/akabot_bringup/CMakeFiles/uninstall.dir
+/home/aditya/Vishwakarma_awards/build/akabot_bringup/CMakeFiles/akabot_bringup_uninstall.dir
+/home/aditya/Vishwakarma_awards/build/akabot_bringup/CMakeFiles/test.dir
+/home/aditya/Vishwakarma_awards/build/akabot_bringup/CMakeFiles/edit_cache.dir
+/home/aditya/Vishwakarma_awards/build/akabot_bringup/CMakeFiles/rebuild_cache.dir
+/home/aditya/Vishwakarma_awards/build/akabot_bringup/CMakeFiles/list_install_components.dir
+/home/aditya/Vishwakarma_awards/build/akabot_bringup/CMakeFiles/install.dir
+/home/aditya/Vishwakarma_awards/build/akabot_bringup/CMakeFiles/install/local.dir
+/home/aditya/Vishwakarma_awards/build/akabot_bringup/CMakeFiles/install/strip.dir

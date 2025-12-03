@@ -1,0 +1,22 @@
+[0.737s] Invoking command in '/home/aditya/Vishwakarma_awards/src/akabot_control': CMAKE_PREFIX_PATH=/home/aditya/Vishwakarma_awards/install/akabot_moveit_config:/home/aditya/Vishwakarma_awards/install/akabot_description:/home/aditya/Vishwakarma_awards/install/akabot_gazebo:/home/aditya/Vishwakarma_awards/install/akabot_bringup PYTHONPATH=/home/aditya/Vishwakarma_awards/build/akabot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/akabot_control build --build-base /home/aditya/Vishwakarma_awards/build/akabot_control/build install --record /home/aditya/Vishwakarma_awards/build/akabot_control/install.log --single-version-externally-managed install_data
+[0.963s] running egg_info
+[0.964s] writing ../../build/akabot_control/akabot_control.egg-info/PKG-INFO
+[0.964s] writing dependency_links to ../../build/akabot_control/akabot_control.egg-info/dependency_links.txt
+[0.964s] writing entry points to ../../build/akabot_control/akabot_control.egg-info/entry_points.txt
+[0.964s] writing requirements to ../../build/akabot_control/akabot_control.egg-info/requires.txt
+[0.964s] writing top-level names to ../../build/akabot_control/akabot_control.egg-info/top_level.txt
+[0.966s] reading manifest file '../../build/akabot_control/akabot_control.egg-info/SOURCES.txt'
+[0.967s] writing manifest file '../../build/akabot_control/akabot_control.egg-info/SOURCES.txt'
+[0.967s] running build
+[0.967s] running build_py
+[0.967s] running install
+[0.967s] running install_lib
+[0.970s] running install_data
+[0.970s] running install_egg_info
+[0.972s] removing '/home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control-1.0.0-py3.10.egg-info' (and everything under it)
+[0.972s] Copying ../../build/akabot_control/akabot_control.egg-info to /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control-1.0.0-py3.10.egg-info
+[0.973s] running install_scripts
+[0.995s] Installing akabot_controller script to /home/aditya/Vishwakarma_awards/install/akabot_control/lib/akabot_control
+[0.995s] Installing interactive_control script to /home/aditya/Vishwakarma_awards/install/akabot_control/lib/akabot_control
+[0.995s] writing list of installed files to '/home/aditya/Vishwakarma_awards/build/akabot_control/install.log'
+[1.017s] Invoked command in '/home/aditya/Vishwakarma_awards/src/akabot_control' returned '0': CMAKE_PREFIX_PATH=/home/aditya/Vishwakarma_awards/install/akabot_moveit_config:/home/aditya/Vishwakarma_awards/install/akabot_description:/home/aditya/Vishwakarma_awards/install/akabot_gazebo:/home/aditya/Vishwakarma_awards/install/akabot_bringup PYTHONPATH=/home/aditya/Vishwakarma_awards/build/akabot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/akabot_control build --build-base /home/aditya/Vishwakarma_awards/build/akabot_control/build install --record /home/aditya/Vishwakarma_awards/build/akabot_control/install.log --single-version-externally-managed install_data

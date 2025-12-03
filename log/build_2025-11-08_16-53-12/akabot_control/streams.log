@@ -1,0 +1,49 @@
+[1.605s] Invoking command in '/home/aditya/Vishwakarma_awards/src/akabot_control': CMAKE_PREFIX_PATH=/home/aditya/Vishwakarma_awards/install/akabot_moveit_config:/home/aditya/Vishwakarma_awards/install/akabot_description:/home/aditya/Vishwakarma_awards/install/akabot_control:/home/aditya/Vishwakarma_awards/install/akabot_gazebo:/home/aditya/Vishwakarma_awards/install/akabot_bringup PYTHONPATH=/home/aditya/Vishwakarma_awards/build/akabot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/akabot_control build --build-base /home/aditya/Vishwakarma_awards/build/akabot_control/build install --record /home/aditya/Vishwakarma_awards/build/akabot_control/install.log --single-version-externally-managed install_data
+[2.265s] running egg_info
+[2.266s] creating ../../build/akabot_control/akabot_control.egg-info
+[2.267s] writing ../../build/akabot_control/akabot_control.egg-info/PKG-INFO
+[2.268s] writing dependency_links to ../../build/akabot_control/akabot_control.egg-info/dependency_links.txt
+[2.268s] writing entry points to ../../build/akabot_control/akabot_control.egg-info/entry_points.txt
+[2.268s] writing requirements to ../../build/akabot_control/akabot_control.egg-info/requires.txt
+[2.269s] writing top-level names to ../../build/akabot_control/akabot_control.egg-info/top_level.txt
+[2.269s] writing manifest file '../../build/akabot_control/akabot_control.egg-info/SOURCES.txt'
+[2.272s] reading manifest file '../../build/akabot_control/akabot_control.egg-info/SOURCES.txt'
+[2.275s] writing manifest file '../../build/akabot_control/akabot_control.egg-info/SOURCES.txt'
+[2.275s] running build
+[2.276s] running build_py
+[2.276s] creating /home/aditya/Vishwakarma_awards/build/akabot_control/build
+[2.276s] creating /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib
+[2.276s] creating /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control
+[2.276s] copying akabot_control/interactive_control.py -> /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control
+[2.277s] copying akabot_control/akabot_controller.py -> /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control
+[2.277s] copying akabot_control/__init__.py -> /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control
+[2.278s] running install
+[2.278s] running install_lib
+[2.282s] creating /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[2.283s] copying /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control/interactive_control.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[2.283s] copying /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control/akabot_controller.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[2.283s] copying /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control/__init__.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[2.284s] byte-compiling /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control/interactive_control.py to interactive_control.cpython-310.pyc
+[2.287s] byte-compiling /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control/akabot_controller.py to akabot_controller.cpython-310.pyc
+[2.292s] byte-compiling /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control/__init__.py to __init__.cpython-310.pyc
+[2.293s] running install_data
+[2.293s] creating /home/aditya/Vishwakarma_awards/install/akabot_control/share/ament_index
+[2.294s] creating /home/aditya/Vishwakarma_awards/install/akabot_control/share/ament_index/resource_index
+[2.294s] creating /home/aditya/Vishwakarma_awards/install/akabot_control/share/ament_index/resource_index/packages
+[2.295s] copying resource/akabot_control -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/ament_index/resource_index/packages
+[2.295s] copying package.xml -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control
+[2.296s] creating /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/launch
+[2.296s] copying launch/control.launch.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/launch
+[2.296s] copying launch/demo.launch.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/launch
+[2.296s] copying launch/gazebo_control.launch.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/launch
+[2.296s] creating /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/config
+[2.296s] copying config/controller_params.yaml -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/config
+[2.296s] creating /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/scripts
+[2.297s] copying scripts/test_poses.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/scripts
+[2.297s] running install_egg_info
+[2.302s] Copying ../../build/akabot_control/akabot_control.egg-info to /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control-1.0.0-py3.10.egg-info
+[2.303s] running install_scripts
+[2.366s] Installing akabot_controller script to /home/aditya/Vishwakarma_awards/install/akabot_control/lib/akabot_control
+[2.367s] Installing interactive_control script to /home/aditya/Vishwakarma_awards/install/akabot_control/lib/akabot_control
+[2.367s] writing list of installed files to '/home/aditya/Vishwakarma_awards/build/akabot_control/install.log'
+[2.424s] Invoked command in '/home/aditya/Vishwakarma_awards/src/akabot_control' returned '0': CMAKE_PREFIX_PATH=/home/aditya/Vishwakarma_awards/install/akabot_moveit_config:/home/aditya/Vishwakarma_awards/install/akabot_description:/home/aditya/Vishwakarma_awards/install/akabot_control:/home/aditya/Vishwakarma_awards/install/akabot_gazebo:/home/aditya/Vishwakarma_awards/install/akabot_bringup PYTHONPATH=/home/aditya/Vishwakarma_awards/build/akabot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/akabot_control build --build-base /home/aditya/Vishwakarma_awards/build/akabot_control/build install --record /home/aditya/Vishwakarma_awards/build/akabot_control/install.log --single-version-externally-managed install_data

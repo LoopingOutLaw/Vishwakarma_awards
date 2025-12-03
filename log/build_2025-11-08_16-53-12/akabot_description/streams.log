@@ -1,0 +1,65 @@
+[0.057s] Invoking command in '/home/aditya/Vishwakarma_awards/build/akabot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/opt/ros/humble /usr/bin/cmake /home/aditya/Vishwakarma_awards/src/akabot_description -DCMAKE_INSTALL_PREFIX=/home/aditya/Vishwakarma_awards/install/akabot_description
+[0.207s] -- The C compiler identification is GNU 11.4.0
+[0.357s] -- The CXX compiler identification is GNU 11.4.0
+[0.383s] -- Detecting C compiler ABI info
+[0.564s] -- Detecting C compiler ABI info - done
+[0.589s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.590s] -- Detecting C compile features
+[0.591s] -- Detecting C compile features - done
+[0.600s] -- Detecting CXX compiler ABI info
+[0.815s] -- Detecting CXX compiler ABI info - done
+[0.845s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.846s] -- Detecting CXX compile features
+[0.847s] -- Detecting CXX compile features - done
+[0.854s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.336s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[1.637s] -- Found urdf: 2.6.1 (/opt/ros/humble/share/urdf/cmake)
+[1.995s] -- Configuring done
+[2.002s] -- Generating done
+[2.009s] -- Build files have been written to: /home/aditya/Vishwakarma_awards/build/akabot_description
+[2.063s] Invoked command in '/home/aditya/Vishwakarma_awards/build/akabot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/opt/ros/humble /usr/bin/cmake /home/aditya/Vishwakarma_awards/src/akabot_description -DCMAKE_INSTALL_PREFIX=/home/aditya/Vishwakarma_awards/install/akabot_description
+[2.064s] Invoking command in '/home/aditya/Vishwakarma_awards/build/akabot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/opt/ros/humble /usr/bin/cmake --build /home/aditya/Vishwakarma_awards/build/akabot_description -- -j28 -l28
+[2.164s] Invoked command in '/home/aditya/Vishwakarma_awards/build/akabot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/opt/ros/humble /usr/bin/cmake --build /home/aditya/Vishwakarma_awards/build/akabot_description -- -j28 -l28
+[2.168s] Invoking command in '/home/aditya/Vishwakarma_awards/build/akabot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/opt/ros/humble /usr/bin/cmake --install /home/aditya/Vishwakarma_awards/build/akabot_description
+[2.188s] -- Install configuration: ""
+[2.188s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/config
+[2.191s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/config/initial_positions.yaml
+[2.191s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/launch
+[2.192s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/launch/description_launch.py
+[2.192s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/launch/robot_state_publisher_launch.py
+[2.192s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/meshes
+[2.193s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/meshes/base_cylinder.stl
+[2.194s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/meshes/claw_base.stl
+[2.194s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/meshes/lower_arm.stl
+[2.195s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/meshes/d415.dae
+[2.202s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/meshes/right_claw.stl
+[2.202s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/meshes/upper_arm.stl
+[2.204s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/meshes/left_claw.stl
+[2.204s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/meshes/top_plate.stl
+[2.206s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/meshes/wrist.stl
+[2.207s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/urdf
+[2.212s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/urdf/akabot_core.xacro
+[2.213s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/urdf/akabot.urdf.xacro
+[2.213s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/urdf/inertial_macros.xacro
+[2.213s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/urdf/real_akabot.urdf.xacro
+[2.213s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/urdf/depth_camera.xacro
+[2.213s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/urdf/akabot_gz.urdf.xacro
+[2.214s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/urdf/akabot.ros2_control.xacro
+[2.214s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/rviz
+[2.215s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/rviz/description.rviz
+[2.215s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/ament_index/resource_index/package_run_dependencies/akabot_description
+[2.216s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/ament_index/resource_index/parent_prefix_path/akabot_description
+[2.216s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/environment/ament_prefix_path.sh
+[2.216s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/environment/ament_prefix_path.dsv
+[2.216s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/environment/path.sh
+[2.216s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/environment/path.dsv
+[2.217s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/local_setup.bash
+[2.217s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/local_setup.sh
+[2.217s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/local_setup.zsh
+[2.217s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/local_setup.dsv
+[2.217s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/package.dsv
+[2.219s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/ament_index/resource_index/packages/akabot_description
+[2.219s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/cmake/akabot_descriptionConfig.cmake
+[2.219s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/cmake/akabot_descriptionConfig-version.cmake
+[2.219s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_description/share/akabot_description/package.xml
+[2.251s] Invoked command in '/home/aditya/Vishwakarma_awards/build/akabot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/opt/ros/humble /usr/bin/cmake --install /home/aditya/Vishwakarma_awards/build/akabot_description

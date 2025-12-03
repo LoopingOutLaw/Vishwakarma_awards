@@ -1,0 +1,4 @@
+Invoking command in '/home/aditya/Vishwakarma_awards/build/akabot_gazebo': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/aditya/Vishwakarma_awards/build/akabot_gazebo -- -j28 -l28
+Invoked command in '/home/aditya/Vishwakarma_awards/build/akabot_gazebo' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/aditya/Vishwakarma_awards/build/akabot_gazebo -- -j28 -l28
+Invoking command in '/home/aditya/Vishwakarma_awards/build/akabot_gazebo': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/aditya/Vishwakarma_awards/build/akabot_gazebo
+Invoked command in '/home/aditya/Vishwakarma_awards/build/akabot_gazebo' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/aditya/Vishwakarma_awards/build/akabot_gazebo

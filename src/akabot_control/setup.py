@@ -25,7 +25,7 @@ setup(
     zip_safe=True,
     maintainer='aditya',
     maintainer_email='aditya.arora.emails@gmail.com',
-    description='Akabot control package with vision',
+    description='Akabot control package with enhanced vision',
     license='TODO: License declaration',
     extras_require={
         'test': [
@@ -38,6 +38,7 @@ setup(
             'interactive_control = akabot_control.interactive_control:main',
             'vision_pick_place = akabot_control.vision_pick_place:main',
             'scanning_vision_pick_place = akabot_control.scanning_vision_pick_place:main',
+            'enhanced_vision_pick_place = akabot_control.enhanced_vision_pick_place:main',
             'test_ee_camera = akabot_control.test_ee_camera:main',
         ],
     },
