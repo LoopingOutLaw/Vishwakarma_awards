@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Enhanced Vision-based Pick and Place for Akabot
-Complete system with robust detection, transforms, and motion planning
+Enhanced Vision-based Pick and Place with Scanning
+The robot actively scans for blue (source) and red (target) bowls
 """
 
 import rclpy
 from rclpy.node import Node
-from sensor_msgs.msg import Image, CameraInfo
+from sensor_msgs.msg import Image, CameraInfo, JointState
 from geometry_msgs.msg import PoseStamped, Pose
 from cv_bridge import CvBridge
 import cv2
@@ -24,53 +24,108 @@ from collections import deque
 class State(Enum):
     """State machine states"""
     INIT = 0
-    MOVE_TO_SCAN = 1
-    SCANNING = 2
-    BALL_DETECTED = 3
-    APPROACH_BALL = 4
+    SCAN_FOR_SOURCE_BOWL = 1
+    SOURCE_BOWL_FOUND = 2
+    MOVE_TO_SCAN_SOURCE = 3
+    DETECT_BALL = 4
     PICK_BALL = 5
-    LIFT_BALL = 6
-    MOVE_TO_DROP = 7
-    DROP_BALL = 8
-    RETURN_HOME = 9
+    SCAN_FOR_TARGET_BOWL = 6
+    TARGET_BOWL_FOUND = 7
+    PLACE_BALL = 8
+    RETURN_TO_SCAN = 9
     DONE = 10
     ERROR = 11
 
 
+class BowlDetector:
+    """Detector for colored bowls"""
+    
+    def __init__(self, logger):
+        self.logger = logger
+        
+        # HSV ranges for blue bowl (source)
+        self.lower_blue = np.array([100, 100, 50])
+        self.upper_blue = np.array([130, 255, 255])
+        
+        # HSV ranges for red bowl (target)
+        self.lower_red1 = np.array([0, 100, 50])
+        self.upper_red1 = np.array([10, 255, 255])
+        self.lower_red2 = np.array([170, 100, 50])
+        self.upper_red2 = np.array([180, 255, 255])
+        
+        self.min_bowl_area = 1000
+    
+    def detect_blue_bowl(self, image):
+        """Detect blue bowl (source)"""
+        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        mask = cv2.inRange(hsv, self.lower_blue, self.upper_blue)
+        
+        kernel = np.ones((5, 5), np.uint8)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+        
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        for contour in contours:
+            area = cv2.contourArea(contour)
+            if area > self.min_bowl_area:
+                M = cv2.moments(contour)
+                if M["m00"] > 0:
+                    cx = int(M["m10"] / M["m00"])
+                    cy = int(M["m01"] / M["m00"])
+                    return {'center': (cx, cy), 'area': area, 'contour': contour}
+        
+        return None
+    
+    def detect_red_bowl(self, image):
+        """Detect red bowl (target)"""
+        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        mask1 = cv2.inRange(hsv, self.lower_red1, self.upper_red1)
+        mask2 = cv2.inRange(hsv, self.lower_red2, self.upper_red2)
+        mask = cv2.bitwise_or(mask1, mask2)
+        
+        kernel = np.ones((5, 5), np.uint8)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+        
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        for contour in contours:
+            area = cv2.contourArea(contour)
+            if area > self.min_bowl_area:
+                M = cv2.moments(contour)
+                if M["m00"] > 0:
+                    cx = int(M["m10"] / M["m00"])
+                    cy = int(M["m01"] / M["m00"])
+                    return {'center': (cx, cy), 'area': area, 'contour': contour}
+        
+        return None
+
+
 class BallDetector:
-    """Enhanced ball detection with filtering and tracking"""
+    """Enhanced ball detection"""
     
     def __init__(self, logger):
         self.logger = logger
         self.detection_history = deque(maxlen=5)
         
-        # HSV color ranges for white thermocol balls
         self.lower_white = np.array([0, 0, 200])
         self.upper_white = np.array([180, 50, 255])
         
-        # Detection parameters
         self.min_area = 200
         self.max_area = 8000
         self.min_circularity = 0.7
         self.min_radius = 8
         
     def detect_balls(self, image):
-        """
-        Detect white balls in image with filtering
-        Returns list of ball detections with confidence scores
-        """
-        # Convert to HSV
+        """Detect white balls"""
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-        
-        # Create mask for white objects
         mask = cv2.inRange(hsv, self.lower_white, self.upper_white)
         
-        # Morphological operations to reduce noise
         kernel = np.ones((5, 5), np.uint8)
         mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
         mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
         
-        # Find contours
         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         
         detections = []
@@ -78,19 +133,15 @@ class BallDetector:
         for contour in contours:
             area = cv2.contourArea(contour)
             
-            # Filter by area
             if self.min_area < area < self.max_area:
-                # Fit circle
                 ((x, y), radius) = cv2.minEnclosingCircle(contour)
                 
                 if radius > self.min_radius:
-                    # Check circularity
                     perimeter = cv2.arcLength(contour, True)
                     if perimeter > 0:
                         circularity = 4 * np.pi * area / (perimeter * perimeter)
                         
                         if circularity > self.min_circularity:
-                            # Calculate confidence based on circularity and area
                             confidence = circularity * min(area / 1000.0, 1.0)
                             
                             detections.append({
@@ -101,24 +152,19 @@ class BallDetector:
                                 'confidence': confidence
                             })
         
-        # Sort by confidence
         detections.sort(key=lambda d: d['confidence'], reverse=True)
-        
         return detections, mask
     
     def get_best_detection(self, detections):
-        """Get the most confident detection with temporal filtering"""
+        """Get best detection with temporal filtering"""
         if not detections:
             return None
         
-        # Add to history
         self.detection_history.append(detections[0] if detections else None)
         
-        # Check if we have consistent detections
         valid_detections = [d for d in self.detection_history if d is not None]
         
         if len(valid_detections) >= 3:
-            # Average the positions for stability
             avg_x = np.mean([d['center'][0] for d in valid_detections])
             avg_y = np.mean([d['center'][1] for d in valid_detections])
             avg_radius = np.mean([d['radius'] for d in valid_detections])
@@ -137,22 +183,19 @@ class BallDetector:
 
 
 class EnhancedVisionPickPlace(Node):
-    """Enhanced vision-based pick and place with robust error handling"""
+    """Enhanced vision-based pick and place with scanning"""
     
     def __init__(self):
         super().__init__('enhanced_vision_pick_place')
         
-        # CV Bridge
         self.bridge = CvBridge()
         
-        # TF2
         self.tf_buffer = tf2_ros.Buffer()
         self.tf_listener = tf2_ros.TransformListener(self.tf_buffer, self)
         
-        # Ball detector
+        self.bowl_detector = BowlDetector(self.get_logger())
         self.ball_detector = BallDetector(self.get_logger())
         
-        # Camera subscribers
         self.image_sub = self.create_subscription(
             Image, '/ee_camera/image_raw', self.image_callback, 10
         )
@@ -160,36 +203,30 @@ class EnhancedVisionPickPlace(Node):
             CameraInfo, '/ee_camera/camera_info', self.camera_info_callback, 10
         )
         
-        # Camera parameters
         self.camera_matrix = None
         self.dist_coeffs = None
         self.latest_image = None
         
-        # Robot controller
         self.controller = AkabotController()
         
-        # Gripper action client
         self.gripper_client = ActionClient(self, GripperCommand, '/hand_controller/gripper_cmd')
         
-        # State machine
         self.state = State.INIT
         self.balls_transferred = 0
         self.target_balls = 3
-        self.max_retries = 3
-        self.retry_count = 0
         
-        # Current detection
         self.current_ball_pixel = None
         self.current_ball_3d = None
+        self.source_bowl_angle = None
+        self.target_bowl_angle = None
         
-        # Positions (in base_link frame)
-        self.scan_position = {
-            'x': 0.15, 'y': 0.0, 'z': 0.25,
-            'roll': 0.0, 'pitch': np.pi/2, 'yaw': 0.0
-        }
+        self.table_height = 1.04
         
-        self.source_bowl_center = np.array([0.15, 0.10, 1.03])
-        self.target_bowl_center = np.array([0.15, -0.10, 1.03])
+        # Scanning parameters
+        self.scan_angles = np.linspace(1.56, 4.68, 20)  # Full range of base joint
+        self.current_scan_index = 0
+        self.bowl_found_count = 0
+        self.bowl_found_threshold = 3
         
         # Motion parameters
         self.pick_offset_z = 0.01
@@ -197,13 +234,9 @@ class EnhancedVisionPickPlace(Node):
         self.place_offset_z = 0.03
         self.lift_height = 0.12
         
-        # Table height for depth estimation
-        self.table_height = 1.03
-        
-        # Visualization
         self.show_debug = True
         
-        self.get_logger().info('Enhanced Vision Pick and Place initialized')
+        self.get_logger().info('Enhanced Vision Pick and Place with Scanning initialized')
         
     def camera_info_callback(self, msg):
         """Store camera calibration"""
@@ -218,15 +251,45 @@ class EnhancedVisionPickPlace(Node):
             cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
             self.latest_image = cv_image.copy()
             
-            # Detect balls during scanning
-            if self.state in [State.SCANNING, State.MOVE_TO_SCAN]:
-                self.process_image(cv_image)
+            if self.state in [State.SCAN_FOR_SOURCE_BOWL, State.SCAN_FOR_TARGET_BOWL]:
+                self.process_bowl_detection(cv_image)
+            elif self.state == State.DETECT_BALL:
+                self.process_ball_detection(cv_image)
                 
         except Exception as e:
             self.get_logger().error(f'Image callback error: {str(e)}')
     
-    def process_image(self, image):
-        """Process image and detect balls"""
+    def process_bowl_detection(self, image):
+        """Process image for bowl detection"""
+        if self.state == State.SCAN_FOR_SOURCE_BOWL:
+            blue_bowl = self.bowl_detector.detect_blue_bowl(image)
+            if blue_bowl:
+                self.bowl_found_count += 1
+                self.get_logger().info(f"Blue bowl detected! Count: {self.bowl_found_count}")
+                
+                if self.bowl_found_count >= self.bowl_found_threshold:
+                    self.get_logger().info("Blue bowl confirmed!")
+                    self.state = State.SOURCE_BOWL_FOUND
+            else:
+                self.bowl_found_count = 0
+                
+        elif self.state == State.SCAN_FOR_TARGET_BOWL:
+            red_bowl = self.bowl_detector.detect_red_bowl(image)
+            if red_bowl:
+                self.bowl_found_count += 1
+                self.get_logger().info(f"Red bowl detected! Count: {self.bowl_found_count}")
+                
+                if self.bowl_found_count >= self.bowl_found_threshold:
+                    self.get_logger().info("Red bowl confirmed!")
+                    self.state = State.TARGET_BOWL_FOUND
+            else:
+                self.bowl_found_count = 0
+        
+        if self.show_debug:
+            self.visualize_bowl_detection(image)
+    
+    def process_ball_detection(self, image):
+        """Process image for ball detection"""
         detections, mask = self.ball_detector.detect_balls(image)
         best_ball = self.ball_detector.get_best_detection(detections)
         
@@ -237,39 +300,54 @@ class EnhancedVisionPickPlace(Node):
                 f"with confidence {best_ball['confidence']:.2f}"
             )
         
-        # Visualization
         if self.show_debug:
-            self.visualize_detections(image, detections, best_ball, mask)
+            self.visualize_ball_detection(image, detections, best_ball, mask)
     
-    def visualize_detections(self, image, detections, best_ball, mask):
-        """Visualize detections for debugging"""
+    def visualize_bowl_detection(self, image):
+        """Visualize bowl detection"""
         debug_img = image.copy()
         
-        # Draw all detections
+        blue_bowl = self.bowl_detector.detect_blue_bowl(image)
+        red_bowl = self.bowl_detector.detect_red_bowl(image)
+        
+        if blue_bowl:
+            cv2.drawContours(debug_img, [blue_bowl['contour']], -1, (255, 0, 0), 3)
+            cx, cy = blue_bowl['center']
+            cv2.circle(debug_img, (cx, cy), 10, (255, 0, 0), -1)
+            cv2.putText(debug_img, "SOURCE", (cx-40, cy-20),
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
+        
+        if red_bowl:
+            cv2.drawContours(debug_img, [red_bowl['contour']], -1, (0, 0, 255), 3)
+            cx, cy = red_bowl['center']
+            cv2.circle(debug_img, (cx, cy), 10, (0, 0, 255), -1)
+            cv2.putText(debug_img, "TARGET", (cx-40, cy-20),
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+        
+        state_text = f'State: {self.state.name} | Balls: {self.balls_transferred}/{self.target_balls}'
+        cv2.putText(debug_img, state_text, (10, 30),
+                   cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+        
+        cv2.imshow('Bowl Detection', debug_img)
+        cv2.waitKey(1)
+    
+    def visualize_ball_detection(self, image, detections, best_ball, mask):
+        """Visualize ball detection"""
+        debug_img = image.copy()
+        
         for det in detections:
             x, y = det['center']
             r = int(det['radius'])
-            color = (0, 255, 255)  # Yellow for all detections
-            cv2.circle(debug_img, (x, y), r, color, 2)
-            cv2.putText(
-                debug_img, f"{det['confidence']:.2f}",
-                (x - 30, y - r - 5), cv2.FONT_HERSHEY_SIMPLEX,
-                0.5, color, 2
-            )
+            cv2.circle(debug_img, (x, y), r, (0, 255, 255), 2)
         
-        # Draw best detection
         if best_ball:
             x, y = best_ball['center']
             r = int(best_ball['radius'])
-            cv2.circle(debug_img, (x, y), r, (0, 255, 0), 3)  # Green
-            cv2.circle(debug_img, (x, y), 3, (0, 0, 255), -1)  # Red center
-            cv2.putText(
-                debug_img, "TARGET",
-                (x - 30, y + r + 20), cv2.FONT_HERSHEY_SIMPLEX,
-                0.6, (0, 255, 0), 2
-            )
+            cv2.circle(debug_img, (x, y), r, (0, 255, 0), 3)
+            cv2.circle(debug_img, (x, y), 3, (0, 0, 255), -1)
+            cv2.putText(debug_img, "TARGET BALL", (x-50, y+r+20),
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
         
-        # State info
         state_text = f'State: {self.state.name} | Balls: {self.balls_transferred}/{self.target_balls}'
         cv2.putText(debug_img, state_text, (10, 30),
                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
@@ -278,13 +356,38 @@ class EnhancedVisionPickPlace(Node):
         cv2.imshow('White Mask', mask)
         cv2.waitKey(1)
     
+    def scan_for_bowl(self, target_state):
+        """Scan by rotating base joint to find bowl"""
+        if self.current_scan_index >= len(self.scan_angles):
+            self.current_scan_index = 0
+            self.get_logger().warn("Completed full scan, no bowl found. Restarting scan...")
+        
+        scan_angle = self.scan_angles[self.current_scan_index]
+        self.get_logger().info(f"Scanning at angle: {scan_angle:.2f} rad ({scan_angle*180/np.pi:.1f} deg)")
+        
+        # Move to scan position
+        joint_positions = [
+            scan_angle,  # top_plate_joint
+            1.8,         # lower_arm_joint - high position
+            -0.5,        # upper_arm_joint
+            -0.8,        # wrist_joint
+            0.0          # claw_base_joint
+        ]
+        
+        success = self.controller.execute_joint_trajectory(joint_positions, duration=2.0)
+        
+        if success:
+            time.sleep(1.0)  # Wait for image to stabilize
+            self.current_scan_index += 1
+        
+        return success
+    
     def estimate_ball_3d_position(self):
-        """Estimate 3D position of detected ball using camera transforms"""
+        """Estimate 3D position of detected ball"""
         if self.current_ball_pixel is None or self.camera_matrix is None:
             return None
         
         try:
-            # Get camera to base_link transform
             transform = self.tf_buffer.lookup_transform(
                 'base_link',
                 'ee_camera_optical_link',
@@ -292,25 +395,19 @@ class EnhancedVisionPickPlace(Node):
                 timeout=rclpy.duration.Duration(seconds=1.0)
             )
             
-            # Camera position
             cam_z = transform.transform.translation.z
+            depth = abs(cam_z - (self.table_height + 0.015))
             
-            # Estimate depth to table
-            depth = abs(cam_z - (self.table_height + 0.015))  # Ball radius
-            
-            # Unproject pixel to 3D
             px, py = self.current_ball_pixel
             fx = self.camera_matrix[0, 0]
             fy = self.camera_matrix[1, 1]
             cx = self.camera_matrix[0, 2]
             cy = self.camera_matrix[1, 2]
             
-            # 3D point in camera frame
             x_cam = (px - cx) * depth / fx
             y_cam = (py - cy) * depth / fy
             z_cam = depth
             
-            # Create pose in camera frame
             point_cam = PoseStamped()
             point_cam.header.frame_id = 'ee_camera_optical_link'
             point_cam.pose.position.x = float(x_cam)
@@ -318,13 +415,12 @@ class EnhancedVisionPickPlace(Node):
             point_cam.pose.position.z = float(z_cam)
             point_cam.pose.orientation.w = 1.0
             
-            # Transform to base_link
             point_base = tf2_geometry_msgs.do_transform_pose(point_cam, transform)
             
             ball_3d = np.array([
                 point_base.pose.position.x,
                 point_base.pose.position.y,
-                self.table_height + 0.015  # Fixed height at ball center
+                self.table_height + 0.015
             ])
             
             self.get_logger().info(
@@ -337,15 +433,31 @@ class EnhancedVisionPickPlace(Node):
             self.get_logger().error(f'Failed to estimate 3D position: {str(e)}')
             return None
     
-    def move_to_scan_position(self):
-        """Move to scanning position above source bowl"""
-        self.get_logger().info('Moving to scan position...')
+    def move_above_bowl(self, bowl_type='source'):
+        """Move camera above detected bowl"""
+        self.get_logger().info(f'Moving above {bowl_type} bowl...')
         
-        scan_pose = self.controller.create_pose(**self.scan_position)
-        success = self.controller.move_to_pose(scan_pose, duration=4.0)
+        # Get current base angle (where bowl was detected)
+        current_angle = self.scan_angles[max(0, self.current_scan_index - 1)]
+        
+        if bowl_type == 'source':
+            self.source_bowl_angle = current_angle
+        else:
+            self.target_bowl_angle = current_angle
+        
+        # Move to position above bowl
+        joint_positions = [
+            current_angle,  # top_plate_joint
+            2.0,           # lower_arm_joint
+            -0.7,          # upper_arm_joint
+            -0.9,          # wrist_joint
+            0.0            # claw_base_joint
+        ]
+        
+        success = self.controller.execute_joint_trajectory(joint_positions, duration=3.0)
         
         if success:
-            time.sleep(1.0)  # Wait for image to stabilize
+            time.sleep(1.0)
             self.ball_detector.clear_history()
         
         return success
@@ -378,7 +490,6 @@ class EnhancedVisionPickPlace(Node):
         """Execute pick sequence"""
         self.get_logger().info(f'Executing pick sequence at {ball_pos}')
         
-        # 1. Approach from above
         approach_pose = self.controller.create_pose(
             x=ball_pos[0], y=ball_pos[1],
             z=ball_pos[2] + self.approach_offset_z,
@@ -389,7 +500,6 @@ class EnhancedVisionPickPlace(Node):
             return False
         time.sleep(0.5)
         
-        # 2. Move down to pick
         pick_pose = self.controller.create_pose(
             x=ball_pos[0], y=ball_pos[1],
             z=ball_pos[2] + self.pick_offset_z,
@@ -400,10 +510,8 @@ class EnhancedVisionPickPlace(Node):
             return False
         time.sleep(0.5)
         
-        # 3. Close gripper
         self.close_gripper()
         
-        # 4. Lift
         lift_pose = self.controller.create_pose(
             x=ball_pos[0], y=ball_pos[1],
             z=ball_pos[2] + self.lift_height,
@@ -416,7 +524,6 @@ class EnhancedVisionPickPlace(Node):
         """Execute place sequence"""
         self.get_logger().info(f'Executing place sequence at {place_pos}')
         
-        # 1. Approach target bowl
         approach_pose = self.controller.create_pose(
             x=place_pos[0], y=place_pos[1],
             z=place_pos[2] + self.approach_offset_z,
@@ -427,7 +534,6 @@ class EnhancedVisionPickPlace(Node):
             return False
         time.sleep(0.5)
         
-        # 2. Move down to place
         place_pose = self.controller.create_pose(
             x=place_pos[0], y=place_pos[1],
             z=place_pos[2] + self.place_offset_z,
@@ -438,10 +544,8 @@ class EnhancedVisionPickPlace(Node):
             return False
         time.sleep(0.5)
         
-        # 3. Open gripper
         self.open_gripper()
         
-        # 4. Move up
         lift_pose = self.controller.create_pose(
             x=place_pos[0], y=place_pos[1],
             z=place_pos[2] + self.lift_height,
@@ -457,88 +561,97 @@ class EnhancedVisionPickPlace(Node):
         while rclpy.ok() and self.state != State.DONE:
             
             if self.state == State.INIT:
-                self.get_logger().info('=== Starting Enhanced Pick and Place ===')
+                self.get_logger().info('=== Starting Enhanced Pick and Place with Scanning ===')
                 self.open_gripper()
-                self.state = State.MOVE_TO_SCAN
+                self.current_scan_index = 0
+                self.bowl_found_count = 0
+                self.state = State.SCAN_FOR_SOURCE_BOWL
                 
-            elif self.state == State.MOVE_TO_SCAN:
-                if self.move_to_scan_position():
-                    self.state = State.SCANNING
+            elif self.state == State.SCAN_FOR_SOURCE_BOWL:
+                self.get_logger().info("Scanning for BLUE source bowl...")
+                self.scan_for_bowl(State.SOURCE_BOWL_FOUND)
+                
+            elif self.state == State.SOURCE_BOWL_FOUND:
+                self.get_logger().info("Source bowl found! Moving above it...")
+                self.bowl_found_count = 0
+                self.state = State.MOVE_TO_SCAN_SOURCE
+                
+            elif self.state == State.MOVE_TO_SCAN_SOURCE:
+                if self.move_above_bowl('source'):
+                    self.state = State.DETECT_BALL
                 else:
-                    self.get_logger().error('Failed to move to scan position')
+                    self.get_logger().error("Failed to move above source bowl")
                     self.state = State.ERROR
                     
-            elif self.state == State.SCANNING:
-                # Wait for stable detection
-                time.sleep(2.0)
+            elif self.state == State.DETECT_BALL:
+                time.sleep(2.0)  # Wait for stable detection
                 
                 if self.current_ball_pixel is not None:
                     self.get_logger().info('Ball detected! Estimating 3D position...')
-                    self.state = State.BALL_DETECTED
+                    ball_3d = self.estimate_ball_3d_position()
+                    
+                    if ball_3d is not None:
+                        self.current_ball_3d = ball_3d
+                        self.state = State.PICK_BALL
+                    else:
+                        self.get_logger().error('Failed to estimate ball position')
+                        self.current_scan_index = 0
+                        self.state = State.SCAN_FOR_SOURCE_BOWL
                 else:
                     self.get_logger().warn('No ball detected')
-                    if self.retry_count < self.max_retries:
-                        self.retry_count += 1
-                        self.state = State.MOVE_TO_SCAN
-                    else:
-                        self.get_logger().error('Max retries reached')
-                        self.state = State.DONE
-                        
-            elif self.state == State.BALL_DETECTED:
-                ball_3d = self.estimate_ball_3d_position()
-                
-                if ball_3d is not None:
-                    self.current_ball_3d = ball_3d
-                    self.state = State.APPROACH_BALL
-                else:
-                    self.get_logger().error('Failed to estimate position')
-                    self.state = State.MOVE_TO_SCAN
+                    self.current_scan_index = 0
+                    self.state = State.SCAN_FOR_SOURCE_BOWL
                     
-            elif self.state == State.APPROACH_BALL:
-                self.state = State.PICK_BALL
-                
             elif self.state == State.PICK_BALL:
                 if self.pick_sequence(self.current_ball_3d):
                     self.get_logger().info('Pick successful!')
-                    self.state = State.MOVE_TO_DROP
+                    self.current_scan_index = 0
+                    self.bowl_found_count = 0
+                    self.state = State.SCAN_FOR_TARGET_BOWL
                 else:
                     self.get_logger().error('Pick failed')
-                    if self.retry_count < self.max_retries:
-                        self.retry_count += 1
-                        self.open_gripper()
-                        self.state = State.MOVE_TO_SCAN
-                    else:
-                        self.state = State.ERROR
-                        
-            elif self.state == State.MOVE_TO_DROP:
-                self.state = State.DROP_BALL
+                    self.open_gripper()
+                    self.current_scan_index = 0
+                    self.state = State.SCAN_FOR_SOURCE_BOWL
+                    
+            elif self.state == State.SCAN_FOR_TARGET_BOWL:
+                self.get_logger().info("Scanning for RED target bowl...")
+                self.scan_for_bowl(State.TARGET_BOWL_FOUND)
                 
-            elif self.state == State.DROP_BALL:
-                place_pos = self.target_bowl_center.copy()
-                place_pos[2] += 0.05
+            elif self.state == State.TARGET_BOWL_FOUND:
+                self.get_logger().info("Target bowl found! Moving to place ball...")
+                self.bowl_found_count = 0
+                
+                # Calculate place position based on detected target bowl angle
+                current_angle = self.scan_angles[max(0, self.current_scan_index - 1)]
+                self.target_bowl_angle = current_angle
+                
+                # Estimate target position (simplified)
+                place_pos = np.array([0.15, -0.10, self.table_height + 0.05])
+                
+                self.state = State.PLACE_BALL
+                
+            elif self.state == State.PLACE_BALL:
+                place_pos = np.array([0.15, -0.10, self.table_height + 0.05])
                 
                 if self.place_sequence(place_pos):
                     self.balls_transferred += 1
-                    self.retry_count = 0
                     self.get_logger().info(
                         f'Ball placed! Progress: {self.balls_transferred}/{self.target_balls}'
                     )
                     
                     if self.balls_transferred >= self.target_balls:
-                        self.state = State.RETURN_HOME
+                        self.state = State.DONE
                     else:
                         self.current_ball_pixel = None
                         self.ball_detector.clear_history()
-                        self.state = State.MOVE_TO_SCAN
+                        self.current_scan_index = 0
+                        self.bowl_found_count = 0
+                        self.state = State.SCAN_FOR_SOURCE_BOWL
                 else:
                     self.get_logger().error('Place failed')
                     self.state = State.ERROR
                     
-            elif self.state == State.RETURN_HOME:
-                self.get_logger().info('Returning to home position...')
-                self.controller.move_to_named_target('home')
-                self.state = State.DONE
-                
             elif self.state == State.ERROR:
                 self.get_logger().error('Error state reached. Returning home.')
                 self.controller.move_to_named_target('home')
@@ -548,6 +661,7 @@ class EnhancedVisionPickPlace(Node):
             rate.sleep()
         
         self.get_logger().info('=== Mission Complete! ===')
+        self.controller.move_to_named_target('home')
         cv2.destroyAllWindows()
 
 
@@ -556,10 +670,8 @@ def main(args=None):
     
     node = EnhancedVisionPickPlace()
     
-    # Wait for initialization
     time.sleep(2.0)
     
-    # Wait for camera and controller ready
     while not node.controller.joint_state_received or node.camera_matrix is None:
         rclpy.spin_once(node, timeout_sec=0.1)
         time.sleep(0.1)

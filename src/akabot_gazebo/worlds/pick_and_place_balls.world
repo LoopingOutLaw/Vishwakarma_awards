@@ -28,44 +28,100 @@
       <pose>0.059419 -0.058114 0 0 -0 0</pose>
     </include>
 
-    <!-- Bowl 1 (with balls) - Left side -->
+    <!-- Bowl 1 (with balls) - BLUE with proper walls -->
     <model name="bowl_with_balls">
-      <pose>0.15 0.10 1.03 0 0 0</pose>
+      <pose>0.15 0.10 1.0 0 0 0</pose>
       <static>true</static>
-      <link name="bowl_link">
-        <visual name="bowl_visual">
+      
+      <!-- Bowl Base -->
+      <link name="bowl_base">
+        <visual name="base_visual">
           <geometry>
             <cylinder>
-              <radius>0.06</radius>
-              <length>0.03</length>
+              <radius>0.055</radius>
+              <length>0.005</length>
             </cylinder>
           </geometry>
           <material>
-            <ambient>0.2 0.5 0.8 1</ambient>
-            <diffuse>0.2 0.5 0.8 1</diffuse>
+            <ambient>0.2 0.4 0.8 1</ambient>
+            <diffuse>0.2 0.4 0.8 1</diffuse>
           </material>
         </visual>
-        <collision name="bowl_collision">
+        <collision name="base_collision">
           <geometry>
             <cylinder>
-              <radius>0.06</radius>
-              <length>0.03</length>
+              <radius>0.055</radius>
+              <length>0.005</length>
             </cylinder>
           </geometry>
         </collision>
       </link>
-    </model>
-
-    <!-- Bowl 2 (empty) - Right side -->
-    <model name="empty_bowl">
-      <pose>0.15 -0.10 1.03 0 0 0</pose>
-      <static>true</static>
-      <link name="bowl_link">
-        <visual name="bowl_visual">
+      
+      <!-- Bowl Wall -->
+      <link name="bowl_wall">
+        <pose>0 0 0.0175 0 0 0</pose>
+        <visual name="wall_visual">
           <geometry>
             <cylinder>
               <radius>0.06</radius>
-              <length>0.03</length>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.2 0.5 0.8 0.7</ambient>
+            <diffuse>0.2 0.5 0.8 0.7</diffuse>
+          </material>
+        </visual>
+        <collision name="wall_collision">
+          <geometry>
+            <cylinder>
+              <radius>0.06</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+        </collision>
+      </link>
+      
+      <!-- Inner space (hollow) -->
+      <link name="bowl_inner">
+        <pose>0 0 0.02 0 0 0</pose>
+        <visual name="inner_visual">
+          <geometry>
+            <cylinder>
+              <radius>0.052</radius>
+              <length>0.045</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 1 0</ambient>
+            <diffuse>1 1 1 0</diffuse>
+          </material>
+        </visual>
+      </link>
+      
+      <joint name="base_to_wall" type="fixed">
+        <parent>bowl_base</parent>
+        <child>bowl_wall</child>
+      </joint>
+      
+      <joint name="wall_to_inner" type="fixed">
+        <parent>bowl_wall</parent>
+        <child>bowl_inner</child>
+      </joint>
+    </model>
+
+    <!-- Bowl 2 (empty) - RED with proper walls -->
+    <model name="empty_bowl">
+      <pose>0.15 -0.10 1.0 0 0 0</pose>
+      <static>true</static>
+      
+      <!-- Bowl Base -->
+      <link name="bowl_base">
+        <visual name="base_visual">
+          <geometry>
+            <cylinder>
+              <radius>0.055</radius>
+              <length>0.005</length>
             </cylinder>
           </geometry>
           <material>
@@ -73,20 +129,72 @@
             <diffuse>0.8 0.2 0.2 1</diffuse>
           </material>
         </visual>
-        <collision name="bowl_collision">
+        <collision name="base_collision">
           <geometry>
             <cylinder>
-              <radius>0.06</radius>
-              <length>0.03</length>
+              <radius>0.055</radius>
+              <length>0.005</length>
             </cylinder>
           </geometry>
         </collision>
       </link>
+      
+      <!-- Bowl Wall -->
+      <link name="bowl_wall">
+        <pose>0 0 0.0175 0 0 0</pose>
+        <visual name="wall_visual">
+          <geometry>
+            <cylinder>
+              <radius>0.06</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.8 0.2 0.2 0.7</ambient>
+            <diffuse>0.8 0.2 0.2 0.7</diffuse>
+          </material>
+        </visual>
+        <collision name="wall_collision">
+          <geometry>
+            <cylinder>
+              <radius>0.06</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+        </collision>
+      </link>
+      
+      <!-- Inner space (hollow) -->
+      <link name="bowl_inner">
+        <pose>0 0 0.02 0 0 0</pose>
+        <visual name="inner_visual">
+          <geometry>
+            <cylinder>
+              <radius>0.052</radius>
+              <length>0.045</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 1 1 0</ambient>
+            <diffuse>1 1 1 0</diffuse>
+          </material>
+        </visual>
+      </link>
+      
+      <joint name="base_to_wall" type="fixed">
+        <parent>bowl_base</parent>
+        <child>bowl_wall</child>
+      </joint>
+      
+      <joint name="wall_to_inner" type="fixed">
+        <parent>bowl_wall</parent>
+        <child>bowl_inner</child>
+      </joint>
     </model>
 
-    <!-- Thermocol Ball 1 (White) -->
+    <!-- Thermocol Balls (positioned INSIDE the blue bowl) -->
     <model name="ball_1">
-      <pose>0.15 0.11 1.06 0 0 0</pose>
+      <pose>0.15 0.11 1.04 0 0 0</pose>
       <link name="ball_link">
         <inertial>
           <mass>0.005</mass>
@@ -129,9 +237,8 @@
       </link>
     </model>
 
-    <!-- Thermocol Ball 2 -->
     <model name="ball_2">
-      <pose>0.17 0.09 1.06 0 0 0</pose>
+      <pose>0.17 0.09 1.04 0 0 0</pose>
       <link name="ball_link">
         <inertial>
           <mass>0.005</mass>
@@ -174,99 +281,8 @@
       </link>
     </model>
 
-    <!-- Thermocol Ball 3 -->
     <model name="ball_3">
-      <pose>0.13 0.09 1.06 0 0 0</pose>
-      <link name="ball_link">
-        <inertial>
-          <mass>0.005</mass>
-          <inertia>
-            <ixx>0.00001</ixx>
-            <iyy>0.00001</iyy>
-            <izz>0.00001</izz>
-          </inertia>
-        </inertial>
-        <visual name="ball_visual">
-          <geometry>
-            <sphere>
-              <radius>0.015</radius>
-            </sphere>
-          </geometry>
-          <material>
-            <ambient>1 1 1 1</ambient>
-            <diffuse>1 1 1 1</diffuse>
-            <specular>0.5 0.5 0.5 1</specular>
-          </material>
-        </visual>
-        <collision name="ball_collision">
-          <geometry>
-            <sphere>
-              <radius>0.015</radius>
-            </sphere>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>0.8</mu>
-                <mu2>0.8</mu2>
-              </ode>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0.3</restitution_coefficient>
-            </bounce>
-          </surface>
-        </collision>
-      </link>
-    </model>
-
-    <!-- Thermocol Ball 4 -->
-    <model name="ball_4">
-      <pose>0.15 0.08 1.06 0 0 0</pose>
-      <link name="ball_link">
-        <inertial>
-          <mass>0.005</mass>
-          <inertia>
-            <ixx>0.00001</ixx>
-            <iyy>0.00001</iyy>
-            <izz>0.00001</izz>
-          </inertia>
-        </inertial>
-        <visual name="ball_visual">
-          <geometry>
-            <sphere>
-              <radius>0.015</radius>
-            </sphere>
-          </geometry>
-          <material>
-            <ambient>1 1 1 1</ambient>
-            <diffuse>1 1 1 1</diffuse>
-            <specular>0.5 0.5 0.5 1</specular>
-          </material>
-        </visual>
-        <collision name="ball_collision">
-          <geometry>
-            <sphere>
-              <radius>0.015</radius>
-            </sphere>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>0.8</mu>
-                <mu2>0.8</mu2>
-              </ode>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0.3</restitution_coefficient>
-            </bounce>
-          </surface>
-        </collision>
-      </link>
-    </model>
-
-    <!-- Thermocol Ball 5 -->
-    <model name="ball_5">
-      <pose>0.14 0.12 1.06 0 0 0</pose>
+      <pose>0.13 0.09 1.04 0 0 0</pose>
       <link name="ball_link">
         <inertial>
           <mass>0.005</mass>
