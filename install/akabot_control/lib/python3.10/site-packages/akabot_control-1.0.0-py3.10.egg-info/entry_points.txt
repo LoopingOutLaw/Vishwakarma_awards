@@ -1,6 +1,5 @@
 [console_scripts]
 akabot_controller = akabot_control.akabot_controller:main
-enhanced_vision_pick_place = akabot_control.enhanced_vision_pick_place:main
 interactive_control = akabot_control.interactive_control:main
 scanning_vision_pick_place = akabot_control.scanning_vision_pick_place:main
 test_ee_camera = akabot_control.test_ee_camera:main

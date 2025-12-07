@@ -10,7 +10,6 @@ setup.py
 ../../build/akabot_control/akabot_control.egg-info/zip-safe
 akabot_control/__init__.py
 akabot_control/akabot_controller.py
-akabot_control/enhanced_vision_pick_place.py
 akabot_control/interactive_control.py
 akabot_control/scanning_vision_pick_place.py
 akabot_control/test_ee_camera.py
@@ -18,7 +17,6 @@ akabot_control/vision_pick_place.py
 config/controller_params.yaml
 launch/control.launch.py
 launch/demo.launch.py
-launch/enhanced_vision_pick_place.launch.py
 launch/gazebo_control.launch.py
 launch/scanning_vision_pick_place.launch.py
 launch/test_camera.launch.py

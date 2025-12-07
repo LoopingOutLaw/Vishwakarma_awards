@@ -1,0 +1,33 @@
+[1.514s] Invoking command in '/home/aditya/Vishwakarma_awards/src/arm_vla_pkg': PYTHONPATH=/home/aditya/Vishwakarma_awards/build/arm_vla_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/arm_vla_pkg build --build-base /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build install --record /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/install.log --single-version-externally-managed install_data
+[2.098s] running egg_info
+[2.099s] creating ../../build/arm_vla_pkg/arm_vla_pkg.egg-info
+[2.100s] writing ../../build/arm_vla_pkg/arm_vla_pkg.egg-info/PKG-INFO
+[2.100s] writing dependency_links to ../../build/arm_vla_pkg/arm_vla_pkg.egg-info/dependency_links.txt
+[2.101s] writing entry points to ../../build/arm_vla_pkg/arm_vla_pkg.egg-info/entry_points.txt
+[2.101s] writing requirements to ../../build/arm_vla_pkg/arm_vla_pkg.egg-info/requires.txt
+[2.101s] writing top-level names to ../../build/arm_vla_pkg/arm_vla_pkg.egg-info/top_level.txt
+[2.101s] writing manifest file '../../build/arm_vla_pkg/arm_vla_pkg.egg-info/SOURCES.txt'
+[2.105s] reading manifest file '../../build/arm_vla_pkg/arm_vla_pkg.egg-info/SOURCES.txt'
+[2.106s] writing manifest file '../../build/arm_vla_pkg/arm_vla_pkg.egg-info/SOURCES.txt'
+[2.107s] running build
+[2.107s] running build_py
+[2.107s] creating /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build
+[2.108s] creating /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib
+[2.108s] creating /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg
+[2.108s] copying arm_vla_pkg/__init__.py -> /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg
+[2.110s] running install
+[2.111s] running install_lib
+[2.112s] creating /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg
+[2.113s] copying /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg/__init__.py -> /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg
+[2.113s] byte-compiling /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg/__init__.py to __init__.cpython-310.pyc
+[2.114s] running install_data
+[2.114s] creating /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/share/ament_index
+[2.115s] creating /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/share/ament_index/resource_index
+[2.115s] creating /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/share/ament_index/resource_index/packages
+[2.115s] copying resource/arm_vla_pkg -> /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/share/ament_index/resource_index/packages
+[2.115s] copying package.xml -> /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/share/arm_vla_pkg
+[2.115s] running install_egg_info
+[2.120s] Copying ../../build/arm_vla_pkg/arm_vla_pkg.egg-info to /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg-0.0.0-py3.10.egg-info
+[2.121s] running install_scripts
+[2.172s] writing list of installed files to '/home/aditya/Vishwakarma_awards/build/arm_vla_pkg/install.log'
+[2.225s] Invoked command in '/home/aditya/Vishwakarma_awards/src/arm_vla_pkg' returned '0': PYTHONPATH=/home/aditya/Vishwakarma_awards/build/arm_vla_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/arm_vla_pkg build --build-base /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build install --record /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/install.log --single-version-externally-managed install_data

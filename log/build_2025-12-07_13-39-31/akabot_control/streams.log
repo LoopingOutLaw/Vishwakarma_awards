@@ -1,0 +1,64 @@
+[0.817s] Invoking command in '/home/aditya/Vishwakarma_awards/src/akabot_control': CMAKE_PREFIX_PATH=/home/aditya/Vishwakarma_awards/install/akabot_moveit_config:/home/aditya/Vishwakarma_awards/install/akabot_description:/home/aditya/Vishwakarma_awards/install/akabot_gazebo:/home/aditya/Vishwakarma_awards/install/akabot_bringup PYTHONPATH=/home/aditya/Vishwakarma_awards/build/akabot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/akabot_control build --build-base /home/aditya/Vishwakarma_awards/build/akabot_control/build install --record /home/aditya/Vishwakarma_awards/build/akabot_control/install.log --single-version-externally-managed install_data
+[1.094s] running egg_info
+[1.094s] creating ../../build/akabot_control/akabot_control.egg-info
+[1.094s] writing ../../build/akabot_control/akabot_control.egg-info/PKG-INFO
+[1.095s] writing dependency_links to ../../build/akabot_control/akabot_control.egg-info/dependency_links.txt
+[1.095s] writing entry points to ../../build/akabot_control/akabot_control.egg-info/entry_points.txt
+[1.095s] writing requirements to ../../build/akabot_control/akabot_control.egg-info/requires.txt
+[1.095s] writing top-level names to ../../build/akabot_control/akabot_control.egg-info/top_level.txt
+[1.095s] writing manifest file '../../build/akabot_control/akabot_control.egg-info/SOURCES.txt'
+[1.096s] reading manifest file '../../build/akabot_control/akabot_control.egg-info/SOURCES.txt'
+[1.097s] writing manifest file '../../build/akabot_control/akabot_control.egg-info/SOURCES.txt'
+[1.097s] running build
+[1.097s] running build_py
+[1.097s] creating /home/aditya/Vishwakarma_awards/build/akabot_control/build
+[1.097s] creating /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib
+[1.097s] creating /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control
+[1.097s] copying akabot_control/test_ee_camera.py -> /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control
+[1.097s] copying akabot_control/vision_pick_place.py -> /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control
+[1.097s] copying akabot_control/interactive_control.py -> /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control
+[1.097s] copying akabot_control/akabot_controller.py -> /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control
+[1.097s] copying akabot_control/scanning_vision_pick_place.py -> /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control
+[1.098s] copying akabot_control/__init__.py -> /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control
+[1.098s] running install
+[1.098s] running install_lib
+[1.099s] creating /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[1.099s] copying /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control/test_ee_camera.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[1.099s] copying /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control/vision_pick_place.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[1.099s] copying /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control/interactive_control.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[1.099s] copying /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control/akabot_controller.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[1.099s] copying /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control/scanning_vision_pick_place.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[1.099s] copying /home/aditya/Vishwakarma_awards/build/akabot_control/build/lib/akabot_control/__init__.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control
+[1.100s] byte-compiling /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control/test_ee_camera.py to test_ee_camera.cpython-310.pyc
+[1.101s] byte-compiling /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control/vision_pick_place.py to vision_pick_place.cpython-310.pyc
+[1.103s] byte-compiling /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control/interactive_control.py to interactive_control.cpython-310.pyc
+[1.104s] byte-compiling /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control/akabot_controller.py to akabot_controller.cpython-310.pyc
+[1.105s] byte-compiling /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control/scanning_vision_pick_place.py to scanning_vision_pick_place.cpython-310.pyc
+[1.108s] byte-compiling /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control/__init__.py to __init__.cpython-310.pyc
+[1.108s] running install_data
+[1.108s] creating /home/aditya/Vishwakarma_awards/install/akabot_control/share/ament_index
+[1.108s] creating /home/aditya/Vishwakarma_awards/install/akabot_control/share/ament_index/resource_index
+[1.108s] creating /home/aditya/Vishwakarma_awards/install/akabot_control/share/ament_index/resource_index/packages
+[1.108s] copying resource/akabot_control -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/ament_index/resource_index/packages
+[1.108s] copying package.xml -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control
+[1.108s] creating /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/launch
+[1.109s] copying launch/control.launch.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/launch
+[1.109s] copying launch/vision_pick_place.launch.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/launch
+[1.109s] copying launch/test_camera.launch.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/launch
+[1.109s] copying launch/demo.launch.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/launch
+[1.109s] copying launch/gazebo_control.launch.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/launch
+[1.109s] copying launch/scanning_vision_pick_place.launch.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/launch
+[1.109s] creating /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/config
+[1.109s] copying config/controller_params.yaml -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/config
+[1.109s] creating /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/scripts
+[1.109s] copying scripts/test_poses.py -> /home/aditya/Vishwakarma_awards/install/akabot_control/share/akabot_control/scripts
+[1.109s] running install_egg_info
+[1.111s] Copying ../../build/akabot_control/akabot_control.egg-info to /home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages/akabot_control-1.0.0-py3.10.egg-info
+[1.111s] running install_scripts
+[1.133s] Installing akabot_controller script to /home/aditya/Vishwakarma_awards/install/akabot_control/lib/akabot_control
+[1.133s] Installing interactive_control script to /home/aditya/Vishwakarma_awards/install/akabot_control/lib/akabot_control
+[1.134s] Installing scanning_vision_pick_place script to /home/aditya/Vishwakarma_awards/install/akabot_control/lib/akabot_control
+[1.134s] Installing test_ee_camera script to /home/aditya/Vishwakarma_awards/install/akabot_control/lib/akabot_control
+[1.134s] Installing vision_pick_place script to /home/aditya/Vishwakarma_awards/install/akabot_control/lib/akabot_control
+[1.134s] writing list of installed files to '/home/aditya/Vishwakarma_awards/build/akabot_control/install.log'
+[1.159s] Invoked command in '/home/aditya/Vishwakarma_awards/src/akabot_control' returned '0': CMAKE_PREFIX_PATH=/home/aditya/Vishwakarma_awards/install/akabot_moveit_config:/home/aditya/Vishwakarma_awards/install/akabot_description:/home/aditya/Vishwakarma_awards/install/akabot_gazebo:/home/aditya/Vishwakarma_awards/install/akabot_bringup PYTHONPATH=/home/aditya/Vishwakarma_awards/build/akabot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aditya/Vishwakarma_awards/install/akabot_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/akabot_control build --build-base /home/aditya/Vishwakarma_awards/build/akabot_control/build install --record /home/aditya/Vishwakarma_awards/build/akabot_control/install.log --single-version-externally-managed install_data

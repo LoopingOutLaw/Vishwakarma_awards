@@ -65,11 +65,12 @@
         </state_interface>
         <state_interface name="velocity"/>
       </joint>
-      <!-- CHANGED: Remove command_interface from mimic joint, only keep state interfaces -->
       <joint name="left_claw_joint">
         <param name="mimic">right_claw_joint</param>
         <param name="multiplier">-1</param>
-        <!-- NO command_interface for mimic joints! -->
+        <command_interface name="position"/>
+          <param name="min">0.0</param>
+          <param name="max">0.5</param>
         <state_interface name="position">
           <param name="initial_value">${initial_positions['left_claw_joint']}</param>
         </state_interface>

@@ -1,0 +1,41 @@
+[0.033s] Invoking command in '/home/aditya/Vishwakarma_awards/build/akabot_bringup': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/home/aditya/Vishwakarma_awards/install/akabot_control:/opt/ros/humble /usr/bin/cmake /home/aditya/Vishwakarma_awards/src/akabot_bringup -DCMAKE_INSTALL_PREFIX=/home/aditya/Vishwakarma_awards/install/akabot_bringup
+[0.115s] -- The C compiler identification is GNU 11.4.0
+[0.234s] -- The CXX compiler identification is GNU 11.4.0
+[0.255s] -- Detecting C compiler ABI info
+[0.391s] -- Detecting C compiler ABI info - done
+[0.407s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.407s] -- Detecting C compile features
+[0.408s] -- Detecting C compile features - done
+[0.414s] -- Detecting CXX compiler ABI info
+[0.551s] -- Detecting CXX compiler ABI info - done
+[0.564s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.564s] -- Detecting CXX compile features
+[0.565s] -- Detecting CXX compile features - done
+[0.568s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.934s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[1.346s] -- Configuring done
+[1.354s] -- Generating done
+[1.359s] -- Build files have been written to: /home/aditya/Vishwakarma_awards/build/akabot_bringup
+[1.370s] Invoked command in '/home/aditya/Vishwakarma_awards/build/akabot_bringup' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/home/aditya/Vishwakarma_awards/install/akabot_control:/opt/ros/humble /usr/bin/cmake /home/aditya/Vishwakarma_awards/src/akabot_bringup -DCMAKE_INSTALL_PREFIX=/home/aditya/Vishwakarma_awards/install/akabot_bringup
+[1.376s] Invoking command in '/home/aditya/Vishwakarma_awards/build/akabot_bringup': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/home/aditya/Vishwakarma_awards/install/akabot_control:/opt/ros/humble /usr/bin/cmake --build /home/aditya/Vishwakarma_awards/build/akabot_bringup -- -j28 -l28
+[1.480s] Invoked command in '/home/aditya/Vishwakarma_awards/build/akabot_bringup' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/home/aditya/Vishwakarma_awards/install/akabot_control:/opt/ros/humble /usr/bin/cmake --build /home/aditya/Vishwakarma_awards/build/akabot_bringup -- -j28 -l28
+[1.506s] Invoking command in '/home/aditya/Vishwakarma_awards/build/akabot_bringup': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/home/aditya/Vishwakarma_awards/install/akabot_control:/opt/ros/humble /usr/bin/cmake --install /home/aditya/Vishwakarma_awards/build/akabot_bringup
+[1.529s] -- Install configuration: ""
+[1.530s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/config
+[1.530s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/config/ros2_controllers.yaml
+[1.530s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/ament_index/resource_index/package_run_dependencies/akabot_bringup
+[1.531s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/ament_index/resource_index/parent_prefix_path/akabot_bringup
+[1.531s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/environment/ament_prefix_path.sh
+[1.531s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/environment/ament_prefix_path.dsv
+[1.531s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/environment/path.sh
+[1.532s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/environment/path.dsv
+[1.532s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/local_setup.bash
+[1.532s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/local_setup.sh
+[1.532s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/local_setup.zsh
+[1.533s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/local_setup.dsv
+[1.533s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/package.dsv
+[1.533s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/ament_index/resource_index/packages/akabot_bringup
+[1.534s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/cmake/akabot_bringupConfig.cmake
+[1.534s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/cmake/akabot_bringupConfig-version.cmake
+[1.534s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_bringup/share/akabot_bringup/package.xml
+[1.537s] Invoked command in '/home/aditya/Vishwakarma_awards/build/akabot_bringup' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/home/aditya/Vishwakarma_awards/install/akabot_control:/opt/ros/humble /usr/bin/cmake --install /home/aditya/Vishwakarma_awards/build/akabot_bringup
