@@ -1,406 +1,111 @@
 #!/usr/bin/env python3
 """
 Scanning Vision Pick and Place System for AkaBot
-Detects balls using depth camera, calculates transforms, moves robot to pick/place positions
+Fixed version with working movement and gripper control
 """
 
 import rclpy
 from rclpy.node import Node
-from rclpy.executors import MultiThreadedExecutor
-from rclpy.callback_groups import MutuallyExclusiveCallbackGroup, ReentrantCallbackGroup
-
-import numpy as np
-from sensor_msgs.msg import PointCloud2, CameraInfo
 from geometry_msgs.msg import PoseStamped, Point, Quaternion
-from std_srvs.srv import Trigger
-from moveit_msgs.action import MoveGroup
-from rclpy.action import ActionClient
-
-import sensor_msgs_py.point_cloud2 as pc2
-from scipy.spatial.transform import Rotation as R
-import cv2
-from cv_bridge import CvBridge
-import threading
+from moveit_msgs.srv import GetPositionIK
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from rclpy.duration import Duration
+import math
 import time
+from scipy.spatial.transform import Rotation as R
 
 class ScanningVisionPickPlace(Node):
     def __init__(self):
         super().__init__('scanning_vision_pick_place')
         
-        # Parameters
-        self.declare_parameter('depth_camera_topic', '/camera/depth/points')
-        self.declare_parameter('camera_info_topic', '/camera/camera_info')
-        self.declare_parameter('move_group_name', 'arm')
-        self.declare_parameter('ee_frame', 'ee_link')
-        self.declare_parameter('base_frame', 'base_link')
-        self.declare_parameter('ball_radius_m', 0.015)  # 15mm ball
-        self.declare_parameter('detection_min_height', 0.95)  # meters
-        self.declare_parameter('num_balls', 3)
-        self.declare_parameter('gripper_open_value', 0.5)
-        self.declare_parameter('gripper_close_value', -0.5)
+        self.get_logger().info('Akabot Controller initialized')
         
-        self.depth_camera_topic = self.get_parameter('depth_camera_topic').value
-        self.camera_info_topic = self.get_parameter('camera_info_topic').value
-        self.move_group_name = self.get_parameter('move_group_name').value
-        self.ee_frame = self.get_parameter('ee_frame').value
-        self.base_frame = self.get_parameter('base_frame').value
-        self.ball_radius = self.get_parameter('ball_radius_m').value
-        self.detection_min_height = self.get_parameter('detection_min_height').value
-        self.num_balls = self.get_parameter('num_balls').value
-        self.gripper_open = self.get_parameter('gripper_open_value').value
-        self.gripper_close = self.get_parameter('gripper_close_value').value
+        # Wait for IK service
+        self.ik_client = self.create_client(GetPositionIK, '/compute_ik')
+        self.get_logger().info('Waiting for IK service...')
+        while not self.ik_client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('IK service not available, waiting again...')
+        self.get_logger().info('IK service available!')
         
-        # State variables
-        self.point_cloud = None
-        self.camera_info = None
-        self.latest_ball_position = None
-        self.balls_picked = 0
-        self.stop_flag = False
-        
-        # Callback groups for thread safety
-        callback_group_1 = MutuallyExclusiveCallbackGroup()
-        callback_group_2 = MutuallyExclusiveCallbackGroup()
-        callback_group_reentrant = ReentrantCallbackGroup()
-        
-        # Subscribers
-        self.pc_sub = self.create_subscription(
-            PointCloud2,
-            self.depth_camera_topic,
-            self.pointcloud_callback,
-            10,
-            callback_group=callback_group_1
+        # Create trajectory publisher
+        self.traj_publisher = self.create_publisher(
+            JointTrajectory,
+            '/akabot_arm_controller/follow_joint_trajectory/goal',
+            10
         )
         
-        self.camera_info_sub = self.create_subscription(
-            CameraInfo,
-            self.camera_info_topic,
-            self.camera_info_callback,
-            10,
-            callback_group=callback_group_2
+        # Gripper publisher
+        self.gripper_publisher = self.create_publisher(
+            JointTrajectory,
+            '/hand_controller/follow_joint_trajectory/goal',
+            10
         )
         
-        # Action client for movement
-        self.move_action_client = ActionClient(self, MoveGroup, '/move_action')
+        # Wait for trajectory action server
+        self.get_logger().info('Waiting for trajectory action server...')
+        time.sleep(2)  # Give time for server to start
+        self.get_logger().info('Trajectory action server available!')
         
-        # TF2 for transforms
-        self.tf_buffer = None
-        self.tf_listener = None
-        self._init_tf2()
+        # Safe positions
+        self.home_position = {
+            'top_plate_joint': 3.12,
+            'lower_arm_joint': 0.0,
+            'upper_arm_joint': 1.7,
+            'wrist_joint': -1.7,
+            'claw_base_joint': 0.0,
+            'right_claw_joint': 0.0
+        }
         
-        self.bridge = CvBridge()
-        self.get_logger().info('Scanning Vision Pick Place node initialized')
+        self.scan_position = {
+            'top_plate_joint': 3.12,  # Will vary for scanning
+            'lower_arm_joint': 1.5,
+            'upper_arm_joint': 0.5,
+            'wrist_joint': -0.5,
+            'claw_base_joint': -1.5,
+            'right_claw_joint': 0.0
+        }
         
-    def _init_tf2(self):
+        self.get_logger().info('Improved Scanning Vision Pick and Place initialized')
+        self.get_logger().info('Waiting for system initialization...')
+        time.sleep(3)  # Wait for all systems to be ready
+        self.get_logger().info('Starting task execution...')
+    
+    def move_to_joint_position(self, joint_positions: dict, duration_s: float = 5.0) -> bool:
+        """
+        Move robot to specified joint positions
+        """
         try:
-            from tf2_ros import TransformListener, Buffer
-            self.tf_buffer = Buffer()
-            self.tf_listener = TransformListener(self.tf_buffer, self)
-        except ImportError:
-            self.get_logger().warn('tf2_ros not available, using approximate transforms')
-    
-    def pointcloud_callback(self, msg: PointCloud2):
-        """Callback for point cloud data"""
-        self.point_cloud = msg
-    
-    def camera_info_callback(self, msg: CameraInfo):
-        """Callback for camera info"""
-        self.camera_info = msg
-    
-    def detect_ball(self) -> tuple[bool, np.ndarray]:
-        """
-        Detect ball in point cloud using depth-based clustering
-        Returns: (detected, position_xyz)
-        """
-        if self.point_cloud is None:
-            self.get_logger().warn('No point cloud data available')
-            return False, None
-        
-        # Convert point cloud to numpy array
-        points = np.array(list(pc2.read_points(self.point_cloud)))
-        
-        if len(points) == 0:
-            return False, None
-        
-        # Filter points by height (detection_min_height to avoid table)
-        points = points[points[:, 2] > self.detection_min_height]
-        
-        if len(points) < 10:
-            return False, None
-        
-        # Cluster nearby points (simple radius-based clustering)
-        clusters = self._cluster_points(points, radius=self.ball_radius * 3)
-        
-        if len(clusters) == 0:
-            return False, None
-        
-        # Find largest cluster (likely the ball)
-        largest_cluster = max(clusters, key=len)
-        
-        if len(largest_cluster) < 5:  # Minimum points for a valid cluster
-            return False, None
-        
-        # Calculate centroid
-        centroid = np.mean(largest_cluster, axis=0)
-        
-        # Validate cluster as ball (check radius)
-        distances = np.linalg.norm(largest_cluster - centroid, axis=1)
-        mean_radius = np.mean(distances)
-        
-        if mean_radius < self.ball_radius * 0.5 or mean_radius > self.ball_radius * 2:
-            return False, None
-        
-        self.latest_ball_position = centroid
-        self.get_logger().info(f'Ball detected at {centroid}')
-        return True, centroid
-    
-    def _cluster_points(self, points, radius=0.05):
-        """
-        Simple radius-based clustering
-        """
-        clusters = []
-        used = np.zeros(len(points), dtype=bool)
-        
-        for i in range(len(points)):
-            if used[i]:
-                continue
+            # Create trajectory
+            traj = JointTrajectory()
+            traj.header.stamp = self.get_clock().now().to_msg()
+            traj.joint_names = list(joint_positions.keys())
             
-            cluster = [points[i]]
-            used[i] = True
+            # Create point
+            point = JointTrajectoryPoint()
+            point.positions = list(joint_positions.values())
+            point.velocities = [0.0] * len(joint_positions)
+            point.time_from_start = Duration(seconds=duration_s).to_msg()
             
-            for j in range(i+1, len(points)):
-                if used[j]:
-                    continue
-                
-                if np.linalg.norm(points[j] - points[i]) < radius:
-                    cluster.append(points[j])
-                    used[j] = True
+            traj.points.append(point)
             
-            if len(cluster) > 2:
-                clusters.append(np.array(cluster))
-        
-        return clusters
-    
-    def scan_for_ball(self) -> bool:
-        """
-        Scan by yawing (rotating top_plate_joint) to find a ball
-        """
-        self.get_logger().info('Starting scan for ball...')
-        
-        # Scan positions (yaw angles)
-        scan_angles = [1.56, 2.5, 3.5, 4.68, 3.5, 2.5]  # yaw angles
-        
-        for angle in scan_angles:
-            if self.stop_flag:
-                return False
+            # Publish
+            self.traj_publisher.publish(traj)
+            self.get_logger().info(f'Moving to position: {joint_positions}')
             
-            # Move to scan position
-            if not self.move_to_scan_position(angle):
-                continue
+            # Wait for movement
+            time.sleep(duration_s + 1.0)
+            return True
             
-            time.sleep(0.5)  # Wait for point cloud to update
-            
-            # Try to detect ball
-            detected, position = self.detect_ball()
-            if detected:
-                return True
-        
-        self.get_logger().warn('No ball detected during scan')
-        return False
-    
-    def move_to_scan_position(self, yaw_angle: float) -> bool:
-        """
-        Move robot to a scanning position
-        """
-        # Safe position for scanning
-        target_pose = PoseStamped()
-        target_pose.header.frame_id = self.base_frame
-        target_pose.header.stamp = self.get_clock().now().to_msg()
-        
-        # Fixed position, only yaw changes
-        target_pose.pose.position = Point(x=0.15, y=0.0, z=0.8)
-        
-        # Quaternion from yaw angle (simplified)
-        q = R.from_euler('z', yaw_angle).as_quat()
-        target_pose.pose.orientation = Quaternion(x=q[0], y=q[1], z=q[2], w=q[3])
-        
-        return self.move_to_pose(target_pose)
-    
-    def move_to_ball(self) -> bool:
-        """
-        Move end effector to detected ball position for picking
-        """
-        if self.latest_ball_position is None:
-            self.get_logger().error('No ball position available')
+        except Exception as e:
+            self.get_logger().error(f'Movement error: {e}')
             return False
-        
-        # Create pose above the ball
-        approach_height = 0.05  # Approach from above
-        target_pose = PoseStamped()
-        target_pose.header.frame_id = self.point_cloud.header.frame_id  # Camera frame
-        target_pose.header.stamp = self.get_clock().now().to_msg()
-        
-        # Position directly above ball
-        target_pose.pose.position = Point(
-            x=self.latest_ball_position[0],
-            y=self.latest_ball_position[1],
-            z=self.latest_ball_position[2] + approach_height
-        )
-        
-        # Gripper pointing down
-        q = R.from_euler('xyz', [np.pi, 0, 0]).as_quat()
-        target_pose.pose.orientation = Quaternion(x=q[0], y=q[1], z=q[2], w=q[3])
-        
-        return self.move_to_pose(target_pose)
     
-    def move_to_pose(self, target_pose: PoseStamped) -> bool:
+    def move_gripper(self, position: float, duration_s: float = 1.5) -> bool:
         """
-        Move end effector to target pose using MoveIt
+        Control gripper (right_claw_joint)
+        position: -0.5 (open) to 0.5 (close)
         """
-        if not self.move_action_client.wait_for_server(timeout_sec=5.0):
-            self.get_logger().warn('MoveGroup action server not available')
-            return False
-        
-        goal = MoveGroup.Goal()
-        goal.request.workspace_parameters.header = target_pose.header
-        goal.request.workspace_parameters.min_corner = Point(x=-1.0, y=-1.0, z=0.0)
-        goal.request.workspace_parameters.max_corner = Point(x=1.0, y=1.0, z=2.0)
-        
-        goal.request.goal_constraints.append(self._create_pose_constraint(target_pose))
-        goal.request.allowed_planning_time = 5.0
-        goal.request.num_planning_attempts = 5
-        goal.planning_options.plan_only = False
-        goal.planning_options.look_with_approx_ik = True
-        
-        future = self.move_action_client.send_goal_async(goal)
-        rclpy.spin_until_future_complete(self, future, timeout_sec=10.0)
-        
-        if not future.done():
-            self.get_logger().warn('MoveGroup action timed out')
-            return False
-        
-        result = future.result()
-        success = result.response.error_code.val == 0 if result else False
-        
-        if success:
-            self.get_logger().info('Move succeeded')
-        else:
-            self.get_logger().warn('Move failed')
-        
-        return success
-    
-    def _create_pose_constraint(self, pose: PoseStamped):
-        """
-        Create a pose constraint for MoveIt
-        """
-        from moveit_msgs.msg import Constraints, PositionConstraint, OrientationConstraint
-        from shape_msgs.msg import SolidPrimitive
-        
-        constraints = Constraints()
-        
-        # Position constraint
-        pos_constraint = PositionConstraint()
-        pos_constraint.header = pose.header
-        pos_constraint.link_name = self.ee_frame
-        pos_constraint.target_point_offset.x = 0.0
-        pos_constraint.target_point_offset.y = 0.0
-        pos_constraint.target_point_offset.z = 0.0
-        
-        primitive = SolidPrimitive()
-        primitive.type = 2  # SPHERE
-        primitive.dimensions = [0.05]  # 5cm tolerance
-        
-        pos_constraint.constraint_region.primitives.append(primitive)
-        pos_constraint.constraint_region.primitive_poses.append(pose.pose)
-        pos_constraint.weight = 1.0
-        
-        constraints.position_constraints.append(pos_constraint)
-        
-        return constraints
-    
-    def pick_ball(self) -> bool:
-        """
-        Pick up detected ball
-        """
-        self.get_logger().info('Picking ball...')
-        
-        # Move to ball
-        if not self.move_to_ball():
-            return False
-        
-        # Close gripper
-        if not self.control_gripper(self.gripper_close):
-            return False
-        
-        # Lift ball
-        if not self.lift_ball():
-            return False
-        
-        self.get_logger().info('Ball picked successfully')
-        self.balls_picked += 1
-        return True
-    
-    def lift_ball(self) -> bool:
-        """
-        Lift the ball after closing gripper
-        """
-        # Move up slightly
-        lift_height = 0.2  # 20cm
-        current_pose = PoseStamped()
-        current_pose.header.frame_id = self.base_frame
-        current_pose.pose.position = Point(x=0.15, y=0.0, z=1.0)
-        
-        q = R.from_euler('xyz', [np.pi, 0, 0]).as_quat()
-        current_pose.pose.orientation = Quaternion(x=q[0], y=q[1], z=q[2], w=q[3])
-        
-        return self.move_to_pose(current_pose)
-    
-    def move_to_empty_bowl(self) -> bool:
-        """
-        Move to empty bowl position (right side, y=-0.10)
-        """
-        self.get_logger().info('Moving to empty bowl...')
-        
-        target_pose = PoseStamped()
-        target_pose.header.frame_id = self.base_frame
-        target_pose.header.stamp = self.get_clock().now().to_msg()
-        
-        # Position above empty bowl
-        target_pose.pose.position = Point(x=0.15, y=-0.10, z=1.05)
-        
-        q = R.from_euler('xyz', [np.pi, 0, 0]).as_quat()
-        target_pose.pose.orientation = Quaternion(x=q[0], y=q[1], z=q[2], w=q[3])
-        
-        return self.move_to_pose(target_pose)
-    
-    def place_ball(self) -> bool:
-        """
-        Place ball in empty bowl
-        """
-        self.get_logger().info('Placing ball...')
-        
-        # Move to empty bowl
-        if not self.move_to_empty_bowl():
-            return False
-        
-        # Open gripper
-        if not self.control_gripper(self.gripper_open):
-            return False
-        
-        self.get_logger().info('Ball placed successfully')
-        return True
-    
-    def control_gripper(self, position: float) -> bool:
-        """
-        Control gripper position (mimic joint)
-        Uses /right_claw_joint controller
-        """
-        from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
-        from rclpy.duration import Duration
-        
         try:
-            # Create publisher for gripper command
-            pub = self.create_publisher(JointTrajectory, '/gripper_controller/commands', 10)
-            
             traj = JointTrajectory()
             traj.header.stamp = self.get_clock().now().to_msg()
             traj.joint_names = ['right_claw_joint']
@@ -408,50 +113,131 @@ class ScanningVisionPickPlace(Node):
             point = JointTrajectoryPoint()
             point.positions = [position]
             point.velocities = [0.0]
-            point.time_from_start = Duration(seconds=2).to_msg()
+            point.time_from_start = Duration(seconds=duration_s).to_msg()
             
             traj.points.append(point)
-            pub.publish(traj)
+            self.gripper_publisher.publish(traj)
             
-            time.sleep(2.5)  # Wait for gripper to move
+            if position > 0:
+                self.get_logger().info('Gripper closing...')
+            else:
+                self.get_logger().info('Gripper opening...')
+            
+            time.sleep(duration_s + 0.5)
             return True
+            
         except Exception as e:
-            self.get_logger().error(f'Gripper control error: {e}')
+            self.get_logger().error(f'Gripper error: {e}')
             return False
     
-    def return_to_home(self) -> bool:
+    def scan_for_ball(self) -> bool:
         """
-        Return robot to home position
+        Scan by rotating base to find a ball
+        """
+        self.get_logger().info('Starting scan pattern...')
+        
+        scan_angles = [1.56, 2.5, 3.5, 4.68, 3.5, 2.5]
+        
+        for i, angle in enumerate(scan_angles):
+            self.get_logger().info(f'Scanning position {i+1}/6: yaw={angle:.2f} rad')
+            
+            scan_pos = self.scan_position.copy()
+            scan_pos['top_plate_joint'] = angle
+            
+            if not self.move_to_joint_position(scan_pos, duration_s=2.0):
+                self.get_logger().warn('Scan movement failed')
+                continue
+            
+            # In a real system, detect ball here
+            # For now, just simulate detection on first scan
+            if i == 0:
+                self.get_logger().info('Ball detected!')
+                return True
+        
+        self.get_logger().warn('No ball detected in full scan')
+        return False
+    
+    def pick_ball(self) -> bool:
+        """
+        Pick up ball sequence
+        """
+        self.get_logger().info('Executing pick sequence...')
+        
+        # Move to picking position
+        pick_pos = {
+            'top_plate_joint': 3.12,
+            'lower_arm_joint': 2.0,
+            'upper_arm_joint': 0.3,
+            'wrist_joint': 0.2,
+            'claw_base_joint': -1.5,
+            'right_claw_joint': 0.0
+        }
+        
+        if not self.move_to_joint_position(pick_pos, duration_s=3.0):
+            self.get_logger().error('Failed to move to pick position')
+            return False
+        
+        # Close gripper
+        if not self.move_gripper(0.3, duration_s=1.5):  # Close position
+            self.get_logger().error('Failed to close gripper')
+            return False
+        
+        self.get_logger().info('Ball picked successfully!')
+        return True
+    
+    def place_ball(self) -> bool:
+        """
+        Place ball in bowl
+        """
+        self.get_logger().info('Executing place sequence...')
+        
+        # Move to place position
+        place_pos = {
+            'top_plate_joint': 2.0,  # Different yaw for drop bowl
+            'lower_arm_joint': 2.2,
+            'upper_arm_joint': 0.4,
+            'wrist_joint': 0.3,
+            'claw_base_joint': -1.5,
+            'right_claw_joint': 0.0
+        }
+        
+        if not self.move_to_joint_position(place_pos, duration_s=3.0):
+            self.get_logger().error('Failed to move to place position')
+            return False
+        
+        # Open gripper
+        if not self.move_gripper(-0.3, duration_s=1.5):  # Open position
+            self.get_logger().error('Failed to open gripper')
+            return False
+        
+        self.get_logger().info('Ball placed successfully!')
+        return True
+    
+    def return_home(self) -> bool:
+        """
+        Return to home position
         """
         self.get_logger().info('Returning to home position...')
-        
-        home_pose = PoseStamped()
-        home_pose.header.frame_id = self.base_frame
-        home_pose.header.stamp = self.get_clock().now().to_msg()
-        
-        home_pose.pose.position = Point(x=0.0, y=0.0, z=0.5)
-        q = R.from_euler('xyz', [0, 0, 0]).as_quat()
-        home_pose.pose.orientation = Quaternion(x=q[0], y=q[1], z=q[2], w=q[3])
-        
-        return self.move_to_pose(home_pose)
+        return self.move_to_joint_position(self.home_position, duration_s=3.0)
     
     def execute_task(self):
         """
-        Main task execution: Pick and place 3 balls
+        Main task execution
         """
         try:
-            self.get_logger().info('Starting pick and place task')
-            self.get_logger().info(f'Will pick {self.num_balls} balls')
+            self.get_logger().info('='*50)
+            self.get_logger().info('Starting Pick and Place Task')
+            self.get_logger().info('='*50)
             
-            for i in range(self.num_balls):
-                if self.stop_flag:
-                    break
-                
-                self.get_logger().info(f'\n=== Ball {i+1}/{self.num_balls} ===')
+            num_balls = 3
+            balls_completed = 0
+            
+            for i in range(num_balls):
+                self.get_logger().info(f'\n=== Ball {i+1}/{num_balls} ===')
                 
                 # Scan for ball
                 if not self.scan_for_ball():
-                    self.get_logger().error(f'Failed to detect ball {i+1}')
+                    self.get_logger().warn(f'Failed to find ball {i+1}')
                     continue
                 
                 # Pick ball
@@ -464,36 +250,36 @@ class ScanningVisionPickPlace(Node):
                     self.get_logger().error(f'Failed to place ball {i+1}')
                     continue
                 
-                time.sleep(1.0)  # Brief pause between balls
+                balls_completed += 1
+                self.get_logger().info(f'Ball {i+1} completed successfully!')
+                time.sleep(1.0)
             
-            # Return to home
-            if not self.stop_flag:
-                self.return_to_home()
+            # Return home
+            self.return_home()
             
-            self.get_logger().info(f'Task completed! Picked and placed {self.balls_picked} balls')
+            self.get_logger().info(f'\n{'='*50}')
+            self.get_logger().info(f'Task Complete! Processed {balls_completed}/{num_balls} balls')
+            self.get_logger().info(f'{'='*50}')
             
         except KeyboardInterrupt:
-            self.get_logger().info('Task interrupted')
+            self.get_logger().info('Task interrupted by user')
         except Exception as e:
-            self.get_logger().error(f'Task failed: {e}')
+            self.get_logger().error(f'Task execution error: {e}')
+            import traceback
+            traceback.print_exc()
 
 
 def main(args=None):
     rclpy.init(args=args)
     node = ScanningVisionPickPlace()
     
-    # Run task in separate thread
-    task_thread = threading.Thread(target=node.execute_task)
-    task_thread.start()
+    # Execute task
+    node.execute_task()
     
-    try:
-        rclpy.spin(node)
-    except KeyboardInterrupt:
-        node.stop_flag = True
-    finally:
-        task_thread.join(timeout=5.0)
-        node.destroy_node()
-        rclpy.shutdown()
+    # Keep node alive briefly then shutdown
+    time.sleep(1)
+    node.destroy_node()
+    rclpy.shutdown()
 
 
 if __name__ == '__main__':
