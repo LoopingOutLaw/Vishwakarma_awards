@@ -115,14 +115,15 @@ class ScanningVisionPickPlace(Node):
         self.get_logger().info("READY! Camera and joints initialized")
         
     def camera_callback(self, msg):
-        """Receive and display camera feed with overlays\"\"\""
+        """Receive and display camera feed with overlays"""
         try:
             self.current_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
             display_image = self.current_image.copy()
             
             # Draw detected ball if found
             if self.ball_detected_pos is not None:
-                x, y = int(self.ball_detected_pos[0]), int(self.ball_detected_pos[1])\n                cv2.circle(display_image, (x, y), 15, (0, 255, 0), 3)
+                x, y = int(self.ball_detected_pos[0]), int(self.ball_detected_pos[1])
+                cv2.circle(display_image, (x, y), 15, (0, 255, 0), 3)
                 cv2.putText(display_image, f'Ball ({x},{y})', (x-60, y-25),
                            cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
             
@@ -141,4 +142,299 @@ class ScanningVisionPickPlace(Node):
                        cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
             
             cv2.imshow('AkaBot Camera Feed - Real-Time Detection', display_image)
-            cv2.waitKey(1)\n            \n        except Exception as e:\n            self.get_logger().error(f\"Camera error: {e}\")\n    \n    def joint_state_callback(self, msg):\n        \"\"\"Track current joint positions\"\"\"\n        for name, position in zip(msg.name, msg.position):\n            self.current_joint_state[name] = position\n    \n    def detect_balls(self, image):\n        \"\"\"Detect red balls using HSV color segmentation\"\"\"\n        if image is None:\n            return []\n        \n        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)\n        \n        # Red in HSV at both ends\n        lower_red1 = np.array([0, 100, 100])\n        upper_red1 = np.array([10, 255, 255])\n        lower_red2 = np.array([170, 100, 100])\n        upper_red2 = np.array([180, 255, 255])\n        \n        mask1 = cv2.inRange(hsv, lower_red1, upper_red1)\n        mask2 = cv2.inRange(hsv, lower_red2, upper_red2)\n        mask = cv2.bitwise_or(mask1, mask2)\n        \n        # Morphology\n        kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))\n        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)\n        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)\n        \n        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)\n        \n        balls = []\n        for contour in contours:\n            area = cv2.contourArea(contour)\n            if area < 100 or area > 5000:\n                continue\n            \n            M = cv2.moments(contour)\n            if M['m00'] > 0:\n                cx = int(M['m10'] / M['m00'])\n                cy = int(M['m01'] / M['m00'])\n                balls.append({\n                    'position': (cx, cy),\n                    'area': area,\n                    'contour': contour\n                })\n        \n        return balls\n    \n    def detect_bowls(self, image):\n        \"\"\"Detect brown/yellow bowls\"\"\"\n        if image is None:\n            return []\n        \n        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)\n        mask = cv2.inRange(hsv, self.bowl_color_lower_hsv, self.bowl_color_upper_hsv)\n        \n        kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))\n        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)\n        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)\n        \n        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)\n        \n        bowls = []\n        for contour in contours:\n            area = cv2.contourArea(contour)\n            if area < 200 or area > 10000:\n                continue\n            \n            M = cv2.moments(contour)\n            if M['m00'] > 0:\n                cx = int(M['m10'] / M['m00'])\n                cy = int(M['m01'] / M['m00'])\n                bowls.append({\n                    'position': (cx, cy),\n                    'area': area,\n                    'contour': contour\n                })\n        \n        return bowls\n    \n    def move_arm(self, joint_positions, duration=3.0):\n        \"\"\"Publish arm trajectory to move to position\"\"\"\n        trajectory = JointTrajectory()\n        trajectory.header.stamp = self.get_clock().now().to_msg()\n        trajectory.joint_names = self.arm_joints\n        \n        point = JointTrajectoryPoint()\n        point.positions = [joint_positions.get(name, self.home_position[name])\n                          for name in self.arm_joints]\n        point.time_from_start.sec = int(duration)\n        point.time_from_start.nanosec = int((duration - int(duration)) * 1e9)\n        \n        trajectory.points = [point]\n        self.arm_pub.publish(trajectory)\n        \n        self.get_logger().info(f\"Arm moving...\")\n        time.sleep(duration + 0.5)\n    \n    def move_gripper(self, position, duration=1.0):\n        \"\"\"Control gripper\"\"\"\n        trajectory = JointTrajectory()\n        trajectory.header.stamp = self.get_clock().now().to_msg()\n        trajectory.joint_names = [self.gripper_joint]\n        \n        point = JointTrajectoryPoint()\n        point.positions = [position]\n        point.time_from_start.sec = int(duration)\n        point.time_from_start.nanosec = int((duration - int(duration)) * 1e9)\n        \n        trajectory.points = [point]\n        self.gripper_pub.publish(trajectory)\n        \n        status = \"CLOSING\" if position > 0 else \"OPENING\"\n        self.get_logger().info(f\"Gripper {status}\")\n        time.sleep(duration + 0.2)\n    \n    def scan_for_ball(self):\n        \"\"\"Scan by rotating base to find ball\"\"\"\n        self.get_logger().info(f\"\\nSCAN PATTERN: Looking for ball...\")\n        \n        for i, yaw in enumerate(self.scan_yaw_angles):\n            self.get_logger().info(f\"  Scan {i+1}/{len(self.scan_yaw_angles)}: yaw={yaw:.2f}rad\")\n            \n            scan_pos = self.home_position.copy()\n            scan_pos['top_plate_joint'] = yaw\n            self.move_arm(scan_pos, duration=1.5)\n            \n            time.sleep(0.3)\n            \n            if self.current_image is not None:\n                balls = self.detect_balls(self.current_image)\n                if balls:\n                    ball = max(balls, key=lambda x: x['area'])\n                    self.ball_detected_pos = ball['position']\n                    self.get_logger().info(f\"  ✓ Ball DETECTED at {self.ball_detected_pos}\")\n                    return True, yaw\n        \n        self.get_logger().warning(\"  ✗ No ball found\")\n        return False, None\n    \n    def scan_for_bowl(self):\n        \"\"\"Scan to find empty bowl\"\"\"\n        self.get_logger().info(f\"\\nSCAN PATTERN: Looking for bowl...\")\n        \n        for i, yaw in enumerate(self.scan_yaw_angles):\n            self.get_logger().info(f\"  Scan {i+1}/{len(self.scan_yaw_angles)}: yaw={yaw:.2f}rad\")\n            \n            scan_pos = self.home_position.copy()\n            scan_pos['top_plate_joint'] = yaw\n            self.move_arm(scan_pos, duration=1.5)\n            \n            time.sleep(0.3)\n            \n            if self.current_image is not None:\n                bowls = self.detect_bowls(self.current_image)\n                if bowls:\n                    bowl = max(bowls, key=lambda x: x['area'])\n                    self.bowl_detected_pos = bowl['position']\n                    self.get_logger().info(f\"  ✓ Bowl DETECTED at {self.bowl_detected_pos}\")\n                    return True, yaw\n        \n        self.get_logger().warning(\"  ✗ No bowl found\")\n        return False, None\n    \n    def pick_ball(self, yaw):\n        \"\"\"Execute pick sequence\"\"\"\n        self.get_logger().info(\"PICK SEQUENCE:\")\n        \n        # Move to picking position\n        pick_pos = {\n            'top_plate_joint': yaw,\n            'lower_arm_joint': 0.5,\n            'upper_arm_joint': 1.2,\n            'wrist_joint': -1.2,\n            'claw_base_joint': 0.2\n        }\n        self.get_logger().info(\"  Moving to ball...\")\n        self.move_arm(pick_pos, duration=2.0)\n        \n        # Close gripper\n        self.get_logger().info(\"  Closing gripper...\")\n        self.move_gripper(0.3, duration=1.0)\n        \n        # Lift\n        lift_pos = pick_pos.copy()\n        lift_pos['upper_arm_joint'] = 1.8\n        self.get_logger().info(\"  Lifting ball...\")\n        self.move_arm(lift_pos, duration=2.0)\n        \n        self.get_logger().info(\"  ✓ BALL PICKED\")\n        return True\n    \n    def place_ball(self, yaw):\n        \"\"\"Execute place sequence\"\"\"\n        self.get_logger().info(\"PLACE SEQUENCE:\")\n        \n        # Move to place position\n        place_pos = {\n            'top_plate_joint': yaw,\n            'lower_arm_joint': 0.4,\n            'upper_arm_joint': 1.3,\n            'wrist_joint': -1.3,\n            'claw_base_joint': 0.2\n        }\n        self.get_logger().info(\"  Moving to bowl...\")\n        self.move_arm(place_pos, duration=2.0)\n        \n        # Open gripper\n        self.get_logger().info(\"  Opening gripper...\")\n        self.move_gripper(-0.3, duration=1.0)\n        \n        # Retract\n        retract_pos = place_pos.copy()\n        retract_pos['upper_arm_joint'] = 1.8\n        self.get_logger().info(\"  Retracting...\")\n        self.move_arm(retract_pos, duration=2.0)\n        \n        self.get_logger().info(\"  ✓ BALL PLACED\")\n        return True\n    \n    def execute_task(self):\n        \"\"\"Execute full automated task\"\"\"\n        self.get_logger().info(\"\\n\" + \"#\"*60)\n        self.get_logger().info(\"# STARTING AUTOMATED TASK\")\n        self.get_logger().info(\"#\"*60)\n        \n        num_balls = 3\n        success_count = 0\n        \n        for ball_num in range(1, num_balls + 1):\n            self.get_logger().info(f\"\\n{'-'*60}\")\n            self.get_logger().info(f\"BALL {ball_num}/{num_balls}\")\n            self.get_logger().info(f\"{'-'*60}\")\n            \n            # Scan and detect ball\n            found, yaw = self.scan_for_ball()\n            if not found:\n                self.get_logger().warning(f\"Skipping ball {ball_num}\")\n                continue\n            \n            # Pick ball\n            if not self.pick_ball(yaw):\n                self.get_logger().warning(f\"Pick failed for ball {ball_num}\")\n                continue\n            \n            # Scan and detect bowl\n            found, yaw = self.scan_for_bowl()\n            if not found:\n                self.get_logger().warning(f\"No bowl found for ball {ball_num}\")\n                continue\n            \n            # Place ball\n            if not self.place_ball(yaw):\n                self.get_logger().warning(f\"Place failed for ball {ball_num}\")\n                continue\n            \n            success_count += 1\n            self.get_logger().info(f\"✓ BALL {ball_num} COMPLETE\")\n            time.sleep(1)\n        \n        # Return home\n        self.get_logger().info(f\"\\nReturning to HOME...\")\n        self.move_arm(self.home_position, duration=2.0)\n        \n        self.get_logger().info(\"\\n\" + \"#\"*60)\n        self.get_logger().info(f\"# TASK COMPLETE: {success_count}/{num_balls} balls\")\n        self.get_logger().info(\"#\"*60)\n\n\ndef main(args=None):\n    rclpy.init(args=args)\n    \n    node = ScanningVisionPickPlace()\n    executor = MultiThreadedExecutor(num_threads=4)\n    executor.add_node(node)\n    \n    # Run task in separate thread\n    task_thread = threading.Thread(target=node.execute_task, daemon=True)\n    task_thread.start()\n    \n    try:\n        executor.spin()\n    except KeyboardInterrupt:\n        node.get_logger().info(\"Shutting down...\")\n    finally:\n        cv2.destroyAllWindows()\n        node.destroy_node()\n        rclpy.shutdown()\n\n\nif __name__ == '__main__':\n    main()\n
+            cv2.waitKey(1)
+            
+        except Exception as e:
+            self.get_logger().error(f"Camera error: {e}")
+    
+    def joint_state_callback(self, msg):
+        """Track current joint positions"""
+        for name, position in zip(msg.name, msg.position):
+            self.current_joint_state[name] = position
+    
+    def detect_balls(self, image):
+        """Detect red balls using HSV color segmentation"""
+        if image is None:
+            return []
+        
+        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        
+        # Red in HSV at both ends
+        lower_red1 = np.array([0, 100, 100])
+        upper_red1 = np.array([10, 255, 255])
+        lower_red2 = np.array([170, 100, 100])
+        upper_red2 = np.array([180, 255, 255])
+        
+        mask1 = cv2.inRange(hsv, lower_red1, upper_red1)
+        mask2 = cv2.inRange(hsv, lower_red2, upper_red2)
+        mask = cv2.bitwise_or(mask1, mask2)
+        
+        # Morphology
+        kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+        
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        balls = []
+        for contour in contours:
+            area = cv2.contourArea(contour)
+            if area < 100 or area > 5000:
+                continue
+            
+            M = cv2.moments(contour)
+            if M['m00'] > 0:
+                cx = int(M['m10'] / M['m00'])
+                cy = int(M['m01'] / M['m00'])
+                balls.append({
+                    'position': (cx, cy),
+                    'area': area,
+                    'contour': contour
+                })
+        
+        return balls
+    
+    def detect_bowls(self, image):
+        """Detect brown/yellow bowls"""
+        if image is None:
+            return []
+        
+        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        mask = cv2.inRange(hsv, self.bowl_color_lower_hsv, self.bowl_color_upper_hsv)
+        
+        kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))
+        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+        
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        bowls = []
+        for contour in contours:
+            area = cv2.contourArea(contour)
+            if area < 200 or area > 10000:
+                continue
+            
+            M = cv2.moments(contour)
+            if M['m00'] > 0:
+                cx = int(M['m10'] / M['m00'])
+                cy = int(M['m01'] / M['m00'])
+                bowls.append({
+                    'position': (cx, cy),
+                    'area': area,
+                    'contour': contour
+                })
+        
+        return bowls
+    
+    def move_arm(self, joint_positions, duration=3.0):
+        """Publish arm trajectory to move to position"""
+        trajectory = JointTrajectory()
+        trajectory.header.stamp = self.get_clock().now().to_msg()
+        trajectory.joint_names = self.arm_joints
+        
+        point = JointTrajectoryPoint()
+        point.positions = [joint_positions.get(name, self.home_position[name])
+                          for name in self.arm_joints]
+        point.time_from_start.sec = int(duration)
+        point.time_from_start.nanosec = int((duration - int(duration)) * 1e9)
+        
+        trajectory.points = [point]
+        self.arm_pub.publish(trajectory)
+        
+        self.get_logger().info(f"Arm moving...")
+        time.sleep(duration + 0.5)
+    
+    def move_gripper(self, position, duration=1.0):
+        """Control gripper"""
+        trajectory = JointTrajectory()
+        trajectory.header.stamp = self.get_clock().now().to_msg()
+        trajectory.joint_names = [self.gripper_joint]
+        
+        point = JointTrajectoryPoint()
+        point.positions = [position]
+        point.time_from_start.sec = int(duration)
+        point.time_from_start.nanosec = int((duration - int(duration)) * 1e9)
+        
+        trajectory.points = [point]
+        self.gripper_pub.publish(trajectory)
+        
+        status = "CLOSING" if position > 0 else "OPENING"
+        self.get_logger().info(f"Gripper {status}")
+        time.sleep(duration + 0.2)
+    
+    def scan_for_ball(self):
+        """Scan by rotating base to find ball"""
+        self.get_logger().info(f"\nSCAN PATTERN: Looking for ball...")
+        
+        for i, yaw in enumerate(self.scan_yaw_angles):
+            self.get_logger().info(f"  Scan {i+1}/{len(self.scan_yaw_angles)}: yaw={yaw:.2f}rad")
+            
+            scan_pos = self.home_position.copy()
+            scan_pos['top_plate_joint'] = yaw
+            self.move_arm(scan_pos, duration=1.5)
+            
+            time.sleep(0.3)
+            
+            if self.current_image is not None:
+                balls = self.detect_balls(self.current_image)
+                if balls:
+                    ball = max(balls, key=lambda x: x['area'])
+                    self.ball_detected_pos = ball['position']
+                    self.get_logger().info(f"  ✓ Ball DETECTED at {self.ball_detected_pos}")
+                    return True, yaw
+        
+        self.get_logger().warning("  ✗ No ball found")
+        return False, None
+    
+    def scan_for_bowl(self):
+        """Scan to find empty bowl"""
+        self.get_logger().info(f"\nSCAN PATTERN: Looking for bowl...")
+        
+        for i, yaw in enumerate(self.scan_yaw_angles):
+            self.get_logger().info(f"  Scan {i+1}/{len(self.scan_yaw_angles)}: yaw={yaw:.2f}rad")
+            
+            scan_pos = self.home_position.copy()
+            scan_pos['top_plate_joint'] = yaw
+            self.move_arm(scan_pos, duration=1.5)
+            
+            time.sleep(0.3)
+            
+            if self.current_image is not None:
+                bowls = self.detect_bowls(self.current_image)
+                if bowls:
+                    bowl = max(bowls, key=lambda x: x['area'])
+                    self.bowl_detected_pos = bowl['position']
+                    self.get_logger().info(f"  ✓ Bowl DETECTED at {self.bowl_detected_pos}")
+                    return True, yaw
+        
+        self.get_logger().warning("  ✗ No bowl found")
+        return False, None
+    
+    def pick_ball(self, yaw):
+        """Execute pick sequence"""
+        self.get_logger().info("PICK SEQUENCE:")
+        
+        # Move to picking position
+        pick_pos = {
+            'top_plate_joint': yaw,
+            'lower_arm_joint': 0.5,
+            'upper_arm_joint': 1.2,
+            'wrist_joint': -1.2,
+            'claw_base_joint': 0.2
+        }
+        self.get_logger().info("  Moving to ball...")
+        self.move_arm(pick_pos, duration=2.0)
+        
+        # Close gripper
+        self.get_logger().info("  Closing gripper...")
+        self.move_gripper(0.3, duration=1.0)
+        
+        # Lift
+        lift_pos = pick_pos.copy()
+        lift_pos['upper_arm_joint'] = 1.8
+        self.get_logger().info("  Lifting ball...")
+        self.move_arm(lift_pos, duration=2.0)
+        
+        self.get_logger().info("  ✓ BALL PICKED")
+        return True
+    
+    def place_ball(self, yaw):
+        """Execute place sequence"""
+        self.get_logger().info("PLACE SEQUENCE:")
+        
+        # Move to place position
+        place_pos = {
+            'top_plate_joint': yaw,
+            'lower_arm_joint': 0.4,
+            'upper_arm_joint': 1.3,
+            'wrist_joint': -1.3,
+            'claw_base_joint': 0.2
+        }
+        self.get_logger().info("  Moving to bowl...")
+        self.move_arm(place_pos, duration=2.0)
+        
+        # Open gripper
+        self.get_logger().info("  Opening gripper...")
+        self.move_gripper(-0.3, duration=1.0)
+        
+        # Retract
+        retract_pos = place_pos.copy()
+        retract_pos['upper_arm_joint'] = 1.8
+        self.get_logger().info("  Retracting...")
+        self.move_arm(retract_pos, duration=2.0)
+        
+        self.get_logger().info("  ✓ BALL PLACED")
+        return True
+    
+    def execute_task(self):
+        """Execute full automated task"""
+        self.get_logger().info("\n" + "#"*60)
+        self.get_logger().info("# STARTING AUTOMATED TASK")
+        self.get_logger().info("#"*60)
+        
+        num_balls = 3
+        success_count = 0
+        
+        for ball_num in range(1, num_balls + 1):
+            self.get_logger().info(f"\n{'-'*60}")
+            self.get_logger().info(f"BALL {ball_num}/{num_balls}")
+            self.get_logger().info(f"{'-'*60}")
+            
+            # Scan and detect ball
+            found, yaw = self.scan_for_ball()
+            if not found:
+                self.get_logger().warning(f"Skipping ball {ball_num}")
+                continue
+            
+            # Pick ball
+            if not self.pick_ball(yaw):
+                self.get_logger().warning(f"Pick failed for ball {ball_num}")
+                continue
+            
+            # Scan and detect bowl
+            found, yaw = self.scan_for_bowl()
+            if not found:
+                self.get_logger().warning(f"No bowl found for ball {ball_num}")
+                continue
+            
+            # Place ball
+            if not self.place_ball(yaw):
+                self.get_logger().warning(f"Place failed for ball {ball_num}")
+                continue
+            
+            success_count += 1
+            self.get_logger().info(f"✓ BALL {ball_num} COMPLETE")
+            time.sleep(1)
+        
+        # Return home
+        self.get_logger().info(f"\nReturning to HOME...")
+        self.move_arm(self.home_position, duration=2.0)
+        
+        self.get_logger().info("\n" + "#"*60)
+        self.get_logger().info(f"# TASK COMPLETE: {success_count}/{num_balls} balls")
+        self.get_logger().info("#"*60)
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    
+    node = ScanningVisionPickPlace()
+    executor = MultiThreadedExecutor(num_threads=4)
+    executor.add_node(node)
+    
+    # Run task in separate thread
+    task_thread = threading.Thread(target=node.execute_task, daemon=True)
+    task_thread.start()
+    
+    try:
+        executor.spin()
+    except KeyboardInterrupt:
+        node.get_logger().info("Shutting down...")
+    finally:
+        cv2.destroyAllWindows()
+        node.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
