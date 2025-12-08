@@ -1,3 +1,4 @@
+/home/harshit/arm_vla_ws/install/akabot_gazebo/share/akabot_gazebo/config/remind.yaml
 /home/harshit/arm_vla_ws/install/akabot_gazebo/share/akabot_gazebo/config/akabot_bridge.yaml
 /home/harshit/arm_vla_ws/install/akabot_gazebo/share/akabot_gazebo/launch/gz_launch.py
 /home/harshit/arm_vla_ws/install/akabot_gazebo/share/akabot_gazebo/worlds/pick_and_place_balls.world

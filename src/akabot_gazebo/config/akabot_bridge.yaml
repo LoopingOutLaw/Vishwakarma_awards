@@ -1,49 +1,23 @@
-# gz topic published by the simulator core
 - ros_topic_name: "clock"
   gz_topic_name: "clock"
   ros_type_name: "rosgraph_msgs/msg/Clock"
   gz_type_name: "gz.msgs.Clock"
   direction: GZ_TO_ROS
 
-# gz topic published by Sensors plugin
 - ros_topic_name: "scan"
   gz_topic_name: "scan"
   ros_type_name: "sensor_msgs/msg/LaserScan"
   gz_type_name: "gz.msgs.LaserScan"
   direction: GZ_TO_ROS
 
-# Bridge for Camera Info (for the RGB image)
-# - ros_topic_name: "/camera/camera_info"
-#   gz_topic_name: "/camera/camera_info"
-#   ros_type_name: "sensor_msgs/msg/CameraInfo"
-#   gz_type_name: "gz.msgs.CameraInfo"
-#   direction: "GZ_TO_ROS"
-
-
-# Bridge for Camera Info (for the RGB image)
 - ros_topic_name: "/tf_camera/camera_info"
   gz_topic_name: "/tf_camera/camera_info"
   ros_type_name: "sensor_msgs/msg/CameraInfo"
   gz_type_name: "gz.msgs.CameraInfo"
-  direction: "GZ_TO_ROS"
+  direction: GZ_TO_ROS
 
-# Bridge for the Depth Image
-# - ros_topic_name: "/camera/depth/image_raw"
-#   gz_topic_name: "/camera/depth_image"
-#   ros_type_name: "sensor_msgs/msg/Image"
-#   gz_type_name: "gz.msgs.Image"
-#   direction: "GZ_TO_ROS"
-
-# # Bridge for the Depth Camera Info
-# - ros_topic_name: "/camera/depth/camera_info"
-#   gz_topic_name: "/camera/depth_image/camera_info"
-#   ros_type_name: "sensor_msgs/msg/CameraInfo"
-#   gz_type_name: "gz.msgs.CameraInfo"
-#   direction: "GZ_TO_ROS"
-
-# Bridge for the Point Cloud (Optional, but very useful)
-# - ros_topic_name: "/camera/points"
-#   gz_topic_name: "/camera/points"
-#   ros_type_name: "sensor_msgs/msg/PointCloud2"
-#   gz_type_name: "gz.msgs.PointCloudPacked"
-#   direction: "GZ_TO_ROS"
+- ros_topic_name: "/ee_camera/camera_info"
+  gz_topic_name: "/ee_camera/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+  direction: GZ_TO_ROS

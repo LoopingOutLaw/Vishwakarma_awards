@@ -6,6 +6,7 @@
 /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/interactive_control.py
 /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/vision_pick_place.py
 /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/scanning_vision_pick_place.py
+/home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/dual_camera_picker.py
 /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/__pycache__/__init__.cpython-310.pyc
 /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/__pycache__/simple_ball_detector.cpython-310.pyc
 /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/__pycache__/publish_tf.cpython-310.pyc
@@ -14,10 +15,12 @@
 /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/__pycache__/interactive_control.cpython-310.pyc
 /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/__pycache__/vision_pick_place.cpython-310.pyc
 /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/__pycache__/scanning_vision_pick_place.cpython-310.pyc
+/home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control/__pycache__/dual_camera_picker.cpython-310.pyc
 /home/harshit/arm_vla_ws/install/akabot_control/share/ament_index/resource_index/packages/akabot_control
 /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/package.xml
 /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch/vision_pick_place.launch.py
 /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch/control.launch.py
+/home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch/final_arm.launch.py
 /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch/dual_camera.launch.py
 /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch/scanning_vision_pick_place.launch.py
 /home/harshit/arm_vla_ws/install/akabot_control/share/akabot_control/launch/gazebo_control.launch.py
@@ -34,6 +37,7 @@
 /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control-1.0.0-py3.10.egg-info/dependency_links.txt
 /home/harshit/arm_vla_ws/install/akabot_control/lib/python3.10/site-packages/akabot_control-1.0.0-py3.10.egg-info/top_level.txt
 /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control/akabot_controller
+/home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control/dual_camera_picker
 /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control/interactive_control
 /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control/publish_tf
 /home/harshit/arm_vla_ws/install/akabot_control/lib/akabot_control/scanning_vision_pick_place

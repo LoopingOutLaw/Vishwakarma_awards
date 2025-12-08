@@ -41,6 +41,7 @@ setup(
             'test_ee_camera = akabot_control.test_ee_camera:main',
             'simple_ball_detector = akabot_control.simple_ball_detector:main',
             'publish_tf = akabot_control.publish_tf:main',
+            'dual_camera_picker = akabot_control.dual_camera_picker:main',
         ],
     },
 )

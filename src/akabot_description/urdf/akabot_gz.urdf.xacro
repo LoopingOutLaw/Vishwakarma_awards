@@ -6,10 +6,10 @@
     
     <!-- <xacro:include filename="$(find akabot_description)/urdf/depth_camera.xacro"/> -->
 
-    <xacro:akabot_ros2_control name="IgnitionSystem" plugin_name="ign_ros2_control/IgnitionSystem"/>
+    <xacro:akabot_ros2_control name="GazeboSimSystem" plugin_name="gz_ros2_control/GazeboSimSystem"/>
 
     <gazebo>
-      <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+      <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
         <parameters>$(find akabot_bringup)/config/ros2_controllers.yaml</parameters>
       </plugin>
     </gazebo>

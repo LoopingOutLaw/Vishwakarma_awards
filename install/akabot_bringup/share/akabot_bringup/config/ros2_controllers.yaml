@@ -1,4 +1,3 @@
-# This config file is used by ros2_control
 controller_manager:
   ros__parameters:
     update_rate: 100  # Hz
@@ -6,8 +5,9 @@ controller_manager:
     akabot_arm_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
+    # CHANGE TYPE HERE
     hand_controller:
-      type: position_controllers/GripperActionController
+      type: joint_trajectory_controller/JointTrajectoryController
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -28,6 +28,16 @@ akabot_arm_controller:
       - position
       - velocity
 
+# UPDATE HAND CONTROLLER PARAMETERS
 hand_controller:
   ros__parameters:
-    joint: right_claw_joint
+    joints:
+      - right_claw_joint
+      - left_claw_joint
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity

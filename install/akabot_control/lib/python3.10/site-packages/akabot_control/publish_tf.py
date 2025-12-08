@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Ball TF Publisher Node
+Ball & Plate TF Publisher Node
 1. Detects white balls on a blue plate.
-2. Converts 2D pixels to 3D world coordinates.
-3. Publishes coordinate transforms (TF) for each ball.
+2. Detects a pink target plate.
+3. Converts 2D pixels to 3D world coordinates.
+4. Publishes coordinate transforms (TF) for each object.
 """
 
 import rclpy
@@ -48,10 +49,9 @@ class BallTFPublisher(Node):
         self.start_time = self.get_clock().now()
         self.warmup_duration = 5.0
         
-        # --- CRITICAL FIX: RELATIVE HEIGHT ---
-        # Gazebo Ball Z (1.06) - Gazebo Robot Z (1.05) = 0.01m
-        # The ball is roughly at the same height as the robot base.
-        self.ball_z_height = 0.01
+        # Heights relative to base_link (z=0)
+        self.ball_z_height = 0.015
+        self.plate_z_height = 0.01
         
         self.get_logger().info(f'Ball TF Publisher initialized. Waiting {self.warmup_duration}s for sim stability...')
 
@@ -66,29 +66,78 @@ class BallTFPublisher(Node):
 
         try:
             cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+            
+            # 1. Detect Balls (White on Blue)
             processed_img, balls_2d = self.detect_balls_on_plate(cv_image)
             
-            # Sort balls by X-coordinate
-            balls_2d.sort(key=lambda b: b[0])
+            # 2. Detect Pink Plate
+            processed_img, pink_plate_center = self.detect_pink_plate(processed_img)
             
+            # 3. Publish Transforms
             if self.camera_model is not None:
+                # Sort balls by X-coordinate to maintain order
+                balls_2d.sort(key=lambda b: b[0])
+                
+                # Publish Balls
                 for i, (u, v, radius) in enumerate(balls_2d):
-                    self.publish_transform(u, v, i, msg.header)
+                    # Uses ball height
+                    self.publish_transform(u, v, self.ball_z_height, f'ball_{i}', msg.header)
+                
+                # Publish Pink Plate
+                if pink_plate_center is not None:
+                    pu, pv = pink_plate_center
+                    # Uses plate height
+                    self.publish_transform(pu, pv, self.plate_z_height, 'pink_plate', msg.header)
             else:
                 self.get_logger().warn('Waiting for Camera Info...', throttle_duration_sec=2.0)
 
             # Visualization
-            cv2.imshow("Ball TF Publisher", processed_img)
+            cv2.imshow("Ball & Plate TF Publisher", processed_img)
             cv2.waitKey(1)
             
         except Exception as e:
             self.get_logger().error(f'CV Error: {str(e)}')
 
+    def detect_pink_plate(self, image):
+        """Detects the pink plate using HSV ranges."""
+        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        
+        # Two ranges for Red/Pink/Purple to handle wrap-around
+        lower1 = np.array([130, 20, 20])
+        upper1 = np.array([180, 255, 255])
+        lower2 = np.array([0, 20, 20])
+        upper2 = np.array([10, 255, 255])
+        
+        mask1 = cv2.inRange(hsv, lower1, upper1)
+        mask2 = cv2.inRange(hsv, lower2, upper2)
+        mask_plate = mask1 + mask2
+        
+        # Clean up noise
+        kernel = np.ones((5, 5), np.uint8)
+        mask_plate = cv2.morphologyEx(mask_plate, cv2.MORPH_OPEN, kernel)
+        
+        contours, _ = cv2.findContours(mask_plate, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        plate_center = None
+        if contours:
+            # Assume largest pink blob is the plate
+            c = max(contours, key=cv2.contourArea)
+            if cv2.contourArea(c) > 50:
+                ((x, y), r) = cv2.minEnclosingCircle(c)
+                plate_center = (int(x), int(y))
+                
+                # Visualization
+                cv2.circle(image, plate_center, int(r), (255, 0, 255), 2)
+                cv2.putText(image, "Pink Plate", (int(x)-20, int(y)-10), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 255), 2)
+                           
+        return image, plate_center
+
     def detect_balls_on_plate(self, image):
         detected_balls = [] 
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
         
-        # --- Step A: Find Blue Plate ---
+        # --- Step A: Find Blue Plate (Base) ---
         lower_blue = np.array([100, 50, 50])
         upper_blue = np.array([140, 255, 255])
         mask_plate = cv2.inRange(hsv, lower_blue, upper_blue)
@@ -104,7 +153,7 @@ class BallTFPublisher(Node):
             largest_plate_contour = max(plate_contours, key=cv2.contourArea)
             cv2.drawContours(image, [largest_plate_contour], -1, (255, 0, 0), 2) 
 
-        # --- Step B: Find White Objects ---
+        # --- Step B: Find White Objects (Balls) ---
         lower_white = np.array([0, 0, 200])
         upper_white = np.array([180, 50, 255])
         mask_white = cv2.inRange(hsv, lower_white, upper_white)
@@ -119,6 +168,7 @@ class BallTFPublisher(Node):
                     ((x, y), radius) = cv2.minEnclosingCircle(contour)
                     center = (int(x), int(y))
                     
+                    # Check if ball is inside/near the blue plate
                     dist = cv2.pointPolygonTest(largest_plate_contour, center, False)
                     if dist >= 0:
                         perimeter = cv2.arcLength(contour, True)
@@ -134,7 +184,8 @@ class BallTFPublisher(Node):
 
         return image, detected_balls
 
-    def publish_transform(self, u, v, ball_id, header):
+    # UPDATED: Now generic, taking height and frame name
+    def publish_transform(self, u, v, z_height, child_frame, header):
         # 1. Camera Intrinsics
         k = self.camera_model.k
         fx, fy = k[0], k[4]
@@ -147,9 +198,8 @@ class BallTFPublisher(Node):
         ray_camera = np.array([ray_x, ray_y, ray_z])
 
         # 3. Get Camera Pose
-        # We use base_link so the coordinates are relative to the robot base (which is at 0,0,0 in TF)
         target_frame = 'base_link' 
-        source_frame = 'tf_camera_optical_link' # Manual override for Gazebo frame name
+        source_frame = 'tf_camera_optical_link' 
         
         try:
             trans = self.tf_buffer.lookup_transform(target_frame, source_frame, rclpy.time.Time())
@@ -157,7 +207,7 @@ class BallTFPublisher(Node):
             # Position
             t_vec = np.array([trans.transform.translation.x, trans.transform.translation.y, trans.transform.translation.z])
             
-            # Rotation
+            # Rotation (Quaternion to Rotation Matrix)
             q = trans.transform.rotation
             q_w, q_x, q_y, q_z = q.w, q.x, q.y, q.z
             R_mat = np.array([
@@ -172,12 +222,10 @@ class BallTFPublisher(Node):
             # 5. Ray-Plane Intersection
             if abs(ray_world[2]) < 1e-6: return 
             
-            # Now calculating using relative height (0.01) vs camera relative height (~0.8)
-            alpha = (self.ball_z_height - t_vec[2]) / ray_world[2]
+            # Calculate intersection with the specific Z plane
+            alpha = (z_height - t_vec[2]) / ray_world[2]
             
-            # Check: Camera (~0.8) > Ball (0.01). Ray Z is negative.
-            # (0.01 - 0.8) / (-) = (+) --> This should now pass!
-            if alpha < 0: return 
+            if alpha < 0: return # Target is behind camera
             
             intersection = t_vec + (alpha * ray_world)
             
@@ -185,7 +233,7 @@ class BallTFPublisher(Node):
             t = TransformStamped()
             t.header.stamp = self.get_clock().now().to_msg()
             t.header.frame_id = target_frame
-            t.child_frame_id = f'ball_{ball_id}'
+            t.child_frame_id = child_frame
             
             t.transform.translation.x = intersection[0]
             t.transform.translation.y = intersection[1]

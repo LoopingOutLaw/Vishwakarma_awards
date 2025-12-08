@@ -17,6 +17,7 @@
 /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/config/kinematics.yaml
 /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/config/moveit_controllers.yaml
 /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/config/ompl_planning.yaml
+/home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/config/akabot.srdf
 /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/launch/demo.launch.py
 /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/launch/moveit_rviz.launch.py
 /home/harshit/arm_vla_ws/install/akabot_moveit_config/share/akabot_moveit_config/rviz/moveit.rviz

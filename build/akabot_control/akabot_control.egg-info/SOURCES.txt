@@ -10,6 +10,7 @@ setup.py
 ../../build/akabot_control/akabot_control.egg-info/zip-safe
 akabot_control/__init__.py
 akabot_control/akabot_controller.py
+akabot_control/dual_camera_picker.py
 akabot_control/interactive_control.py
 akabot_control/publish_tf.py
 akabot_control/scanning_vision_pick_place.py
@@ -20,6 +21,7 @@ config/controller_params.yaml
 launch/control.launch.py
 launch/demo.launch.py
 launch/dual_camera.launch.py
+launch/final_arm.launch.py
 launch/gazebo_control.launch.py
 launch/scanning_vision_pick_place.launch.py
 launch/system.launch.py
