@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-AkaBot Scanning Vision Pick and Place System
-Complete working implementation with camera feed, ball detection, and placing
+AkaBot Scanning Vision Pick and Place System - FIXED
+Uses correct trajectory controller publishers and working motion commands
 """
 
 import rclpy
@@ -18,6 +18,7 @@ import time
 from sensor_msgs.msg import Image, JointState
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from cv_bridge import CvBridge
+from rclpy.duration import Duration
 
 
 class ScanningVisionPickPlace(Node):
@@ -41,16 +42,16 @@ class ScanningVisionPickPlace(Node):
         self.get_logger().info("AkaBot Scanning Vision Pick and Place System")
         self.get_logger().info("="*60)
         
-        # Publishers for robot control
+        # Publishers for robot control - FIXED to use correct topic names
         self.arm_pub = self.create_publisher(
             JointTrajectory,
-            '/akabot_arm_controller/follow_joint_trajectory',
+            '/akabot_arm_controller/commands',  # FIXED: use commands, not follow_joint_trajectory
             10,
             callback_group=self.control_group
         )
         self.gripper_pub = self.create_publisher(
             JointTrajectory,
-            '/hand_controller/follow_joint_trajectory',
+            '/hand_controller/commands',  # FIXED: use commands, not follow_joint_trajectory
             10,
             callback_group=self.control_group
         )
@@ -89,14 +90,14 @@ class ScanningVisionPickPlace(Node):
         ]
         self.gripper_joint = 'right_claw_joint'
         
-        # Home position
+        # Home position - FIXED to match actual URDF joint limits
         self.home_position = {
-            'top_plate_joint': 3.12,
-            'lower_arm_joint': 0.0,
-            'upper_arm_joint': 1.7,
-            'wrist_joint': -1.7,
-            'claw_base_joint': 0.0,
-            'right_claw_joint': 0.0
+            'top_plate_joint': 3.12,    # Within [1.56, 4.68]
+            'lower_arm_joint': 0.5,     # Within [0.0, 3.12]
+            'upper_arm_joint': 0.0,     # Within [-1.7, 1.7]
+            'wrist_joint': 0.0,         # Within [-1.7, 1.7]
+            'claw_base_joint': 0.0,     # Within [-3.17, 0.0]
+            'right_claw_joint': 0.0     # Within [-0.5, 0.0]
         }
         
         # Scanning yaw angles for 360 coverage
@@ -227,7 +228,7 @@ class ScanningVisionPickPlace(Node):
         return bowls
     
     def move_arm(self, joint_positions, duration=3.0):
-        """Publish arm trajectory to move to position"""
+        """Publish arm trajectory to move to position - FIXED"""
         trajectory = JointTrajectory()
         trajectory.header.stamp = self.get_clock().now().to_msg()
         trajectory.joint_names = self.arm_joints
@@ -235,30 +236,30 @@ class ScanningVisionPickPlace(Node):
         point = JointTrajectoryPoint()
         point.positions = [joint_positions.get(name, self.home_position[name])
                           for name in self.arm_joints]
-        point.time_from_start.sec = int(duration)
-        point.time_from_start.nanosec = int((duration - int(duration)) * 1e9)
+        # FIXED: Use Duration instead of manual sec/nanosec
+        point.time_from_start = Duration(seconds=duration).to_msg()
         
         trajectory.points = [point]
         self.arm_pub.publish(trajectory)
         
-        self.get_logger().info(f"Arm moving...")
+        self.get_logger().info(f"Arm moving for {duration}s...")
         time.sleep(duration + 0.5)
     
     def move_gripper(self, position, duration=1.0):
-        """Control gripper"""
+        """Control gripper - FIXED"""
         trajectory = JointTrajectory()
         trajectory.header.stamp = self.get_clock().now().to_msg()
         trajectory.joint_names = [self.gripper_joint]
         
         point = JointTrajectoryPoint()
         point.positions = [position]
-        point.time_from_start.sec = int(duration)
-        point.time_from_start.nanosec = int((duration - int(duration)) * 1e9)
+        # FIXED: Use Duration instead of manual sec/nanosec
+        point.time_from_start = Duration(seconds=duration).to_msg()
         
         trajectory.points = [point]
         self.gripper_pub.publish(trajectory)
         
-        status = "CLOSING" if position > 0 else "OPENING"
+        status = "CLOSING" if position < 0 else "OPENING"
         self.get_logger().info(f"Gripper {status}")
         time.sleep(duration + 0.2)
     
@@ -311,27 +312,27 @@ class ScanningVisionPickPlace(Node):
         return False, None
     
     def pick_ball(self, yaw):
-        """Execute pick sequence"""
+        """Execute pick sequence - FIXED joint limits"""
         self.get_logger().info("PICK SEQUENCE:")
         
-        # Move to picking position
+        # Move to picking position - FIXED to respect joint limits
         pick_pos = {
-            'top_plate_joint': yaw,
-            'lower_arm_joint': 0.5,
-            'upper_arm_joint': 1.2,
-            'wrist_joint': -1.2,
-            'claw_base_joint': 0.2
+            'top_plate_joint': yaw,     # [1.56, 4.68]
+            'lower_arm_joint': 1.5,     # [0.0, 3.12]
+            'upper_arm_joint': 0.0,     # [-1.7, 1.7]
+            'wrist_joint': 0.0,         # [-1.7, 1.7]
+            'claw_base_joint': -1.5     # [-3.17, 0.0]
         }
         self.get_logger().info("  Moving to ball...")
         self.move_arm(pick_pos, duration=2.0)
         
         # Close gripper
         self.get_logger().info("  Closing gripper...")
-        self.move_gripper(0.3, duration=1.0)
+        self.move_gripper(-0.4, duration=1.0)  # Negative = close
         
         # Lift
         lift_pos = pick_pos.copy()
-        lift_pos['upper_arm_joint'] = 1.8
+        lift_pos['upper_arm_joint'] = 1.0  # Lift arm up
         self.get_logger().info("  Lifting ball...")
         self.move_arm(lift_pos, duration=2.0)
         
@@ -339,27 +340,27 @@ class ScanningVisionPickPlace(Node):
         return True
     
     def place_ball(self, yaw):
-        """Execute place sequence"""
+        """Execute place sequence - FIXED"""
         self.get_logger().info("PLACE SEQUENCE:")
         
         # Move to place position
         place_pos = {
-            'top_plate_joint': yaw,
-            'lower_arm_joint': 0.4,
-            'upper_arm_joint': 1.3,
-            'wrist_joint': -1.3,
-            'claw_base_joint': 0.2
+            'top_plate_joint': yaw,     # [1.56, 4.68]
+            'lower_arm_joint': 1.5,     # [0.0, 3.12]
+            'upper_arm_joint': 0.0,     # [-1.7, 1.7]
+            'wrist_joint': 0.0,         # [-1.7, 1.7]
+            'claw_base_joint': -1.5     # [-3.17, 0.0]
         }
         self.get_logger().info("  Moving to bowl...")
         self.move_arm(place_pos, duration=2.0)
         
         # Open gripper
         self.get_logger().info("  Opening gripper...")
-        self.move_gripper(-0.3, duration=1.0)
+        self.move_gripper(0.3, duration=1.0)  # Positive = open
         
         # Retract
         retract_pos = place_pos.copy()
-        retract_pos['upper_arm_joint'] = 1.8
+        retract_pos['upper_arm_joint'] = 1.0
         self.get_logger().info("  Retracting...")
         self.move_arm(retract_pos, duration=2.0)
         
@@ -376,9 +377,9 @@ class ScanningVisionPickPlace(Node):
         success_count = 0
         
         for ball_num in range(1, num_balls + 1):
-            self.get_logger().info(f"\n{'-'*60}")
+            self.get_logger().info(f"\n{"-"*60}")
             self.get_logger().info(f"BALL {ball_num}/{num_balls}")
-            self.get_logger().info(f"{'-'*60}")
+            self.get_logger().info(f"{"-"*60}")
             
             # Scan and detect ball
             found, yaw = self.scan_for_ball()
