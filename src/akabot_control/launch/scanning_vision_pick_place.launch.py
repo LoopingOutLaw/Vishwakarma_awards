@@ -17,7 +17,7 @@ def generate_launch_description():
     
     # Paths
     pkg_gazebo = FindPackageShare(package='akabot_gazebo').find('akabot_gazebo')
-    world_path = os.path.join(pkg_gazebo, 'worlds', 'pick_and_place_balls.world')
+    world_path = os.path.join(pkg_gazebo, 'worlds', 'pick_and_place_balls_bounded.world')
     
     pkg_description = FindPackageShare(package='akabot_description').find('akabot_description')
     urdf_model_path = os.path.join(pkg_description, 'urdf/akabot_gz.urdf.xacro')
@@ -158,7 +158,7 @@ def generate_launch_description():
         period=25.0,
         actions=[
             Node(
-                package='akabot_control',
+                package='arm_vla_pkg',
                 executable='scanning_vision_pick_place',
                 name='scanning_vision_pick_place',
                 output='screen',
