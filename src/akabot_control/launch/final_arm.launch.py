@@ -10,6 +10,7 @@ from launch.substitutions import Command, FindExecutable, PathJoinSubstitution
 from launch_ros.parameter_descriptions import ParameterValue
 from ament_index_python.packages import get_package_share_directory
 
+
 def load_yaml(package_name, file_path):
     package_path = get_package_share_directory(package_name)
     absolute_file_path = os.path.join(package_path, file_path)
@@ -19,6 +20,7 @@ def load_yaml(package_name, file_path):
     except EnvironmentError:
         return None
 
+
 def generate_launch_description():
     
     # 1. SETUP PATHS
@@ -26,6 +28,7 @@ def generate_launch_description():
     pkg_description = FindPackageShare('akabot_description')
     pkg_moveit = FindPackageShare('akabot_moveit_config')
     pkg_ros_ign_gazebo = FindPackageShare('ros_ign_gazebo')
+
 
     world_path = PathJoinSubstitution([pkg_gazebo, 'worlds', 'pick_and_place_balls.world'])
     srdf_file = PathJoinSubstitution([pkg_moveit, 'srdf', 'akabot.srdf'])
@@ -49,6 +52,7 @@ def generate_launch_description():
     kinematics_config = load_yaml('akabot_moveit_config', 'config/kinematics.yaml')
     moveit_controllers = load_yaml('akabot_moveit_config', 'config/moveit_controllers.yaml')
 
+
     # 3. ROBOT STATE PUBLISHER
     robot_state_publisher = Node(
         package='robot_state_publisher',
@@ -57,6 +61,7 @@ def generate_launch_description():
         parameters=[robot_description, {'use_sim_time': True}]
     )
 
+
     # 4. LAUNCH GAZEBO
     gazebo_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -64,6 +69,7 @@ def generate_launch_description():
         ),
         launch_arguments={'gz_args': ['-r -v4 ', world_path]}.items(),
     )
+
 
     # 5. SPAWN ROBOT - FIXED POSITION
     # Base plate sits on ground level (z=0)
@@ -90,6 +96,7 @@ def generate_launch_description():
         output='screen'
     )
 
+
     # 6. BRIDGES (Direct Arguments - No Config File)
     # This bypasses the "YAML sequence" error completely.
     parameter_bridge = Node(
@@ -104,6 +111,7 @@ def generate_launch_description():
         output='screen'
     )
 
+
     # Image Bridge
     image_bridge = Node(
         package='ros_gz_image',
@@ -114,6 +122,7 @@ def generate_launch_description():
         ],
         output='screen'
     )
+
 
     # 7. CONTROLLERS
     joint_state_broadcaster = TimerAction(
@@ -133,6 +142,7 @@ def generate_launch_description():
         actions=[Node(package='controller_manager', executable='spawner',
                       arguments=['hand_controller', '--controller-manager', '/controller_manager'])]
     )
+
 
     # 8. MOVEIT
     move_group_node = TimerAction(
@@ -156,6 +166,7 @@ def generate_launch_description():
         )]
     )
 
+
     # 9. LOGIC NODES
     publish_tf = TimerAction(
         period=21.0,
@@ -168,27 +179,36 @@ def generate_launch_description():
         )]
     )
 
-    dual_camera_picker = TimerAction(
+
+    # 10. ADVANCED BALL PICKER WITH TRAJECTORY PLANNING (NEW)
+    # Replaces dual_camera_picker
+    # Components:
+    #   - trajectory_planner.py: 5-DOF IK + motion planning
+    #   - advanced_ball_picker.py: Main controller with camera precision
+    # Waits 30 seconds for all systems to initialize
+    # Then executes full 3-ball pickup sequence with real-time refinement
+    advanced_ball_picker = TimerAction(
         period=30.0,
         actions=[Node(
             package='akabot_control',
-            executable='dual_camera_picker',
-            name='dual_camera_picker',
+            executable='advanced_ball_picker',
+            name='advanced_ball_picker',
             output='screen',
             parameters=[{'use_sim_time': True}]
         )]
     )
 
+
     return LaunchDescription([
         gazebo_launch,
         robot_state_publisher,
         spawn_robot,
-        parameter_bridge, # Using the direct-arg bridge
+        parameter_bridge,
         image_bridge,
         joint_state_broadcaster,
         arm_controller,
         hand_controller,
         move_group_node,
         publish_tf,
-        dual_camera_picker
+        advanced_ball_picker  # NEW: Replaces dual_camera_picker
     ])
