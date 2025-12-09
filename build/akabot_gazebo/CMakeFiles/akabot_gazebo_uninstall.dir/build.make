@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/harshit/arm_vla_ws/src/akabot_gazebo
+CMAKE_SOURCE_DIR = /home/aditya/Vishwakarma_awards/src/akabot_gazebo
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/harshit/arm_vla_ws/build/akabot_gazebo
+CMAKE_BINARY_DIR = /home/aditya/Vishwakarma_awards/build/akabot_gazebo
 
 # Utility rule file for akabot_gazebo_uninstall.
 
@@ -67,7 +67,7 @@ include CMakeFiles/akabot_gazebo_uninstall.dir/compiler_depend.make
 include CMakeFiles/akabot_gazebo_uninstall.dir/progress.make
 
 CMakeFiles/akabot_gazebo_uninstall:
-	/usr/bin/cmake -P /home/harshit/arm_vla_ws/build/akabot_gazebo/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
+	/usr/bin/cmake -P /home/aditya/Vishwakarma_awards/build/akabot_gazebo/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
 
 akabot_gazebo_uninstall: CMakeFiles/akabot_gazebo_uninstall
 akabot_gazebo_uninstall: CMakeFiles/akabot_gazebo_uninstall.dir/build.make
@@ -82,6 +82,6 @@ CMakeFiles/akabot_gazebo_uninstall.dir/clean:
 .PHONY : CMakeFiles/akabot_gazebo_uninstall.dir/clean
 
 CMakeFiles/akabot_gazebo_uninstall.dir/depend:
-	cd /home/harshit/arm_vla_ws/build/akabot_gazebo && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/harshit/arm_vla_ws/src/akabot_gazebo /home/harshit/arm_vla_ws/src/akabot_gazebo /home/harshit/arm_vla_ws/build/akabot_gazebo /home/harshit/arm_vla_ws/build/akabot_gazebo /home/harshit/arm_vla_ws/build/akabot_gazebo/CMakeFiles/akabot_gazebo_uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/aditya/Vishwakarma_awards/build/akabot_gazebo && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/aditya/Vishwakarma_awards/src/akabot_gazebo /home/aditya/Vishwakarma_awards/src/akabot_gazebo /home/aditya/Vishwakarma_awards/build/akabot_gazebo /home/aditya/Vishwakarma_awards/build/akabot_gazebo /home/aditya/Vishwakarma_awards/build/akabot_gazebo/CMakeFiles/akabot_gazebo_uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/akabot_gazebo_uninstall.dir/depend
 

@@ -65,14 +65,27 @@ def generate_launch_description():
         launch_arguments={'gz_args': ['-r -v4 ', world_path]}.items(),
     )
 
-    # 5. SPAWN ROBOT
+    # 5. SPAWN ROBOT - FIXED POSITION
+    # Base plate sits on ground level (z=0)
+    # The URDF definition handles lifting the arm structure to table height
+    # base_plate_joint: z=0 (on table surface)
+    # top_plate_joint: z=0.048 (revolute joint lifts it)
     spawn_robot = Node(
         package='ros_ign_gazebo',
         executable='create',
         arguments=[
-            '-topic', 'robot_description',
-            '-name', 'akabot',
-            '-x', '-0.155216', '-y', '-0.056971', '-z', '1.05', '-Y', '0.016798'
+            "-topic",
+            "robot_description",
+            "-name",
+            "akabot",
+            "-x",
+            "-0.155216",
+            "-y",
+            "-0.056971",
+            "-z",
+            "1.010770",
+            "-Y",
+            "0.016798",
         ],
         output='screen'
     )

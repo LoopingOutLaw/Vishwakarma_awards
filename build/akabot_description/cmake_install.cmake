@@ -1,8 +1,8 @@
-# Install script for directory: /home/harshit/arm_vla_ws/src/akabot_description
+# Install script for directory: /home/aditya/Vishwakarma_awards/src/akabot_description
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/harshit/arm_vla_ws/install/akabot_description")
+  set(CMAKE_INSTALL_PREFIX "/home/aditya/Vishwakarma_awards/install/akabot_description")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -44,20 +44,20 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description" TYPE DIRECTORY FILES
-    "/home/harshit/arm_vla_ws/src/akabot_description/config"
-    "/home/harshit/arm_vla_ws/src/akabot_description/launch"
-    "/home/harshit/arm_vla_ws/src/akabot_description/meshes"
-    "/home/harshit/arm_vla_ws/src/akabot_description/urdf"
-    "/home/harshit/arm_vla_ws/src/akabot_description/rviz"
+    "/home/aditya/Vishwakarma_awards/src/akabot_description/config"
+    "/home/aditya/Vishwakarma_awards/src/akabot_description/launch"
+    "/home/aditya/Vishwakarma_awards/src/akabot_description/meshes"
+    "/home/aditya/Vishwakarma_awards/src/akabot_description/urdf"
+    "/home/aditya/Vishwakarma_awards/src/akabot_description/rviz"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/package_run_dependencies" TYPE FILE FILES "/home/harshit/arm_vla_ws/build/akabot_description/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/akabot_description")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/package_run_dependencies" TYPE FILE FILES "/home/aditya/Vishwakarma_awards/build/akabot_description/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/akabot_description")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/parent_prefix_path" TYPE FILE FILES "/home/harshit/arm_vla_ws/build/akabot_description/ament_cmake_index/share/ament_index/resource_index/parent_prefix_path/akabot_description")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/parent_prefix_path" TYPE FILE FILES "/home/aditya/Vishwakarma_awards/build/akabot_description/ament_cmake_index/share/ament_index/resource_index/parent_prefix_path/akabot_description")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -65,7 +65,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description/environment" TYPE FILE FILES "/home/harshit/arm_vla_ws/build/akabot_description/ament_cmake_environment_hooks/ament_prefix_path.dsv")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description/environment" TYPE FILE FILES "/home/aditya/Vishwakarma_awards/build/akabot_description/ament_cmake_environment_hooks/ament_prefix_path.dsv")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -73,42 +73,42 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description/environment" TYPE FILE FILES "/home/harshit/arm_vla_ws/build/akabot_description/ament_cmake_environment_hooks/path.dsv")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description/environment" TYPE FILE FILES "/home/aditya/Vishwakarma_awards/build/akabot_description/ament_cmake_environment_hooks/path.dsv")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description" TYPE FILE FILES "/home/harshit/arm_vla_ws/build/akabot_description/ament_cmake_environment_hooks/local_setup.bash")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description" TYPE FILE FILES "/home/aditya/Vishwakarma_awards/build/akabot_description/ament_cmake_environment_hooks/local_setup.bash")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description" TYPE FILE FILES "/home/harshit/arm_vla_ws/build/akabot_description/ament_cmake_environment_hooks/local_setup.sh")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description" TYPE FILE FILES "/home/aditya/Vishwakarma_awards/build/akabot_description/ament_cmake_environment_hooks/local_setup.sh")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description" TYPE FILE FILES "/home/harshit/arm_vla_ws/build/akabot_description/ament_cmake_environment_hooks/local_setup.zsh")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description" TYPE FILE FILES "/home/aditya/Vishwakarma_awards/build/akabot_description/ament_cmake_environment_hooks/local_setup.zsh")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description" TYPE FILE FILES "/home/harshit/arm_vla_ws/build/akabot_description/ament_cmake_environment_hooks/local_setup.dsv")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description" TYPE FILE FILES "/home/aditya/Vishwakarma_awards/build/akabot_description/ament_cmake_environment_hooks/local_setup.dsv")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description" TYPE FILE FILES "/home/harshit/arm_vla_ws/build/akabot_description/ament_cmake_environment_hooks/package.dsv")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description" TYPE FILE FILES "/home/aditya/Vishwakarma_awards/build/akabot_description/ament_cmake_environment_hooks/package.dsv")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/packages" TYPE FILE FILES "/home/harshit/arm_vla_ws/build/akabot_description/ament_cmake_index/share/ament_index/resource_index/packages/akabot_description")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/packages" TYPE FILE FILES "/home/aditya/Vishwakarma_awards/build/akabot_description/ament_cmake_index/share/ament_index/resource_index/packages/akabot_description")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description/cmake" TYPE FILE FILES
-    "/home/harshit/arm_vla_ws/build/akabot_description/ament_cmake_core/akabot_descriptionConfig.cmake"
-    "/home/harshit/arm_vla_ws/build/akabot_description/ament_cmake_core/akabot_descriptionConfig-version.cmake"
+    "/home/aditya/Vishwakarma_awards/build/akabot_description/ament_cmake_core/akabot_descriptionConfig.cmake"
+    "/home/aditya/Vishwakarma_awards/build/akabot_description/ament_cmake_core/akabot_descriptionConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description" TYPE FILE FILES "/home/harshit/arm_vla_ws/src/akabot_description/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/akabot_description" TYPE FILE FILES "/home/aditya/Vishwakarma_awards/src/akabot_description/package.xml")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -119,5 +119,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/harshit/arm_vla_ws/build/akabot_description/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/aditya/Vishwakarma_awards/build/akabot_description/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

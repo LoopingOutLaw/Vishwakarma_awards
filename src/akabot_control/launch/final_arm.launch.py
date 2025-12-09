@@ -74,9 +74,18 @@ def generate_launch_description():
         package='ros_ign_gazebo',
         executable='create',
         arguments=[
-            '-topic', 'robot_description',
-            '-name', 'akabot',
-            '-x', '0.0595', '-y', '-0.0590', '-z', '0.0', '-Y', '0.0'
+            "-topic",
+            "robot_description",
+            "-name",
+            "akabot",
+            "-x",
+            "-0.155216",
+            "-y",
+            "-0.056971",
+            "-z",
+            "1.010770",
+            "-Y",
+            "0.016798",
         ],
         output='screen'
     )

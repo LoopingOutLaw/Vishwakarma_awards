@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/harshit/arm_vla_ws/src/akabot_bringup
+CMAKE_SOURCE_DIR = /home/aditya/Vishwakarma_awards/src/akabot_bringup
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/harshit/arm_vla_ws/build/akabot_bringup
+CMAKE_BINARY_DIR = /home/aditya/Vishwakarma_awards/build/akabot_bringup
 
 # Utility rule file for akabot_bringup_uninstall.
 
@@ -67,7 +67,7 @@ include CMakeFiles/akabot_bringup_uninstall.dir/compiler_depend.make
 include CMakeFiles/akabot_bringup_uninstall.dir/progress.make
 
 CMakeFiles/akabot_bringup_uninstall:
-	/usr/bin/cmake -P /home/harshit/arm_vla_ws/build/akabot_bringup/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
+	/usr/bin/cmake -P /home/aditya/Vishwakarma_awards/build/akabot_bringup/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
 
 akabot_bringup_uninstall: CMakeFiles/akabot_bringup_uninstall
 akabot_bringup_uninstall: CMakeFiles/akabot_bringup_uninstall.dir/build.make
@@ -82,6 +82,6 @@ CMakeFiles/akabot_bringup_uninstall.dir/clean:
 .PHONY : CMakeFiles/akabot_bringup_uninstall.dir/clean
 
 CMakeFiles/akabot_bringup_uninstall.dir/depend:
-	cd /home/harshit/arm_vla_ws/build/akabot_bringup && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/harshit/arm_vla_ws/src/akabot_bringup /home/harshit/arm_vla_ws/src/akabot_bringup /home/harshit/arm_vla_ws/build/akabot_bringup /home/harshit/arm_vla_ws/build/akabot_bringup /home/harshit/arm_vla_ws/build/akabot_bringup/CMakeFiles/akabot_bringup_uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/aditya/Vishwakarma_awards/build/akabot_bringup && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/aditya/Vishwakarma_awards/src/akabot_bringup /home/aditya/Vishwakarma_awards/src/akabot_bringup /home/aditya/Vishwakarma_awards/build/akabot_bringup /home/aditya/Vishwakarma_awards/build/akabot_bringup /home/aditya/Vishwakarma_awards/build/akabot_bringup/CMakeFiles/akabot_bringup_uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/akabot_bringup_uninstall.dir/depend
 

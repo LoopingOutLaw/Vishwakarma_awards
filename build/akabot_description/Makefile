@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/harshit/arm_vla_ws/src/akabot_description
+CMAKE_SOURCE_DIR = /home/aditya/Vishwakarma_awards/src/akabot_description
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/harshit/arm_vla_ws/build/akabot_description
+CMAKE_BINARY_DIR = /home/aditya/Vishwakarma_awards/build/akabot_description
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -142,9 +142,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/harshit/arm_vla_ws/build/akabot_description/CMakeFiles /home/harshit/arm_vla_ws/build/akabot_description//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aditya/Vishwakarma_awards/build/akabot_description/CMakeFiles /home/aditya/Vishwakarma_awards/build/akabot_description//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/harshit/arm_vla_ws/build/akabot_description/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aditya/Vishwakarma_awards/build/akabot_description/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

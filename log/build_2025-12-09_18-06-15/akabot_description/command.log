@@ -1,6 +1,0 @@
-Invoking command in '/home/harshit/arm_vla_ws/build/akabot_description': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/harshit/arm_vla_ws/src/akabot_description -DCMAKE_INSTALL_PREFIX=/home/harshit/arm_vla_ws/install/akabot_description
-Invoked command in '/home/harshit/arm_vla_ws/build/akabot_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/harshit/arm_vla_ws/src/akabot_description -DCMAKE_INSTALL_PREFIX=/home/harshit/arm_vla_ws/install/akabot_description
-Invoking command in '/home/harshit/arm_vla_ws/build/akabot_description': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/harshit/arm_vla_ws/build/akabot_description -- -j8 -l8
-Invoked command in '/home/harshit/arm_vla_ws/build/akabot_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/harshit/arm_vla_ws/build/akabot_description -- -j8 -l8
-Invoking command in '/home/harshit/arm_vla_ws/build/akabot_description': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/harshit/arm_vla_ws/build/akabot_description
-Invoked command in '/home/harshit/arm_vla_ws/build/akabot_description' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/harshit/arm_vla_ws/build/akabot_description

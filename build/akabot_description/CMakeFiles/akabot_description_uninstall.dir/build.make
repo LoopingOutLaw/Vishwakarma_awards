@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/harshit/arm_vla_ws/src/akabot_description
+CMAKE_SOURCE_DIR = /home/aditya/Vishwakarma_awards/src/akabot_description
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/harshit/arm_vla_ws/build/akabot_description
+CMAKE_BINARY_DIR = /home/aditya/Vishwakarma_awards/build/akabot_description
 
 # Utility rule file for akabot_description_uninstall.
 
@@ -67,7 +67,7 @@ include CMakeFiles/akabot_description_uninstall.dir/compiler_depend.make
 include CMakeFiles/akabot_description_uninstall.dir/progress.make
 
 CMakeFiles/akabot_description_uninstall:
-	/usr/bin/cmake -P /home/harshit/arm_vla_ws/build/akabot_description/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
+	/usr/bin/cmake -P /home/aditya/Vishwakarma_awards/build/akabot_description/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
 
 akabot_description_uninstall: CMakeFiles/akabot_description_uninstall
 akabot_description_uninstall: CMakeFiles/akabot_description_uninstall.dir/build.make
@@ -82,6 +82,6 @@ CMakeFiles/akabot_description_uninstall.dir/clean:
 .PHONY : CMakeFiles/akabot_description_uninstall.dir/clean
 
 CMakeFiles/akabot_description_uninstall.dir/depend:
-	cd /home/harshit/arm_vla_ws/build/akabot_description && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/harshit/arm_vla_ws/src/akabot_description /home/harshit/arm_vla_ws/src/akabot_description /home/harshit/arm_vla_ws/build/akabot_description /home/harshit/arm_vla_ws/build/akabot_description /home/harshit/arm_vla_ws/build/akabot_description/CMakeFiles/akabot_description_uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/aditya/Vishwakarma_awards/build/akabot_description && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/aditya/Vishwakarma_awards/src/akabot_description /home/aditya/Vishwakarma_awards/src/akabot_description /home/aditya/Vishwakarma_awards/build/akabot_description /home/aditya/Vishwakarma_awards/build/akabot_description /home/aditya/Vishwakarma_awards/build/akabot_description/CMakeFiles/akabot_description_uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/akabot_description_uninstall.dir/depend
 

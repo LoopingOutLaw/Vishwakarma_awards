@@ -28,7 +28,26 @@
       <pose>0.059419 -0.058114 0 0 -0 0</pose>
     </include>
 
-    <!-- Bowl 1 (with balls) - Left side -->
+    <!-- ========================================
+         BOWL 1 WITH BALLS (Source Bowl)
+         ======================================== -->
+    <!-- Outer boundary walls for Bowl 1 to prevent ball rollout -->
+    <model name="bowl_with_balls_outer_wall">
+      <pose>0.15 0.10 1.03 0 0 0</pose>
+      <static>true</static>
+      <link name="wall_link">
+        <collision name="outer_wall_collision">
+          <geometry>
+            <cylinder>
+              <radius>0.07</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <!-- Bowl 1 (visual cylinder with balls inside) -->
     <model name="bowl_with_balls">
       <pose>0.15 0.10 1.03 0 0 0</pose>
       <static>true</static>
@@ -56,7 +75,26 @@
       </link>
     </model>
 
-    <!-- Bowl 2 (empty) - Right side -->
+    <!-- ========================================
+         BOWL 2 EMPTY (Destination Bowl)
+         ======================================== -->
+    <!-- Outer boundary walls for Bowl 2 -->
+    <model name="empty_bowl_outer_wall">
+      <pose>0.15 -0.10 1.03 0 0 0</pose>
+      <static>true</static>
+      <link name="wall_link">
+        <collision name="outer_wall_collision">
+          <geometry>
+            <cylinder>
+              <radius>0.07</radius>
+              <length>0.04</length>
+            </cylinder>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <!-- Bowl 2 (visual) -->
     <model name="empty_bowl">
       <pose>0.15 -0.10 1.03 0 0 0</pose>
       <static>true</static>
@@ -84,9 +122,57 @@
       </link>
     </model>
 
-    <!-- Thermocol Ball 1 (White) -->
+    <!-- ========================================
+         THERMOCOL BALLS (Total: 3 Balls)
+         ======================================== -->
+    <!-- Ball 1 (White) -->
+    <model name="ball_0">
+      <pose>0.15 0.11 1.065 0 0 0</pose>
+      <link name="ball_link">
+        <inertial>
+          <mass>0.005</mass>
+          <inertia>
+            <ixx>0.00001</ixx>
+            <iyy>0.00001</iyy>
+            <izz>0.00001</izz>
+          </inertia>
+        </inertial>
+        <visual name="ball_visual">
+          <geometry>
+            <sphere>
+              <radius>0.015</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>0.5 0.5 0.5 1</specular>
+          </material>
+        </visual>
+        <collision name="ball_collision">
+          <geometry>
+            <sphere>
+              <radius>0.015</radius>
+            </sphere>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.8</mu>
+                <mu2>0.8</mu2>
+              </ode>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0.3</restitution_coefficient>
+            </bounce>
+          </surface>
+        </collision>
+      </link>
+    </model>
+
+    <!-- Ball 2 -->
     <model name="ball_1">
-      <pose>0.15 0.11 1.06 0 0 0</pose>
+      <pose>0.17 0.09 1.065 0 0 0</pose>
       <link name="ball_link">
         <inertial>
           <mass>0.005</mass>
@@ -129,9 +215,9 @@
       </link>
     </model>
 
-    <!-- Thermocol Ball 2 -->
+    <!-- Ball 3 (NEW) -->
     <model name="ball_2">
-      <pose>0.17 0.09 1.06 0 0 0</pose>
+      <pose>0.13 0.10 1.065 0 0 0</pose>
       <link name="ball_link">
         <inertial>
           <mass>0.005</mass>
@@ -173,141 +259,6 @@
         </collision>
       </link>
     </model>
-
-    <!-- Thermocol Ball 3 -->
-    <!-- <model name="ball_3">
-      <pose>0.13 0.09 1.06 0 0 0</pose>
-      <link name="ball_link">
-        <inertial>
-          <mass>0.005</mass>
-          <inertia>
-            <ixx>0.00001</ixx>
-            <iyy>0.00001</iyy>
-            <izz>0.00001</izz>
-          </inertia>
-        </inertial>
-        <visual name="ball_visual">
-          <geometry>
-            <sphere>
-              <radius>0.015</radius>
-            </sphere>
-          </geometry>
-          <material>
-            <ambient>1 1 1 1</ambient>
-            <diffuse>1 1 1 1</diffuse>
-            <specular>0.5 0.5 0.5 1</specular>
-          </material>
-        </visual>
-        <collision name="ball_collision">
-          <geometry>
-            <sphere>
-              <radius>0.015</radius>
-            </sphere>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>0.8</mu>
-                <mu2>0.8</mu2>
-              </ode>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0.3</restitution_coefficient>
-            </bounce>
-          </surface>
-        </collision>
-      </link>
-    </model> -->
-
-    <!-- Thermocol Ball 4 -->
-    <!-- <model name="ball_4">
-      <pose>0.15 0.08 1.06 0 0 0</pose>
-      <link name="ball_link">
-        <inertial>
-          <mass>0.005</mass>
-          <inertia>
-            <ixx>0.00001</ixx>
-            <iyy>0.00001</iyy>
-            <izz>0.00001</izz>
-          </inertia>
-        </inertial>
-        <visual name="ball_visual">
-          <geometry>
-            <sphere>
-              <radius>0.015</radius>
-            </sphere>
-          </geometry>
-          <material>
-            <ambient>1 1 1 1</ambient>
-            <diffuse>1 1 1 1</diffuse>
-            <specular>0.5 0.5 0.5 1</specular>
-          </material>
-        </visual>
-        <collision name="ball_collision">
-          <geometry>
-            <sphere>
-              <radius>0.015</radius>
-            </sphere>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>0.8</mu>
-                <mu2>0.8</mu2>
-              </ode>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0.3</restitution_coefficient>
-            </bounce>
-          </surface>
-        </collision>
-      </link>
-    </model> -->
-
-    <!-- Thermocol Ball 5 -->
-    <!-- <model name="ball_5">
-      <pose>0.14 0.12 1.06 0 0 0</pose>
-      <link name="ball_link">
-        <inertial>
-          <mass>0.005</mass>
-          <inertia>
-            <ixx>0.00001</ixx>
-            <iyy>0.00001</iyy>
-            <izz>0.00001</izz>
-          </inertia>
-        </inertial>
-        <visual name="ball_visual">
-          <geometry>
-            <sphere>
-              <radius>0.015</radius>
-            </sphere>
-          </geometry>
-          <material>
-            <ambient>1 1 1 1</ambient>
-            <diffuse>1 1 1 1</diffuse>
-            <specular>0.5 0.5 0.5 1</specular>
-          </material>
-        </visual>
-        <collision name="ball_collision">
-          <geometry>
-            <sphere>
-              <radius>0.015</radius>
-            </sphere>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>0.8</mu>
-                <mu2>0.8</mu2>
-              </ode>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0.3</restitution_coefficient>
-            </bounce>
-          </surface>
-        </collision>
-      </link>
-    </model> -->
 
     <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
