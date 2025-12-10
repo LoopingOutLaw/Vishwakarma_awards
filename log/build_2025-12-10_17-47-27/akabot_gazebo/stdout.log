@@ -1,0 +1,25 @@
+-- Install configuration: ""
+-- Up-to-date: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/config
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/config/akabot_bridge.yaml
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/config/remind.yaml
+-- Up-to-date: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/launch
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/launch/gz_launch.py
+-- Up-to-date: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/worlds
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/worlds/pick_and_place.world
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/worlds/test.world
+-- Up-to-date: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/worlds/pick_and_place_balls.world
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/ament_index/resource_index/package_run_dependencies/akabot_gazebo
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/ament_index/resource_index/parent_prefix_path/akabot_gazebo
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/environment/ament_prefix_path.sh
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/environment/ament_prefix_path.dsv
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/environment/path.sh
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/environment/path.dsv
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/local_setup.bash
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/local_setup.sh
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/local_setup.zsh
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/local_setup.dsv
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/package.dsv
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/ament_index/resource_index/packages/akabot_gazebo
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/cmake/akabot_gazeboConfig.cmake
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/cmake/akabot_gazeboConfig-version.cmake
+-- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/package.xml
