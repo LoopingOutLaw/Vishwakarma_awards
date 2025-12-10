@@ -9,13 +9,16 @@ setup.py
 ../../build/akabot_control/akabot_control.egg-info/top_level.txt
 ../../build/akabot_control/akabot_control.egg-info/zip-safe
 akabot_control/__init__.py
+akabot_control/advanced_ball_picker.py
 akabot_control/akabot_controller.py
+akabot_control/ball_picker_moveit.py
 akabot_control/dual_camera_picker.py
 akabot_control/interactive_control.py
 akabot_control/publish_tf.py
 akabot_control/scanning_vision_pick_place.py
 akabot_control/simple_ball_detector.py
 akabot_control/test_ee_camera.py
+akabot_control/trajectory_planner.py
 akabot_control/vision_pick_place.py
 config/controller_params.yaml
 launch/control.launch.py

@@ -31,22 +31,6 @@
     <!-- ========================================
          BOWL 1 WITH BALLS (Source Bowl)
          ======================================== -->
-    <!-- Outer boundary walls for Bowl 1 to prevent ball rollout -->
-    <model name="bowl_with_balls_outer_wall">
-      <pose>0.15 0.10 1.03 0 0 0</pose>
-      <static>true</static>
-      <link name="wall_link">
-        <collision name="outer_wall_collision">
-          <geometry>
-            <cylinder>
-              <radius>0.07</radius>
-              <length>0.04</length>
-            </cylinder>
-          </geometry>
-        </collision>
-      </link>
-    </model>
-
     <!-- Bowl 1 (visual cylinder with balls inside) -->
     <model name="bowl_with_balls">
       <pose>0.15 0.10 1.03 0 0 0</pose>
@@ -78,22 +62,6 @@
     <!-- ========================================
          BOWL 2 EMPTY (Destination Bowl)
          ======================================== -->
-    <!-- Outer boundary walls for Bowl 2 -->
-    <model name="empty_bowl_outer_wall">
-      <pose>0.15 -0.10 1.03 0 0 0</pose>
-      <static>true</static>
-      <link name="wall_link">
-        <collision name="outer_wall_collision">
-          <geometry>
-            <cylinder>
-              <radius>0.07</radius>
-              <length>0.04</length>
-            </cylinder>
-          </geometry>
-        </collision>
-      </link>
-    </model>
-
     <!-- Bowl 2 (visual) -->
     <model name="empty_bowl">
       <pose>0.15 -0.10 1.03 0 0 0</pose>
@@ -215,7 +183,7 @@
       </link>
     </model>
 
-    <!-- Ball 3 (NEW) -->
+    <!-- Ball 3 -->
     <model name="ball_2">
       <pose>0.13 0.10 1.065 0 0 0</pose>
       <link name="ball_link">
@@ -257,6 +225,95 @@
             </bounce>
           </surface>
         </collision>
+      </link>
+    </model>
+
+    <!-- ========================================
+         COLLISION BOUNDARY RINGS (Prevents ball rollout)
+         ======================================== -->
+    <!-- Collision boundary around Bowl 1 -->
+    <model name="bowl_1_collision_boundary">
+      <pose>0.15 0.10 1.055 0 0 0</pose>
+      <static>true</static>
+      <link name="boundary_link">
+        <collision name="boundary_collision">
+          <geometry>
+            <cylinder>
+              <radius>0.065</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.5</mu>
+                <mu2>0.5</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0.1</slip1>
+                <slip2>0.1</slip2>
+              </ode>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0.2</restitution_coefficient>
+            </bounce>
+          </surface>
+        </collision>
+        <visual name="boundary_visual">
+          <geometry>
+            <cylinder>
+              <radius>0.065</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.4 0.6 0.9 0.3</ambient>
+            <diffuse>0.4 0.6 0.9 0.3</diffuse>
+            <transparency>0.7</transparency>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Collision boundary around Bowl 2 -->
+    <model name="bowl_2_collision_boundary">
+      <pose>0.15 -0.10 1.055 0 0 0</pose>
+      <static>true</static>
+      <link name="boundary_link">
+        <collision name="boundary_collision">
+          <geometry>
+            <cylinder>
+              <radius>0.065</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.5</mu>
+                <mu2>0.5</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0.1</slip1>
+                <slip2>0.1</slip2>
+              </ode>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0.2</restitution_coefficient>
+            </bounce>
+          </surface>
+        </collision>
+        <visual name="boundary_visual">
+          <geometry>
+            <cylinder>
+              <radius>0.065</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.9 0.4 0.4 0.3</ambient>
+            <diffuse>0.9 0.4 0.4 0.3</diffuse>
+            <transparency>0.7</transparency>
+          </material>
+        </visual>
       </link>
     </model>
 

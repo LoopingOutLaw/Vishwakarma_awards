@@ -43,6 +43,7 @@ setup(
             'publish_tf = akabot_control.publish_tf:main',
             'dual_camera_picker = akabot_control.dual_camera_picker:main',
             'advanced_ball_picker = akabot_control.advanced_ball_picker:main',
+            'ball_picker_moveit = akabot_control.ball_picker_moveit:main',
         ],
     },
 )

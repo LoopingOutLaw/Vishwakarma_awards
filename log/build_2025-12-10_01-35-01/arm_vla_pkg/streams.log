@@ -1,0 +1,56 @@
+[0.805s] Invoking command in '/home/aditya/Vishwakarma_awards/src/arm_vla_pkg': PYTHONPATH=/home/aditya/Vishwakarma_awards/build/arm_vla_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/arm_vla_pkg build --build-base /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build install --record /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/install.log --single-version-externally-managed install_data
+[1.110s] running egg_info
+[1.111s] creating ../../build/arm_vla_pkg/arm_vla_pkg.egg-info
+[1.111s] writing ../../build/arm_vla_pkg/arm_vla_pkg.egg-info/PKG-INFO
+[1.111s] writing dependency_links to ../../build/arm_vla_pkg/arm_vla_pkg.egg-info/dependency_links.txt
+[1.111s] writing entry points to ../../build/arm_vla_pkg/arm_vla_pkg.egg-info/entry_points.txt
+[1.111s] writing requirements to ../../build/arm_vla_pkg/arm_vla_pkg.egg-info/requires.txt
+[1.112s] writing top-level names to ../../build/arm_vla_pkg/arm_vla_pkg.egg-info/top_level.txt
+[1.112s] writing manifest file '../../build/arm_vla_pkg/arm_vla_pkg.egg-info/SOURCES.txt'
+[1.114s] reading manifest file '../../build/arm_vla_pkg/arm_vla_pkg.egg-info/SOURCES.txt'
+[1.114s] writing manifest file '../../build/arm_vla_pkg/arm_vla_pkg.egg-info/SOURCES.txt'
+[1.115s] running build
+[1.115s] running build_py
+[1.115s] creating /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build
+[1.115s] creating /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib
+[1.115s] creating /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg
+[1.116s] copying arm_vla_pkg/__init__.py -> /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg
+[1.116s] creating /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg/nodes
+[1.116s] copying arm_vla_pkg/nodes/speech_node.py -> /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg/nodes
+[1.116s] copying arm_vla_pkg/nodes/brain_node.py -> /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg/nodes
+[1.116s] copying arm_vla_pkg/nodes/action_node.py -> /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg/nodes
+[1.116s] copying arm_vla_pkg/nodes/vision_node.py -> /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg/nodes
+[1.116s] copying arm_vla_pkg/nodes/__init__.py -> /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg/nodes
+[1.117s] running install
+[1.117s] running install_lib
+[1.118s] creating /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg
+[1.119s] creating /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg/nodes
+[1.119s] copying /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg/nodes/speech_node.py -> /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg/nodes
+[1.119s] copying /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg/nodes/brain_node.py -> /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg/nodes
+[1.119s] copying /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg/nodes/action_node.py -> /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg/nodes
+[1.119s] copying /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg/nodes/vision_node.py -> /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg/nodes
+[1.119s] copying /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg/nodes/__init__.py -> /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg/nodes
+[1.119s] copying /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build/lib/arm_vla_pkg/__init__.py -> /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg
+[1.119s] byte-compiling /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg/nodes/speech_node.py to speech_node.cpython-310.pyc
+[1.120s] byte-compiling /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg/nodes/brain_node.py to brain_node.cpython-310.pyc
+[1.121s] byte-compiling /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg/nodes/action_node.py to action_node.cpython-310.pyc
+[1.122s] byte-compiling /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg/nodes/vision_node.py to vision_node.cpython-310.pyc
+[1.123s] byte-compiling /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg/nodes/__init__.py to __init__.cpython-310.pyc
+[1.124s] byte-compiling /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg/__init__.py to __init__.cpython-310.pyc
+[1.124s] running install_data
+[1.124s] creating /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/share/ament_index
+[1.124s] creating /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/share/ament_index/resource_index
+[1.124s] creating /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/share/ament_index/resource_index/packages
+[1.124s] copying resource/arm_vla_pkg -> /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/share/ament_index/resource_index/packages
+[1.124s] copying package.xml -> /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/share/arm_vla_pkg
+[1.124s] creating /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/share/arm_vla_pkg/launch
+[1.124s] copying launch/vla_main.launch.py -> /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/share/arm_vla_pkg/launch
+[1.124s] running install_egg_info
+[1.126s] Copying ../../build/arm_vla_pkg/arm_vla_pkg.egg-info to /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages/arm_vla_pkg-0.0.0-py3.10.egg-info
+[1.127s] running install_scripts
+[1.155s] Installing action_node script to /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/arm_vla_pkg
+[1.155s] Installing brain_node script to /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/arm_vla_pkg
+[1.155s] Installing speech_node script to /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/arm_vla_pkg
+[1.155s] Installing vision_node script to /home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/arm_vla_pkg
+[1.155s] writing list of installed files to '/home/aditya/Vishwakarma_awards/build/arm_vla_pkg/install.log'
+[1.185s] Invoked command in '/home/aditya/Vishwakarma_awards/src/arm_vla_pkg' returned '0': PYTHONPATH=/home/aditya/Vishwakarma_awards/build/arm_vla_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/arm_vla_pkg build --build-base /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/build install --record /home/aditya/Vishwakarma_awards/build/arm_vla_pkg/install.log --single-version-externally-managed install_data

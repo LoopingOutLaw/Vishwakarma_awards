@@ -1,5 +1,7 @@
 [console_scripts]
+advanced_ball_picker = akabot_control.advanced_ball_picker:main
 akabot_controller = akabot_control.akabot_controller:main
+ball_picker_moveit = akabot_control.ball_picker_moveit:main
 dual_camera_picker = akabot_control.dual_camera_picker:main
 interactive_control = akabot_control.interactive_control:main
 publish_tf = akabot_control.publish_tf:main

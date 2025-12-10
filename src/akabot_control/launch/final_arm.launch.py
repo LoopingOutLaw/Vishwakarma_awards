@@ -180,19 +180,19 @@ def generate_launch_description():
     )
 
 
-    # 10. ADVANCED BALL PICKER WITH TRAJECTORY PLANNING (NEW)
-    # Replaces dual_camera_picker
-    # Components:
-    #   - trajectory_planner.py: 5-DOF IK + motion planning
-    #   - advanced_ball_picker.py: Main controller with camera precision
-    # Waits 30 seconds for all systems to initialize
-    # Then executes full 3-ball pickup sequence with real-time refinement
-    advanced_ball_picker = TimerAction(
-        period=30.0,
+    # 10. ROBUST BALL PICKER USING MOVEIT IK SERVICE (NEW)
+    # Replaces analytical IK approach with proven MoveIt integration:
+    # - Uses /compute_ik service (official MoveIt kinematics)
+    # - Relaxes orientation constraints for 5-DOF arm
+    # - Robust trajectory execution with error handling
+    # - Waits 25 seconds for all systems to initialize
+    # - Then executes 3-ball pickup sequence
+    ball_picker_moveit = TimerAction(
+        period=25.0,
         actions=[Node(
             package='akabot_control',
-            executable='advanced_ball_picker',
-            name='advanced_ball_picker',
+            executable='ball_picker_moveit',
+            name='ball_picker_moveit',
             output='screen',
             parameters=[{'use_sim_time': True}]
         )]
@@ -210,5 +210,5 @@ def generate_launch_description():
         hand_controller,
         move_group_node,
         publish_tf,
-        advanced_ball_picker  # NEW: Replaces dual_camera_picker
+        ball_picker_moveit  # NEW: Robust MoveIt-based picker
     ])

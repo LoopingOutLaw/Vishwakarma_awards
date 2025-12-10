@@ -1,0 +1,49 @@
+[0.019s] Invoking command in '/home/aditya/Vishwakarma_awards/build/akabot_gazebo': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/home/aditya/Vishwakarma_awards/install/akabot_control:/opt/ros/humble /usr/bin/cmake /home/aditya/Vishwakarma_awards/src/akabot_gazebo -DCMAKE_INSTALL_PREFIX=/home/aditya/Vishwakarma_awards/install/akabot_gazebo
+[0.091s] -- The C compiler identification is GNU 11.4.0
+[0.167s] -- The CXX compiler identification is GNU 11.4.0
+[0.177s] -- Detecting C compiler ABI info
+[0.270s] -- Detecting C compiler ABI info - done
+[0.281s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.281s] -- Detecting C compile features
+[0.282s] -- Detecting C compile features - done
+[0.287s] -- Detecting CXX compiler ABI info
+[0.396s] -- Detecting CXX compiler ABI info - done
+[0.407s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.407s] -- Detecting CXX compile features
+[0.408s] -- Detecting CXX compile features - done
+[0.411s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.628s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.758s] -- Found urdf: 2.6.1 (/opt/ros/humble/share/urdf/cmake)
+[0.921s] -- Configuring done
+[0.922s] -- Generating done
+[0.925s] -- Build files have been written to: /home/aditya/Vishwakarma_awards/build/akabot_gazebo
+[0.934s] Invoked command in '/home/aditya/Vishwakarma_awards/build/akabot_gazebo' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/home/aditya/Vishwakarma_awards/install/akabot_control:/opt/ros/humble /usr/bin/cmake /home/aditya/Vishwakarma_awards/src/akabot_gazebo -DCMAKE_INSTALL_PREFIX=/home/aditya/Vishwakarma_awards/install/akabot_gazebo
+[0.936s] Invoking command in '/home/aditya/Vishwakarma_awards/build/akabot_gazebo': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/home/aditya/Vishwakarma_awards/install/akabot_control:/opt/ros/humble /usr/bin/cmake --build /home/aditya/Vishwakarma_awards/build/akabot_gazebo -- -j28 -l28
+[0.990s] Invoked command in '/home/aditya/Vishwakarma_awards/build/akabot_gazebo' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/home/aditya/Vishwakarma_awards/install/akabot_control:/opt/ros/humble /usr/bin/cmake --build /home/aditya/Vishwakarma_awards/build/akabot_gazebo -- -j28 -l28
+[0.992s] Invoking command in '/home/aditya/Vishwakarma_awards/build/akabot_gazebo': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/home/aditya/Vishwakarma_awards/install/akabot_control:/opt/ros/humble /usr/bin/cmake --install /home/aditya/Vishwakarma_awards/build/akabot_gazebo
+[1.002s] -- Install configuration: ""
+[1.002s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/config
+[1.002s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/config/akabot_bridge.yaml
+[1.002s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/config/remind.yaml
+[1.003s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/launch
+[1.003s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/launch/gz_launch.py
+[1.003s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/worlds
+[1.003s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/worlds/pick_and_place.world
+[1.003s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/worlds/test.world
+[1.004s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/worlds/pick_and_place_balls.world
+[1.005s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/ament_index/resource_index/package_run_dependencies/akabot_gazebo
+[1.005s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/ament_index/resource_index/parent_prefix_path/akabot_gazebo
+[1.005s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/environment/ament_prefix_path.sh
+[1.005s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/environment/ament_prefix_path.dsv
+[1.005s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/environment/path.sh
+[1.005s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/environment/path.dsv
+[1.006s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/local_setup.bash
+[1.007s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/local_setup.sh
+[1.007s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/local_setup.zsh
+[1.007s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/local_setup.dsv
+[1.007s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/package.dsv
+[1.007s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/ament_index/resource_index/packages/akabot_gazebo
+[1.007s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/cmake/akabot_gazeboConfig.cmake
+[1.007s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/cmake/akabot_gazeboConfig-version.cmake
+[1.007s] -- Installing: /home/aditya/Vishwakarma_awards/install/akabot_gazebo/share/akabot_gazebo/package.xml
+[1.008s] Invoked command in '/home/aditya/Vishwakarma_awards/build/akabot_gazebo' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aditya/Vishwakarma_awards/install/arm_vla_pkg:/home/aditya/Vishwakarma_awards/install/akabot_control:/opt/ros/humble /usr/bin/cmake --install /home/aditya/Vishwakarma_awards/build/akabot_gazebo
